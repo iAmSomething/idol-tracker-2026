@@ -130,6 +130,15 @@ async function run() {
   const snapshot = await getDocs(collection(db, 'artists'));
   const artists = snapshot.docs.map(d => ({ id: d.id, ...d.data() as any }));
 
+  console.log("Loading all comebacks to optimize queries...");
+  const comebacksSnap = await getDocs(collection(db, 'comebacks'));
+  const allComebacks = comebacksSnap.docs.map(d => ({ docId: d.id, ...d.data() as any }));
+  
+  const artistComebackKeys = new Set<string>();
+  for (const cb of allComebacks) {
+    artistComebackKeys.add(cb.artistId);
+  }
+
   const findArtistInDB = (extractedName: string) => {
     const search = extractedName.toLowerCase().replace(/\s+/g, '');
     return artists.find(a => {
@@ -229,11 +238,8 @@ async function run() {
     // We found a valid comeback for a verified artist! Let's get the image.
     const { imageUrl } = await scrapeArticleHTML(item.link);
     
-    const comebacksRef = collection(db, 'comebacks');
-    const q = query(comebacksRef, where('artistId', '==', dbArtist.id));
-    const existing = await getDocs(q);
-      
-    if (existing.empty) {
+    if (!artistComebackKeys.has(dbArtist.id)) {
+      const comebacksRef = collection(db, 'comebacks');
       await addDoc(comebacksRef, {
         artistId: dbArtist.id,
         artistName: typeof dbArtist.name === 'object' ? dbArtist.name.ko || dbArtist.name.en : dbArtist.name,

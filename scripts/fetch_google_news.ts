@@ -78,6 +78,15 @@ async function run() {
   const snapshot = await getDocs(collection(db, 'artists'));
   const artists = snapshot.docs.map(d => ({ id: d.id, ...d.data() as any }));
   
+  console.log("Fetching all comebacks to optimize queries...");
+  const comebacksSnap = await getDocs(collection(db, 'comebacks'));
+  const allComebacks = comebacksSnap.docs.map(d => ({ docId: d.id, ...d.data() as any }));
+  
+  const comebackKeys = new Set<string>();
+  for (const cb of allComebacks) {
+    comebackKeys.add(`${cb.artistId}_${cb.date || cb.releaseDate}`);
+  }
+  
   // Sort artists by popularity or random to distribute API load? 
   // Let's just process them all.
   let processed = 0;
@@ -107,15 +116,9 @@ async function run() {
         if (result && result.isComeback && result.date) {
           console.log(`  🎉 AI DETECTED COMEBACK! ${result.date} - ${result.title} (${result.type})`);
           
-          const comebacksRef = collection(db, 'comebacks');
-          const q = query(
-            comebacksRef,
-            where('artistId', '==', artist.id),
-            where('date', '==', result.date)
-          );
-          const existing = await getDocs(q);
-            
-          if (existing.empty) {
+          const key = `${artist.id}_${result.date}`;
+          if (!comebackKeys.has(key)) {
+            const comebacksRef = collection(db, 'comebacks');
             await addDoc(comebacksRef, {
               artistId: artist.id,
               artistName: artist.name,

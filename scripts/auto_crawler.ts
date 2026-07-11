@@ -120,40 +120,53 @@ async function runCrawler() {
 
   logger.info(`Gemini identified ${verifiedComebacks.length} true comebacks.`);
 
-  for (const cb of verifiedComebacks) {
-    const q = query(
-      collection(db, "comebacks"), 
-      where("artistName", "==", cb.artistName),
-      where("title", "==", cb.title)
-    );
-    const snap = await getDocs(q);
-    
-    if (snap.empty) {
-      logger.info(`New comeback found! ${cb.artistName} - ${cb.title} (${cb.releaseDate})`);
+  if (verifiedComebacks.length > 0) {
+    logger.info("Loading all comebacks to optimize queries...");
+    const comebacksSnap = await getDocs(collection(db, 'comebacks'));
+    const allComebacks = comebacksSnap.docs.map(d => ({ docId: d.id, ...d.data() as any }));
+    const comebackKeys = new Set<string>();
+    for (const cb of allComebacks) {
+      comebackKeys.add(`${cb.artistName}_${cb.title}`);
+    }
+
+    logger.info("Loading artists from Firestore to optimize updates...");
+    const artistsSnap = await getDocs(collection(db, 'artists'));
+    const allArtistsMap = new Map<string, string>(); // name -> docId
+    for (const d of artistsSnap.docs) {
+      const data = d.data() as any;
+      const name = typeof data.name === 'object' ? data.name.ko || data.name.en : data.name;
+      allArtistsMap.set(name, d.id);
+    }
+
+    for (const cb of verifiedComebacks) {
+      const cbKey = `${cb.artistName}_${cb.title}`;
       
-      await addDoc(collection(db, "comebacks"), {
-        artistName: cb.artistName,
-        title: cb.title,
-        releaseDate: new Date(cb.releaseDate).toISOString().split('T')[0],
-        releaseType: cb.releaseType,
-        agencyName: "Unknown",
-        imageUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=200",
-        createdAt: new Date().toISOString(),
-      });
-      
-      const artistQ = query(collection(db, "artists"), where("name", "==", cb.artistName));
-      const artistSnap = await getDocs(artistQ);
-      if (!artistSnap.empty) {
-        await updateDoc(doc(db, "artists", artistSnap.docs[0].id), {
-          recentComeback: {
-            title: cb.title,
-            date: cb.releaseDate,
-            type: cb.releaseType
-          }
+      if (!comebackKeys.has(cbKey)) {
+        logger.info(`New comeback found! ${cb.artistName} - ${cb.title} (${cb.releaseDate})`);
+        
+        await addDoc(collection(db, "comebacks"), {
+          artistName: cb.artistName,
+          title: cb.title,
+          releaseDate: new Date(cb.releaseDate).toISOString().split('T')[0],
+          releaseType: cb.releaseType,
+          agencyName: "Unknown",
+          imageUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=200",
+          createdAt: new Date().toISOString(),
         });
+        
+        const artistDocId = allArtistsMap.get(cb.artistName);
+        if (artistDocId) {
+          await updateDoc(doc(db, "artists", artistDocId), {
+            recentComeback: {
+              title: cb.title,
+              date: cb.releaseDate,
+              type: cb.releaseType
+            }
+          });
+        }
+      } else {
+        logger.info(`Comeback already tracked: ${cb.artistName} - ${cb.title}`);
       }
-    } else {
-      logger.info(`Comeback already tracked: ${cb.artistName} - ${cb.title}`);
     }
   }
 

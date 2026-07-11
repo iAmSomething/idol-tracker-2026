@@ -36,6 +36,18 @@ async function run() {
   const snapshot = await getDocs(collection(db, 'artists'));
   const artists = snapshot.docs.map(d => ({ id: d.id, ...d.data() as any }));
   
+  console.log("Fetching all comebacks to optimize queries...");
+  const comebacksSnap = await getDocs(collection(db, 'comebacks'));
+  const allComebacks = comebacksSnap.docs.map(d => ({ docId: d.id, ...d.data() as any }));
+  
+  const comebacksByArtist = new Map<string, any[]>();
+  for (const cb of allComebacks) {
+    if (!comebacksByArtist.has(cb.artistId)) {
+      comebacksByArtist.set(cb.artistId, []);
+    }
+    comebacksByArtist.get(cb.artistId)!.push(cb);
+  }
+  
   let processed = 0;
   
   for (const artist of artists) {
@@ -43,17 +55,10 @@ async function run() {
     if (!ytUrl) continue;
     
     // Fast check: does this artist even have a pending or teasing comeback?
-    // If not, we can skip fetching their videos to save time/requests.
-    const comebacksRef = collection(db, 'comebacks');
-    const q = query(
-      comebacksRef,
-      where('artistId', '==', artist.id)
-    );
-    const cbSnap = await getDocs(q);
+    const artistComebacks = comebacksByArtist.get(artist.id) || [];
     
     // Filter active comebacks (not released yet, or newly released)
-    const activeComebacks = cbSnap.docs.filter(d => {
-      const data = d.data();
+    const activeComebacks = artistComebacks.filter(data => {
       return data.status !== 'RELEASED'; // only process ANNOUNCED or TEASING (or undefined if newly created by our community scraper)
     });
     
@@ -74,19 +79,18 @@ async function run() {
       if (!videos.videos || videos.videos.length === 0) continue;
       
       // Look at the latest 10 videos
-      for (const video of videos.videos.slice(0, 10)) {
+      for (const video of videos.videos.slice(0, 10) as any[]) {
         const title = video.title?.text || '';
         const videoId = video.id;
         const videoUrl = `https://youtube.com/watch?v=${videoId}`;
         
         if (isTeaser(title)) {
-          for (const cbDoc of activeComebacks) {
-            const cbData = cbDoc.data();
+          for (const cbData of activeComebacks) {
             const teasers = cbData.teasers || [];
             
             if (!teasers.includes(videoUrl)) {
               console.log(`  🎥 Found Teaser: ${title}`);
-              await updateDoc(doc(db, 'comebacks', cbDoc.id), {
+              await updateDoc(doc(db, 'comebacks', cbData.docId), {
                 teasers: arrayUnion(videoUrl),
                 status: 'TEASING'
               });
@@ -94,14 +98,13 @@ async function run() {
             }
           }
         } else if (isMV(title)) {
-          for (const cbDoc of activeComebacks) {
-            const cbData = cbDoc.data();
+          for (const cbData of activeComebacks) {
             // Assuming the first track is the title track
             const titleTracks = cbData.titleTracks || [{ name: cbData.title || 'Title' }];
             if (!titleTracks[0].musicVideoUrl || titleTracks[0].musicVideoUrl !== videoUrl) {
               console.log(`  🎵 Found MV: ${title}`);
               titleTracks[0].musicVideoUrl = videoUrl;
-              await updateDoc(doc(db, 'comebacks', cbDoc.id), {
+              await updateDoc(doc(db, 'comebacks', cbData.docId), {
                 titleTracks: titleTracks,
                 status: 'RELEASED'
               });
@@ -111,7 +114,7 @@ async function run() {
         }
       }
       
-    } catch (err) {
+    } catch (err: any) {
       console.log(`  ❌ Error processing ${artist.name}: ${err.message}`);
     }
   }

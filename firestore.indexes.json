@@ -1,4 +1,21 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "collectionGroup": "comebacks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "artistId", "order": "ASCENDING" },
+        { "fieldPath": "releaseDate", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "comebacks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "artistId", "order": "ASCENDING" },
+        { "fieldPath": "releaseDate", "order": "DESCENDING" }
+      ]
+    }
+  ],
   "fieldOverrides": []
 }
