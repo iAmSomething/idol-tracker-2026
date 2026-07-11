@@ -1,43 +1,24 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, doc, updateDoc, writeBatch, query, where } from 'firebase/firestore';
+import { db, getRecentComebacks } from './lib/firebase-helpers';
+import { logger } from './lib/logger';
+import { collection, getDocs, doc, updateDoc, writeBatch, query, where } from 'firebase/firestore';
 import * as cheerio from 'cheerio';
 
-const firebaseConfig = {
-  projectId: "idol-tracker-2026",
-  appId: "1:47996752520:web:bc7ebc514f82846f3ec53d",
-  storageBucket: "idol-tracker-2026.firebasestorage.app",
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "",
-  authDomain: "idol-tracker-2026.firebaseapp.com"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 async function run() {
-  console.log("🚀 Starting Track Credits Parser (Composers & Lyricists - Cost Optimized)...");
+  logger.info("Starting Track Credits Parser (Composers & Lyricists - Cost Optimized)...");
 
   // 1. Fetch only recent comebacks (last 90 days + future) to prioritize
-  const ninetyDaysAgo = new Date();
-  ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
-  const dateLimitStr = ninetyDaysAgo.toISOString().split('T')[0];
-
-  console.log(`Querying comebacks released on or after ${dateLimitStr}...`);
-  const comebacksQuery = query(
-    collection(db, "comebacks"), 
-    where("releaseDate", ">=", dateLimitStr)
-  );
-  const comebacksSnap = await getDocs(comebacksQuery);
-  const comebacks = comebacksSnap.docs.map(d => ({ id: d.id, ...d.data() as any }));
+  const comebacks = await getRecentComebacks(90);
   comebacks.sort((a, b) => b.releaseDate.localeCompare(a.releaseDate));
 
   const recentComebackIds = new Set(comebacks.slice(0, 40).map(c => c.id));
   const cbIds = Array.from(recentComebackIds);
   
   if (cbIds.length === 0) {
-    console.log("No recent comebacks found. Exiting.");
+    logger.warn("No recent comebacks found. Exiting.");
     process.exit(0);
   }
 
@@ -52,7 +33,7 @@ async function run() {
     const tracksSnap = await getDocs(tracksQuery);
     tracks.push(...tracksSnap.docs.map(d => ({ id: d.id, ...d.data() as any })));
   }
-  console.log(`Loaded ${tracks.length} tracks associated with recent comebacks.`);
+  logger.info(`Loaded ${tracks.length} tracks associated with recent comebacks.`);
 
   // Filter to tracks that have Bugs links but don't have composers yet
   const targets = tracks.filter(t => 
@@ -68,7 +49,7 @@ async function run() {
   });
 
   // 3. Batch backfill artistName and albumTitle for tracks that are missing them
-  console.log("3️⃣ Backfilling artistName and albumTitle for tracks...");
+  logger.info("Backfilling artistName and albumTitle for tracks...");
   const comebacksMap = new Map();
   comebacks.forEach(c => comebacksMap.set(c.id, c));
 
@@ -99,9 +80,9 @@ async function run() {
   if (opCount > 0) {
     await batch.commit();
   }
-  console.log(`✅ Backfill complete! Updated ${backfillCount} tracks.`);
+  logger.info(`Backfill complete! Updated ${backfillCount} tracks.`);
 
-  console.log(`Found ${targets.length} tracks requiring credits enrichment. Processing top 150...`);
+  logger.info(`Found ${targets.length} tracks requiring credits enrichment. Processing top 150...`);
   
   const toProcess = targets.slice(0, 150);
   let processedCount = 0;
@@ -112,14 +93,14 @@ async function run() {
     if (!trackIdMatch) continue;
     const trackId = trackIdMatch[1];
 
-    console.log(`[${processedCount + 1}/${toProcess.length}] Fetching credits for track: "${track.name}" (${track.id})`);
+    logger.info(`[${processedCount + 1}/${toProcess.length}] Fetching credits for track: "${track.name}" (${track.id})`);
     
     try {
       const res = await fetch(`https://music.bugs.co.kr/track/${trackId}`, {
         headers: { 'User-Agent': 'Mozilla/5.0' }
       });
       if (!res.ok) {
-        console.log(`   -> Failed to fetch page. Status: ${res.status}`);
+        logger.warn(`   -> Failed to fetch page. Status: ${res.status}`);
         continue;
       }
 
@@ -157,19 +138,22 @@ async function run() {
         updatedAt: new Date().toISOString()
       });
 
-      console.log(`   👉 Composers: ${composers.join(", ") || "None"}`);
-      console.log(`   👉 Lyricists: ${lyricists.join(", ") || "None"}`);
+      logger.info(`   👉 Composers: ${composers.join(", ") || "None"}`);
+      logger.info(`   👉 Lyricists: ${lyricists.join(", ") || "None"}`);
       processedCount++;
 
     } catch (e) {
-      console.error(`   ❌ Error processing track ${track.id}:`, e);
+      logger.error(`   ❌ Error processing track ${track.id}:`, e);
     }
 
     await sleep(800); // Politeness delay
   }
 
-  console.log(`🎉 Finished credits parsing! Processed ${processedCount} tracks successfully.`);
+  logger.info(`Finished credits parsing! Processed ${processedCount} tracks successfully.`);
   process.exit(0);
 }
 
-run().catch(console.error);
+run().catch(e => {
+  logger.error("Track Credits Parser Critical Failure:", e);
+  process.exit(1);
+});

@@ -1,19 +1,9 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, doc, writeBatch } from 'firebase/firestore';
+import { db, getActiveArtists } from './lib/firebase-helpers';
+import { logger } from './lib/logger';
+import { doc, updateDoc } from 'firebase/firestore';
 import { chromium } from 'playwright';
-
-const firebaseConfig = {
-  projectId: "idol-tracker-2026",
-  appId: "1:47996752520:web:bc7ebc514f82846f3ec53d",
-  storageBucket: "idol-tracker-2026.firebasestorage.app",
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "",
-  authDomain: "idol-tracker-2026.firebaseapp.com"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -23,75 +13,93 @@ async function ddgSearch(page: any, query: string) {
     const links = await page.$$eval('.result__url', (els: any[]) => els.map((e: any) => e.href));
     return links;
   } catch (err: any) {
-    console.error(`Error searching DDG for ${query}:`, err.message);
+    logger.error(`Error searching DDG for ${query}:`, err.message);
     return [];
   }
 }
 
+// Zero-dependency concurrency runner
+async function runConcurrent(tasks: (() => Promise<void>)[], maxConcurrency: number) {
+  const executing = new Set<Promise<void>>();
+  for (const task of tasks) {
+    const p = Promise.resolve().then(() => task());
+    executing.add(p);
+    const clean = () => executing.delete(p);
+    p.then(clean, clean);
+    if (executing.size >= maxConcurrency) {
+      await Promise.race(executing);
+    }
+  }
+  await Promise.all(executing);
+}
+
 async function run() {
-  console.log("🚀 Starting Advanced SNS Fetch via Playwright...");
+  logger.info("🚀 Starting Advanced SNS Fetch via Playwright (Concurrent Pool)...");
+  
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
   });
-  const page = await context.newPage();
   
-  const artistSnap = await getDocs(collection(db, "artists"));
-  const artists = artistSnap.docs.map(d => ({ docId: d.id, ...d.data() } as any));
+  // 1. Fetch artists from centralized helper
+  const artists = await getActiveArtists();
+  
+  // Filter to active artists missing Namuwiki or Weverse links
+  const targets = artists.filter(a => a.isActive && (!a.socialLinks?.weverse || !a.socialLinks?.namuwiki)).slice(0, 30);
+  logger.info(`Found ${targets.length} targets. Running concurrency pool (Max 3 concurrent tabs)...`);
 
-  let batch = writeBatch(db);
-  let opCount = 0;
-  
-  // We'll just fetch a few for now to demonstrate, as fetching 350 will take hours.
-  // We filter to artists that are active and missing namuwiki or weverse
-  const targets = artists.filter(a => a.isActive && (!a.socialLinks?.weverse || !a.socialLinks?.namuwiki)).slice(0, 50);
+  const concurrencyLimit = parseInt(process.env.PLAYWRIGHT_MAX_CONCURRENT || '3', 10);
 
-  for (let i = 0; i < targets.length; i++) {
-    const artist = targets[i];
-    console.log(`[${i+1}/${targets.length}] Searching for ${artist.name}...`);
-    
-    let socialLinks = artist.socialLinks || {};
-    let updated = false;
-    
-    // Weverse search
-    if (!socialLinks.weverse) {
-      const links = await ddgSearch(page, `site:weverse.io ${artist.name}`);
-      const weverseLink = links.find((l: any) => l.includes('weverse.io') && !l.includes('/post/') && !l.includes('/media/'));
-      if (weverseLink) {
-        socialLinks.weverse = weverseLink;
-        updated = true;
+  const tasks = targets.map((artist, idx) => async () => {
+    // Create new tab for this specific task
+    const page = await context.newPage();
+    try {
+      logger.info(`[${idx + 1}/${targets.length}] Analyzing: "${artist.name}"`);
+      let socialLinks = artist.socialLinks || {};
+      let updated = false;
+
+      // 1. Weverse search
+      if (!socialLinks.weverse) {
+        const links = await ddgSearch(page, `site:weverse.io ${artist.name}`);
+        const weverseLink = links.find((l: any) => l.includes('weverse.io') && !l.includes('/post/') && !l.includes('/media/'));
+        if (weverseLink) {
+          socialLinks.weverse = weverseLink;
+          updated = true;
+          logger.info(`   -> Found Weverse: ${weverseLink}`);
+        }
+        await delay(1000 + Math.random() * 1000);
       }
-      await delay(1000 + Math.random() * 1000);
-    }
-    
-    // Namuwiki search
-    if (!socialLinks.namuwiki) {
-      const links = await ddgSearch(page, `site:namu.wiki ${artist.name}`);
-      const namuLink = links.find((l: any) => l.includes('namu.wiki/w/'));
-      if (namuLink) {
-        socialLinks.namuwiki = namuLink;
-        updated = true;
+
+      // 2. Namuwiki search
+      if (!socialLinks.namuwiki) {
+        const links = await ddgSearch(page, `site:namu.wiki ${artist.name}`);
+        const namuLink = links.find((l: any) => l.includes('namu.wiki/w/'));
+        if (namuLink) {
+          socialLinks.namuwiki = namuLink;
+          updated = true;
+          logger.info(`   -> Found Namuwiki: ${namuLink}`);
+        }
+        await delay(1000 + Math.random() * 1000);
       }
-      await delay(1000 + Math.random() * 1000);
-    }
-    
-    if (updated) {
-      batch.update(doc(db, "artists", artist.docId), { socialLinks });
-      opCount++;
-      if (opCount >= 100) {
-        await batch.commit();
-        batch = writeBatch(db);
-        opCount = 0;
+
+      if (updated) {
+        await updateDoc(doc(db, "artists", artist.id), { socialLinks });
       }
+    } catch (err: any) {
+      logger.error(`Error processing "${artist.name}":`, err.message);
+    } finally {
+      await page.close();
     }
-  }
-  
-  if (opCount > 0) {
-    await batch.commit();
-  }
+  });
+
+  await runConcurrent(tasks, concurrencyLimit);
   
   await browser.close();
-  console.log("✅ Playwright SNS Fetch Complete!");
+  logger.info("✅ Playwright SNS Fetch Complete!");
+  process.exit(0);
 }
 
-run().catch(console.error);
+run().catch(e => {
+  logger.error("Advanced SNS Fetch Critical Failure:", e);
+  process.exit(1);
+});
