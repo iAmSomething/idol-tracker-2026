@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, doc, updateDoc, writeBatch } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, updateDoc, writeBatch, query, where } from 'firebase/firestore';
 import * as cheerio from 'cheerio';
 
 const firebaseConfig = {
@@ -17,18 +17,42 @@ const db = getFirestore(app);
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 async function run() {
-  console.log("🚀 Starting Track Credits Parser (Composers & Lyricists)...");
+  console.log("🚀 Starting Track Credits Parser (Composers & Lyricists - Cost Optimized)...");
 
-  // 1. Fetch recent comebacks to prioritize their tracks
-  const comebacksSnap = await getDocs(collection(db, "comebacks"));
+  // 1. Fetch only recent comebacks (last 90 days + future) to prioritize
+  const ninetyDaysAgo = new Date();
+  ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
+  const dateLimitStr = ninetyDaysAgo.toISOString().split('T')[0];
+
+  console.log(`Querying comebacks released on or after ${dateLimitStr}...`);
+  const comebacksQuery = query(
+    collection(db, "comebacks"), 
+    where("releaseDate", ">=", dateLimitStr)
+  );
+  const comebacksSnap = await getDocs(comebacksQuery);
   const comebacks = comebacksSnap.docs.map(d => ({ id: d.id, ...d.data() as any }));
   comebacks.sort((a, b) => b.releaseDate.localeCompare(a.releaseDate));
 
   const recentComebackIds = new Set(comebacks.slice(0, 40).map(c => c.id));
+  const cbIds = Array.from(recentComebackIds);
   
-  // 2. Fetch all tracks
-  const tracksSnap = await getDocs(collection(db, "tracks"));
-  const tracks = tracksSnap.docs.map(d => ({ id: d.id, ...d.data() as any }));
+  if (cbIds.length === 0) {
+    console.log("No recent comebacks found. Exiting.");
+    process.exit(0);
+  }
+
+  // 2. Fetch tracks belonging only to these recent comebacks
+  const tracks: any[] = [];
+  for (let i = 0; i < cbIds.length; i += 30) {
+    const chunk = cbIds.slice(i, i + 30);
+    const tracksQuery = query(
+      collection(db, "tracks"),
+      where("comebackId", "in", chunk)
+    );
+    const tracksSnap = await getDocs(tracksQuery);
+    tracks.push(...tracksSnap.docs.map(d => ({ id: d.id, ...d.data() as any })));
+  }
+  console.log(`Loaded ${tracks.length} tracks associated with recent comebacks.`);
 
   // Filter to tracks that have Bugs links but don't have composers yet
   const targets = tracks.filter(t => 
@@ -43,7 +67,7 @@ async function run() {
     return bRecent - aRecent;
   });
 
-  // 3. Batch backfill artistName and albumTitle for all tracks that are missing them
+  // 3. Batch backfill artistName and albumTitle for tracks that are missing them
   console.log("3️⃣ Backfilling artistName and albumTitle for tracks...");
   const comebacksMap = new Map();
   comebacks.forEach(c => comebacksMap.set(c.id, c));

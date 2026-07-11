@@ -1,9 +1,8 @@
-import * as fs from "fs";
 import * as path from "path";
 import * as dotenv from "dotenv";
 import Parser from "rss-parser";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, query, where } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, query, where, limit } from "firebase/firestore";
 import { GoogleGenAI } from "@google/genai";
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
@@ -16,20 +15,15 @@ if (!process.env.GEMINI_API_KEY) {
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const parser = new Parser();
 
-const configPath = path.resolve(process.cwd(), "app/firebase.ts");
-const firebaseTsContent = fs.readFileSync(configPath, "utf-8");
-const apiKeyMatch = firebaseTsContent.match(/apiKey:\s*"([^"]+)"/);
-const projectIdMatch = firebaseTsContent.match(/projectId:\s*"([^"]+)"/);
+const firebaseConfig = {
+  projectId: "idol-tracker-2026",
+  appId: "1:47996752520:web:bc7ebc514f82846f3ec53d",
+  storageBucket: "idol-tracker-2026.firebasestorage.app",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "",
+  authDomain: "idol-tracker-2026.firebaseapp.com"
+};
 
-if (!apiKeyMatch || !projectIdMatch) {
-  console.error("Could not extract Firebase config");
-  process.exit(1);
-}
-
-const app = initializeApp({
-  apiKey: apiKeyMatch[1],
-  projectId: projectIdMatch[1],
-});
+const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 interface ParsedComeback {
@@ -40,14 +34,32 @@ interface ParsedComeback {
   releaseType: "full" | "mini" | "single";
 }
 
-async function getActiveArtists(): Promise<string[]> {
+interface ArtistDoc {
+  id: string;
+  name: string;
+  lastCrawledAt?: Date;
+}
+
+async function getActiveArtistsBatch(limitCount: number): Promise<ArtistDoc[]> {
   const snapshot = await getDocs(collection(db, "artists"));
-  return snapshot.docs.map(doc => doc.data().name).filter(Boolean);
+  const artists = snapshot.docs.map(doc => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      name: data.name || "",
+      lastCrawledAt: data.lastCrawledAt ? new Date(data.lastCrawledAt) : new Date(0)
+    } as ArtistDoc;
+  }).filter(a => a.name);
+
+  // Sort deterministically: oldest crawled first (newly added artists without timestamp go first)
+  artists.sort((a, b) => (a.lastCrawledAt?.getTime() || 0) - (b.lastCrawledAt?.getTime() || 0));
+
+  return artists.slice(0, limitCount);
 }
 
 async function fetchNewsForArtist(artist: string) {
-  const query = encodeURIComponent(`"${artist}" (컴백 OR 신곡 OR 발매)`);
-  const url = `https://news.google.com/rss/search?q=${query}&hl=ko&gl=KR&ceid=KR:ko`;
+  const queryStr = encodeURIComponent(`"${artist}" (컴백 OR 신곡 OR 발매)`);
+  const url = `https://news.google.com/rss/search?q=${queryStr}&hl=ko&gl=KR&ceid=KR:ko`;
   
   try {
     const feed = await parser.parseURL(url);
@@ -91,30 +103,44 @@ async function verifyWithGemini(newsItems: any[]): Promise<ParsedComeback[]> {
     });
     
     if (response.text) {
-      return JSON.parse(response.text) as ParsedComeback[];
+      const text = response.text.trim();
+      const cleaned = text.startsWith("```") ? text.replace(/^```json\s*/i, "").replace(/```$/, "").trim() : text;
+      const parsed = JSON.parse(cleaned);
+      if (Array.isArray(parsed)) {
+        return parsed as ParsedComeback[];
+      }
     }
   } catch (e) {
-    console.error("Gemini Error:", e);
+    console.error("Gemini Parser Error:", e);
   }
   return [];
 }
 
 async function runCrawler() {
-  console.log("Starting Auto Crawler...");
-  const artists = await getActiveArtists();
-  console.log(`Tracking ${artists.length} artists.`);
+  console.log("Starting Auto Crawler (Deterministic Rotation)...");
+  
+  // Deterministic sliding window: crawl 40 artists at a time
+  const batchSize = 40;
+  const artists = await getActiveArtistsBatch(batchSize);
+  console.log(`Selected batch of ${artists.length} artists for deterministic crawling.`);
 
   let allNews = [];
   
-  // Throttle fetches to avoid rate limits
+  // Crawl and update lastCrawledAt timestamp for rotation
   for (const artist of artists) {
-    // Just a sample to not overwhelm the script during testing
-    // In production, you would run this in batches
-    if (Math.random() < 0.1) { // Randomly pick ~10% for the test run
-        const news = await fetchNewsForArtist(artist);
-        allNews.push(...news);
-        await new Promise(r => setTimeout(r, 1000));
+    console.log(` -> Fetching news for: "${artist.name}"`);
+    const news = await fetchNewsForArtist(artist.name);
+    allNews.push(...news);
+
+    try {
+      await updateDoc(doc(db, "artists", artist.id), {
+        lastCrawledAt: new Date().toISOString()
+      });
+    } catch (e) {
+      console.error(`Failed to update timestamp for artist ${artist.name}:`, e);
     }
+
+    await new Promise(r => setTimeout(r, 800)); // Politeness sleep
   }
 
   console.log(`Found ${allNews.length} recent news items. Verifying with Gemini...`);
@@ -145,11 +171,11 @@ async function runCrawler() {
       await addDoc(collection(db, "comebacks"), {
         artistName: cb.artistName,
         title: cb.title,
-        releaseDate: new Date(cb.releaseDate),
+        releaseDate: new Date(cb.releaseDate).toISOString().split('T')[0], // Store date string consistently
         releaseType: cb.releaseType,
-        agencyName: "Unknown", // Can be inferred by joining with artists collection
+        agencyName: "Unknown",
         imageUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=200", // Fallback placeholder
-        createdAt: new Date(),
+        createdAt: new Date().toISOString(),
       });
       
       // Update artist recentComeback
@@ -159,7 +185,7 @@ async function runCrawler() {
         await updateDoc(doc(db, "artists", artistSnap.docs[0].id), {
           recentComeback: {
             title: cb.title,
-            date: new Date(cb.releaseDate),
+            date: cb.releaseDate,
             type: cb.releaseType
           }
         });
@@ -173,4 +199,4 @@ async function runCrawler() {
   process.exit(0);
 }
 
-runCrawler();
+runCrawler().catch(console.error);

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, doc, writeBatch } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, writeBatch, query, where } from 'firebase/firestore';
 import ytSearch from 'yt-search';
 
 const firebaseConfig = {
@@ -19,9 +19,20 @@ const db = getFirestore(app);
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 async function fetchOfficialMVs() {
-  console.log("🎬 Fetching Official MVs for missing links...");
+  console.log("🎬 Fetching Official MVs for missing links (Cost Optimized)...");
   
-  const snapshot = await getDocs(collection(db, "comebacks"));
+  // 1. Fetch only comebacks released in the last 180 days + future comebacks
+  const dateLimit = new Date();
+  dateLimit.setDate(dateLimit.getDate() - 180);
+  const dateLimitStr = dateLimit.toISOString().split('T')[0];
+
+  console.log(`Querying comebacks released on or after ${dateLimitStr}...`);
+  const comebacksQuery = query(
+    collection(db, "comebacks"), 
+    where("releaseDate", ">=", dateLimitStr)
+  );
+  
+  const snapshot = await getDocs(comebacksQuery);
   const comebacks = snapshot.docs.map(d => ({ id: d.id, ...d.data() as any }));
   
   // Find ones that have no music video or only have the search query fallback
@@ -38,26 +49,26 @@ async function fetchOfficialMVs() {
     const cb = needsUpdate[i];
     
     // Construct query using album title if we don't have the search query
-    let query = "";
+    let queryStr = "";
     if (cb.mediaLinks?.musicVideo?.includes("results?search_query=")) {
       try {
           const urlParams = new URLSearchParams(cb.mediaLinks.musicVideo.split('?')[1]);
-          query = urlParams.get('search_query') || `${cb.artistName} ${cb.title} MV official`;
+          queryStr = urlParams.get('search_query') || `${cb.artistName} ${cb.title} MV official`;
       } catch {
-          query = `${cb.artistName} ${cb.title} MV official`;
+          queryStr = `${cb.artistName} ${cb.title} MV official`;
       }
     } else {
       // Use album title as fallback for the MV search
-      query = `${cb.artistName} ${cb.title} MV official`;
+      queryStr = `${cb.artistName} ${cb.title} MV official`;
     }
     
     // Add "MV" or "official" if not present to ensure we get music videos
-    if (!query.toLowerCase().includes("mv")) query += " MV";
+    if (!queryStr.toLowerCase().includes("mv")) queryStr += " MV";
     
-    console.log(`[${i+1}/${needsUpdate.length}] Searching: ${query}`);
+    console.log(`[${i+1}/${needsUpdate.length}] Searching: ${queryStr}`);
     
     try {
-      const r = await ytSearch(query);
+      const r = await ytSearch(queryStr);
       const videos = r.videos;
       if (videos.length > 0) {
         // Take the top video link
@@ -71,10 +82,10 @@ async function fetchOfficialMVs() {
         
         updateCount++;
       } else {
-         console.log(`  ❌ No videos found for: ${query}`);
+         console.log(`  ❌ No videos found for: ${queryStr}`);
       }
     } catch (e) {
-      console.error(`  ❌ Error searching for ${query}:`, e);
+      console.error(`  ❌ Error searching for ${queryStr}:`, e);
     }
     
     // Commit every 200 updates

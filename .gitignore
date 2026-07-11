@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local data files
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!biome.json
+!firebase.json
+!firestore.indexes.json
+!.firebaserc
+
