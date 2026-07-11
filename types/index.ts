@@ -102,4 +102,5 @@ export interface Comeback {
   mediaLinks?: MediaLinks;
   status?: "ANNOUNCED" | "TEASING" | "RELEASED";
   teasers?: string[]; // YouTube URLs
+  isTba?: boolean;
 }

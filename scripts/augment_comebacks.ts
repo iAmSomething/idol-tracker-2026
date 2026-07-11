@@ -200,6 +200,22 @@ async function run() {
             updated = true;
           }
         }
+
+        // 5. If this is a TBA comeback, search for exact date "X월 Y일" in posts
+        if (cb.isTba && !updatePayload.releaseDate) {
+          const dateMatch = text.match(/(?:([1-9]|1[0-2])월\s*)?([1-9]|[1-2][0-9]|3[0-1])일/);
+          if (dateMatch) {
+            const currentYear = new Date().getFullYear();
+            const cbMonth = dateMatch[1] ? parseInt(dateMatch[1]) : new Date(cb.releaseDate).getMonth() + 1;
+            const cbDay = parseInt(dateMatch[2]);
+            const dateStr = `${currentYear}-${String(cbMonth).padStart(2, '0')}-${String(cbDay).padStart(2, '0')}`;
+            
+            updatePayload.releaseDate = dateStr;
+            updatePayload.isTba = false;
+            console.log(`   🌟 Resolved TBA date to exact date: ${dateStr}!`);
+            updated = true;
+          }
+        }
       }
 
       if (updated) {

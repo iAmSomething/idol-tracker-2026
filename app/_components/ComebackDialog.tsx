@@ -160,7 +160,9 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
         {/* Metadata Badges */}
         <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "32px" }}>
           <span style={{ fontSize: "0.85rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", borderRadius: "6px", fontWeight: 600, color: "var(--text-primary)" }}>
-            {comeback.dateObj.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+            {comeback.isTba 
+              ? `${comeback.dateObj.getFullYear()}년 ${comeback.dateObj.getMonth() + 1}월 중 (TBA)` 
+              : comeback.dateObj.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
           </span>
           <span style={{ fontSize: "0.85rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", borderRadius: "6px", textTransform: "capitalize", fontWeight: 600, color: "var(--text-secondary)" }}>
             {comeback.releaseType}

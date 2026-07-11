@@ -36,13 +36,22 @@ function extractComeback(title: string) {
 
   let month = null;
   let day = null;
+  
+  // 1. Search for exact day: "X월 Y일" or "Y일"
   const dateMatch = cleanTitle.match(/(?:([1-9]|1[0-2])월\s*)?([1-9]|[1-2][0-9]|3[0-1])일/);
   if (dateMatch) {
     month = dateMatch[1] ? parseInt(dateMatch[1]) : null;
     day = parseInt(dateMatch[2]);
+  } else {
+    // 2. If no exact day, search for month: "X월"
+    const monthMatch = cleanTitle.match(/([1-9]|1[0-2])월/);
+    if (monthMatch) {
+      month = parseInt(monthMatch[1]);
+      day = null;
+    }
   }
   
-  if (!day) return null; // Needs at least a day to be a schedule announcement
+  if (!month && !day) return null; // Needs at least a month to be a schedule announcement
 
   // Extract Type
   let type = 'unknown';
@@ -62,24 +71,50 @@ function extractComeback(title: string) {
 
 // Verification via Wikidata (Free, No Quota, Fast)
 async function verifyIdol(artistName: string): Promise<boolean> {
-  const url = `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(artistName)}&language=ko&format=json`;
+  // 1. Try Korean Wikidata search
+  let koSuccess = await verifyIdolWithLang(artistName, 'ko');
+  if (koSuccess) return true;
+
+  // 2. Try English Wikidata search
+  let enSuccess = await verifyIdolWithLang(artistName, 'en');
+  if (enSuccess) return true;
+
+  // 3. DuckDuckGo HTML parser fallback
   try {
-    const res = await fetch(url);
+    const ddgUrl = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(artistName + " 가수 프로필")}`;
+    const res = await fetch(ddgUrl, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' } });
+    if (res.ok) {
+      const html = await res.text();
+      const lowerHtml = html.toLowerCase();
+      if (lowerHtml.includes('가수') || lowerHtml.includes('그룹') || lowerHtml.includes('아이돌') || lowerHtml.includes('k-pop') || lowerHtml.includes('kpop')) {
+        return true;
+      }
+    }
+  } catch (e) {
+    console.error("DDG Fallback Error:", e);
+  }
+
+  return false;
+}
+
+async function verifyIdolWithLang(artistName: string, lang: string): Promise<boolean> {
+  const url = `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(artistName)}&language=${lang}&format=json`;
+  try {
+    const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
     if (!res.ok) return false;
     const data = await res.json();
     if (!data.search || data.search.length === 0) return false;
     
-    // Check descriptions of top 2 results
-    for (let i = 0; i < Math.min(2, data.search.length); i++) {
+    for (let i = 0; i < Math.min(3, data.search.length); i++) {
       const desc = (data.search[i].description || '').toLowerCase();
       if (desc.includes('singer') || desc.includes('band') || desc.includes('group') || desc.includes('idol') || 
-          desc.includes('가수') || desc.includes('그룹') || desc.includes('아이돌') || desc.includes('보이') || desc.includes('걸')) {
+          desc.includes('가수') || desc.includes('그룹') || desc.includes('아이돌') || desc.includes('보이') || desc.includes('걸') ||
+          desc.includes('k-pop') || desc.includes('kpop') || desc.includes('musical collective')) {
         return true;
       }
     }
     return false;
   } catch (e) {
-    console.error("Wikidata Error:", e);
     return false;
   }
 }
@@ -166,7 +201,18 @@ async function run() {
     // Determine full date String (YYYY-MM-DD)
     const cbMonth = extracted.month || currentMonth;
     const cbYear = cbMonth < currentMonth - 2 ? currentYear + 1 : currentYear; // If it says 1월 in Nov, it's next year
-    const dateStr = `${cbYear}-${String(cbMonth).padStart(2, '0')}-${String(extracted.day).padStart(2, '0')}`;
+    
+    let dateStr = "";
+    let isTba = false;
+    
+    if (extracted.day !== null) {
+      dateStr = `${cbYear}-${String(cbMonth).padStart(2, '0')}-${String(extracted.day).padStart(2, '0')}`;
+    } else {
+      // Get the last day of cbMonth
+      const lastDay = new Date(cbYear, cbMonth, 0).getDate();
+      dateStr = `${cbYear}-${String(cbMonth).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
+      isTba = true;
+    }
     
     let dbArtist = findArtistInDB(extracted.artist);
     if (!dbArtist) {
@@ -207,6 +253,7 @@ async function run() {
         releaseDate: dateStr,
         releaseType: extracted.type,
         isCompleted: true,
+        isTba: isTba,
         albumCoverUrl: imageUrl || '',
         tracks: [],
         streamingLinks: { bugs: '' },
@@ -217,7 +264,7 @@ async function run() {
         status: 'ANNOUNCED',
         createdAt: new Date().toISOString()
       });
-      console.log(`  ✅ Inserted comeback for ${dbArtist.name} on ${dateStr} (Album: ${extracted.albumTitle}, Type: ${extracted.type})!`);
+      console.log(`  ✅ Inserted comeback for ${dbArtist.name} on ${dateStr} (Album: ${extracted.albumTitle}, Type: ${extracted.type}, TBA: ${isTba})!`);
     }
   }
   

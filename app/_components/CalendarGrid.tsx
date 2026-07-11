@@ -8,7 +8,7 @@ import { Comeback } from "../../types";
 
 type ProcessedComeback = Comeback & { dateObj: Date };
 
-export default function CalendarGrid() {
+export default function CalendarGrid({ searchQuery }: { searchQuery: string }) {
   const [comebacks, setComebacks] = useState<ProcessedComeback[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedComeback, setSelectedComeback] = useState<ProcessedComeback | null>(null);
@@ -150,7 +150,12 @@ export default function CalendarGrid() {
             // Assume artistType exists on Comeback or default to matching all if undefined for now
             const typeMatch = filterType === 'all' ? true : (c.artistType?.toLowerCase() === filterType);
             
-            return dateMatch && typeMatch;
+            // Match artist name or album title
+            const searchMatch = !searchQuery || 
+                                (c.artistName && c.artistName.toLowerCase().includes(searchQuery.toLowerCase())) || 
+                                (c.albumTitle && c.albumTitle.toLowerCase().includes(searchQuery.toLowerCase()));
+            
+            return dateMatch && typeMatch && searchMatch;
           });
 
           return (
@@ -171,7 +176,7 @@ export default function CalendarGrid() {
                       {c.albumCoverUrl && (
                          <img src={c.albumCoverUrl} alt="" style={{ width: '16px', height: '16px', borderRadius: '4px', objectFit: 'cover' }} />
                       )}
-                      <span className="event-artist">{c.artistName}</span>
+                      <span className="event-artist">{c.isTba ? `[TBA] ${c.artistName}` : c.artistName}</span>
                     </button>
                   );
                 })}

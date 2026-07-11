@@ -160,7 +160,11 @@ function ComebackDetailContent() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', borderTop: '1px solid var(--border-color)', paddingTop: '20px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem' }}>
                 <span style={{ color: 'var(--text-secondary)' }}>발매일</span>
-                <span style={{ fontWeight: 600 }}>{dateObj.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' })}</span>
+                <span style={{ fontWeight: 600 }}>
+                  {comeback.isTba 
+                    ? `${dateObj.getFullYear()}년 ${dateObj.getMonth() + 1}월 중 (TBA)` 
+                    : dateObj.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' })}
+                </span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem', alignItems: 'center' }}>
                 <span style={{ color: 'var(--text-secondary)' }}>앨범 구분</span>

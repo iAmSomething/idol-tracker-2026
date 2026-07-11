@@ -9,7 +9,7 @@ import Link from "next/link";
 
 type ProcessedComeback = Comeback & { dateObj: Date; artistSns?: any; agency?: any };
 
-export default function UpcomingTimeline() {
+export default function UpcomingTimeline({ searchQuery }: { searchQuery: string }) {
   const [upcoming, setUpcoming] = useState<ProcessedComeback[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -107,16 +107,24 @@ export default function UpcomingTimeline() {
     return 'tag-single';
   };
 
+  const filteredUpcoming = upcoming.filter(c => {
+    const artistMatch = c.artistName && c.artistName.toLowerCase().includes(searchQuery.toLowerCase());
+    const albumMatch = (c.titleTracks?.[0]?.name || c.albumTitle || "")
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    return !searchQuery || artistMatch || albumMatch;
+  });
+
   if (loading) return <div className="bento-card">Loading timeline...</div>;
 
   return (
     <div className="bento-card timeline-wrapper">
       <h3 style={{ marginBottom: "16px", fontSize: "1.2rem", fontWeight: 700 }}>Upcoming</h3>
       
-      {upcoming.length === 0 ? (
-        <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>No upcoming comebacks found.</p>
+      {filteredUpcoming.length === 0 ? (
+        <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>No matching upcoming comebacks found.</p>
       ) : (
-        upcoming.map((c) => (
+        filteredUpcoming.map((c) => (
           <div key={c.id} className="timeline-item" style={{ cursor: "default" }}>
              <Link href={`/comeback?id=${c.id}`} style={{ display: "block", flexShrink: 0 }}>
                {c.albumCoverUrl ? (
@@ -127,7 +135,7 @@ export default function UpcomingTimeline() {
              </Link>
              
              <div className="timeline-content" style={{ width: "100%" }}>
-               <div className="timeline-date">{formatDate(c.dateObj)}</div>
+               <div className="timeline-date">{c.isTba ? `${c.dateObj.getFullYear()}년 ${c.dateObj.getMonth() + 1}월 중 (TBA)` : formatDate(c.dateObj)}</div>
                
                <Link href={`/artist?id=${c.artistId}`} style={{ display: 'inline-block', width: 'fit-content' }}>
                  <div className="timeline-artist" style={{ textDecoration: 'underline', cursor: "pointer" }}>{c.artistName}</div>
