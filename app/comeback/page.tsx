@@ -74,7 +74,7 @@ function ComebackDetailContent() {
         // 2. Fetch tracks details
         const q = query(collection(db, "tracks"), where("comebackId", "==", id));
         const tracksSnap = await getDocs(q);
-        const tracksData = tracksSnap.docs.map(d => d.data() as Track);
+        const tracksData = tracksSnap.docs.map(d => ({ ...d.data(), id: d.id } as Track));
         tracksData.sort((a, b) => a.id.localeCompare(b.id));
         setTracks(tracksData);
       } catch (err) {
@@ -280,9 +280,9 @@ function ComebackDetailContent() {
                     <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                         <span className="text-secondary" style={{ width: '20px', fontWeight: 600 }}>{idx + 1}</span>
-                        <span style={{ fontWeight: track.isTitle ? 600 : 500, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <Link href={`/track?id=${track.id}`} style={{ fontWeight: track.isTitle ? 600 : 500, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textDecoration: 'underline', textUnderlineOffset: '4px' }} className="hover:text-accent">
                           {track.name}
-                        </span>
+                        </Link>
                         {track.isTitle && (
                           <span style={{ fontSize: '0.65rem', padding: '3px 6px', backgroundColor: 'rgba(255, 107, 0, 0.1)', color: 'var(--accent-color)', border: '1px solid var(--accent-color)', borderRadius: '4px', fontWeight: 700, letterSpacing: '0.5px' }}>
                             TITLE
