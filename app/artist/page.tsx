@@ -6,8 +6,17 @@ import { Artist, Comeback } from "../../types";
 import { doc, getDoc, collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { db } from "../firebase";
 import Link from "next/link";
-import { FaYoutube, FaInstagram, FaTwitter, FaTiktok, FaCommentDots, FaGlobe, FaArrowLeft, FaChevronRight, FaBuilding, FaUsers, FaUser, FaLink, FaMusic } from "react-icons/fa";
+import { FaYoutube, FaInstagram, FaTiktok, FaGlobe, FaArrowLeft, FaChevronRight, FaBuilding, FaUsers, FaUser, FaMusic } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import ThemeToggle from "../_components/ThemeToggle";
+
+const WeverseIcon = ({ size = 16 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.48 2 2 6.12 2 11.2C2 14.28 3.86 16.96 6.74 18.56L6 21.6C5.9 22 6.2 22.3 6.6 22.1L10.3 20.2C10.85 20.33 11.42 20.4 12 20.4C17.52 20.4 22 16.28 22 11.2C22 6.12 17.52 2 12 2Z" fill="currentColor" />
+    <path d="M9 9.5C9 8.67 9.67 8 10.5 8C11.33 8 12 8.67 12 9.5C12 10.33 11.33 11 10.5 11C9.67 11 9 10.33 9 9.5Z" fill="white" />
+    <path d="M13.5 13.5C13.5 12.67 14.17 12 15 12C15.83 12 16.5 12.67 16.5 13.5C16.5 14.33 15.83 15 15 15C14.17 15 13.5 14.33 13.5 13.5Z" fill="white" />
+  </svg>
+);
 
 function ArtistDetailContent() {
   const searchParams = useSearchParams();
@@ -98,6 +107,26 @@ function ArtistDetailContent() {
     if (t === 'mini' || t === 'ep' || t === 'ep(미니)' || t === '미니') return 'tag-mini';
     return 'tag-single';
   };
+
+  // Find the latest comeback that has a music video or teaser to embed
+  const latestComebackWithMedia = comebacks.find(c => 
+    c.mediaLinks?.musicVideo || 
+    c.titleTracks?.[0]?.musicVideoUrl ||
+    c.teasers?.[0]
+  );
+
+  const getYouTubeId = (url: string | undefined): string | null => {
+    if (!url) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return match && match[2].length === 11 ? match[2] : null;
+  };
+
+  const latestMvUrl = latestComebackWithMedia?.mediaLinks?.musicVideo || 
+                      latestComebackWithMedia?.titleTracks?.[0]?.musicVideoUrl ||
+                      latestComebackWithMedia?.teasers?.[0];
+  const youtubeId = getYouTubeId(latestMvUrl);
+  const formattedLatestMvUrl = youtubeId ? `https://www.youtube.com/embed/${youtubeId}` : null;
 
   return (
     <main className="app-container">
@@ -219,39 +248,143 @@ function ArtistDetailContent() {
           
           {/* Top Bento Card: Social Media Links */}
           {artist.socialLinks && Object.values(artist.socialLinks).some(link => link) && (
-            <div className="bento-card" style={{ padding: '20px' }}>
-              <h3 style={{ fontSize: '1rem', marginBottom: '16px', fontWeight: 600 }}>공식 소셜 미디어 채널</h3>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <div className="bento-card" style={{ padding: '24px' }}>
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '16px', fontWeight: 600 }}>공식 SNS 채널</h3>
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 {artist.socialLinks.youtube && (
-                  <a href={artist.socialLinks.youtube} target="_blank" rel="noreferrer" className="btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--accent-color)', borderColor: 'var(--accent-color)' }}>
-                    <FaYoutube size={16} /> YouTube
+                  <a 
+                    href={artist.socialLinks.youtube} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="btn"
+                    style={{ 
+                      display: 'inline-flex', 
+                      alignItems: 'center', 
+                      gap: '8px',
+                      background: 'rgba(255, 0, 0, 0.1)', 
+                      color: '#FF0000', 
+                      borderColor: 'rgba(255, 0, 0, 0.2)',
+                      fontWeight: 600
+                    }}
+                  >
+                    <FaYoutube size={18} /> YouTube
                   </a>
                 )}
                 {artist.socialLinks.instagram && (
-                  <a href={artist.socialLinks.instagram} target="_blank" rel="noreferrer" className="btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                    <FaInstagram size={16} /> Instagram
+                  <a 
+                    href={artist.socialLinks.instagram} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="btn"
+                    style={{ 
+                      display: 'inline-flex', 
+                      alignItems: 'center', 
+                      gap: '8px',
+                      background: 'rgba(225, 48, 108, 0.1)', 
+                      color: '#E1306C', 
+                      borderColor: 'rgba(225, 48, 108, 0.2)',
+                      fontWeight: 600
+                    }}
+                  >
+                    <FaInstagram size={18} /> Instagram
                   </a>
                 )}
                 {artist.socialLinks.x && (
-                  <a href={artist.socialLinks.x} target="_blank" rel="noreferrer" className="btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                    <FaTwitter size={16} /> Twitter / X
+                  <a 
+                    href={artist.socialLinks.x} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="btn"
+                    style={{ 
+                      display: 'inline-flex', 
+                      alignItems: 'center', 
+                      gap: '8px',
+                      background: 'rgba(255, 255, 255, 0.05)', 
+                      color: 'var(--text-primary)', 
+                      borderColor: 'var(--border-color)',
+                      fontWeight: 600
+                    }}
+                  >
+                    <FaXTwitter size={18} /> X (Twitter)
                   </a>
                 )}
                 {artist.socialLinks.tiktok && (
-                  <a href={artist.socialLinks.tiktok} target="_blank" rel="noreferrer" className="btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                    <FaTiktok size={16} /> TikTok
+                  <a 
+                    href={artist.socialLinks.tiktok} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="btn"
+                    style={{ 
+                      display: 'inline-flex', 
+                      alignItems: 'center', 
+                      gap: '8px',
+                      background: 'rgba(255, 255, 255, 0.05)', 
+                      color: 'var(--text-primary)', 
+                      borderColor: 'var(--border-color)',
+                      fontWeight: 600
+                    }}
+                  >
+                    <FaTiktok size={18} /> TikTok
                   </a>
                 )}
                 {artist.socialLinks.weverse && (
-                  <a href={artist.socialLinks.weverse} target="_blank" rel="noreferrer" className="btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#00e5b0', borderColor: 'rgba(0, 229, 176, 0.3)' }}>
-                    <FaCommentDots size={16} /> Weverse
+                  <a 
+                    href={artist.socialLinks.weverse} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="btn"
+                    style={{ 
+                      display: 'inline-flex', 
+                      alignItems: 'center', 
+                      gap: '8px',
+                      background: 'rgba(0, 229, 176, 0.1)', 
+                      color: '#00E5B0', 
+                      borderColor: 'rgba(0, 229, 176, 0.2)',
+                      fontWeight: 600
+                    }}
+                  >
+                    <WeverseIcon size={18} /> Weverse
                   </a>
                 )}
                 {artist.socialLinks.namuwiki && (
-                  <a href={artist.socialLinks.namuwiki} target="_blank" rel="noreferrer" className="btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                    <FaGlobe size={16} /> 나무위키
+                  <a 
+                    href={artist.socialLinks.namuwiki} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="btn"
+                    style={{ 
+                      display: 'inline-flex', 
+                      alignItems: 'center', 
+                      gap: '8px',
+                      background: 'rgba(16, 185, 129, 0.1)', 
+                      color: '#10B981', 
+                      borderColor: 'rgba(16, 185, 129, 0.2)',
+                      fontWeight: 600
+                    }}
+                  >
+                    <FaGlobe size={18} /> 나무위키
                   </a>
                 )}
+              </div>
+            </div>
+          )}
+
+          {/* Middle Bento Card: Latest Youtube Comeback Video Embed */}
+          {formattedLatestMvUrl && (
+            <div className="bento-card" style={{ padding: '20px' }}>
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '16px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <FaYoutube color="#FF0000" /> 최신 컴백 미디어 피드
+              </h3>
+              <div style={{ aspectRatio: '16/9', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={formattedLatestMvUrl}
+                  title="Latest Comeback Video"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
               </div>
             </div>
           )}
