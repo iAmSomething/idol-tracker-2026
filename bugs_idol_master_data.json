@@ -1,0 +1,6846 @@
+[
+  {
+    "agency": "에이스 (ACE)",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-07-10",
+    "members": [
+      "에이스(ACE)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "에이스(ACE)",
+      "ko": "에이스(ACE)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "미나리 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-07-09",
+    "members": [
+      "큐(THE BOYZ)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "큐(THE BOYZ)",
+      "ko": "큐(THE BOYZ)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "F&F엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-07-08",
+    "members": [
+      "ZHANG SHUAI BO",
+      "차웅기",
+      "스티븐",
+      "서정우",
+      "박한",
+      "제이엘",
+      "박주원",
+      "즈언",
+      "다이스케"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "AHOF(아홉)",
+      "ko": "AHOF(아홉)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "Sony Music Labels Inc.",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-07-08",
+    "members": [
+      "장원영",
+      "안유진",
+      "가을",
+      "레이",
+      "리즈",
+      "이서"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "IVE (아이브)",
+      "ko": "IVE (아이브)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "㈜글로벌에이치미디어",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-07-08",
+    "members": [
+      "하빛",
+      "리온",
+      "윤우",
+      "한국",
+      "라엘",
+      "은일",
+      "예찬"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "TRENDZ (트렌드지)",
+      "ko": "TRENDZ (트렌드지)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "더뮤즈엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-07-08",
+    "members": [
+      "원이 (WONI)",
+      "리브 (LIV)",
+      "미나미 (MINAMI)",
+      "메이 (MAY)",
+      "제나 (ZENA)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "RESCENE (리센느)",
+      "ko": "RESCENE (리센느)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "스타쉽엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-07-07",
+    "members": [
+      "기현 (몬스타엑스)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "기현 (몬스타엑스)",
+      "ko": "기현 (몬스타엑스)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "오크컴퍼니",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-07-07",
+    "members": [
+      "최성윤(Y)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "최성윤(Y)",
+      "ko": "최성윤(Y)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "iNKODE Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-07-06",
+    "members": [
+      "마사토",
+      "센",
+      "아양",
+      "진위",
+      "테루",
+      "마노"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "VAYONN",
+      "ko": "VAYONN"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "큐브 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-07-06",
+    "members": [
+      "소연 (SOYEON)",
+      "미연 (MIYEON)",
+      "우기 (YUQI)",
+      "슈화 (SHUHUA)",
+      "민니 (MINNIE)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "i-dle (아이들)",
+      "ko": "i-dle (아이들)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "KQ Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-07-06",
+    "members": [
+      "홍중",
+      "성화",
+      "윤호",
+      "여상",
+      "산",
+      "민기",
+      "우영",
+      "종호"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ATEEZ(에이티즈)",
+      "ko": "ATEEZ(에이티즈)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "엘엔디엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-07-06",
+    "members": [
+      "니엘 (틴탑)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "니엘 (틴탑)",
+      "ko": "니엘 (틴탑)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "H MUSIC ENTERTAINMENT, 아이언이엔엠",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-07-06",
+    "members": [
+      "세이타",
+      "민재",
+      "HEE",
+      "태극",
+      "REX"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "DXMON (다이몬)",
+      "ko": "DXMON (다이몬)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "KOZ Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-07-06",
+    "members": [
+      "성호 (BOYNEXTDOOR)",
+      "리우",
+      "명재현",
+      "태산",
+      "이한",
+      "운학"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "BOYNEXTDOOR",
+      "ko": "BOYNEXTDOOR"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "숲을 보는 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-07-06",
+    "members": [
+      "여은"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "여은",
+      "ko": "여은"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "브라더후드엔터, 아이언이엔엠",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-07-05",
+    "members": [
+      "레이나"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "레이나",
+      "ko": "레이나"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "OWL Production",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-07-04",
+    "members": [
+      "아정",
+      "라보",
+      "다연"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "플레야(Playa)",
+      "ko": "플레야(Playa)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "㈜리즈엔터",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-07-03",
+    "members": [
+      "미쿠 (엠프리즘)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "미쿠 (엠프리즘)",
+      "ko": "미쿠 (엠프리즘)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "이금이엔티 (LEEGEUM ENT)",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-07-01",
+    "members": [
+      "지유",
+      "수아",
+      "유현"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "유아유(UAU)",
+      "ko": "유아유(UAU)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "제이제이뮤직그룹, 넥스트온",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-07-01",
+    "members": [
+      "다영"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "다영",
+      "ko": "다영"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "뮤직테라피tv",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-07-01",
+    "members": [
+      "별하"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "별하",
+      "ko": "별하"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "㈜네버랜드뮤직브릿지",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-07-01",
+    "members": [
+      "대건"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "대건",
+      "ko": "대건"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "AOMG, H1GHR MUSIC RECORDS",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-30",
+    "members": [
+      "엄지원",
+      "유이",
+      "강예슬",
+      "손주원",
+      "김유나"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Keyveatz",
+      "ko": "Keyveatz"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "엠에이엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-30",
+    "members": [
+      "정대현"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "정대현",
+      "ko": "정대현"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "판타지오",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-30",
+    "members": [
+      "최유정"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "최유정",
+      "ko": "최유정"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "플레디스엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-29",
+    "members": [
+      "디에잇",
+      "Vernon"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "V8",
+      "ko": "V8"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "DIPBLU",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-29",
+    "members": [
+      "JISEONG (지성)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "JISEONG (지성)",
+      "ko": "JISEONG (지성)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "SHGOLD NETWORKS",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-29",
+    "members": [
+      "태연 (TAEYEON)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "태연 (TAEYEON)",
+      "ko": "태연 (TAEYEON)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "Accorde Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-29",
+    "members": [
+      "새온",
+      "유성",
+      "하이든",
+      "제하",
+      "전설"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "MY:RAKL",
+      "ko": "MY:RAKL"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "Duri Entertainment.",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-29",
+    "members": [
+      "서도진",
+      "임이온",
+      "이한솔",
+      "송우림",
+      "강호"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "B:DAWN(비던)",
+      "ko": "B:DAWN(비던)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "(주)콘티 (Conti Inc.)",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-28",
+    "members": [
+      "강민용",
+      "오승찬",
+      "유준원",
+      "이동건",
+      "타이요"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "엑스온 (X_ON)",
+      "ko": "엑스온 (X_ON)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "갈락티카 *",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-28",
+    "members": [
+      "필독 (feeldog)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "필독 (feeldog)",
+      "ko": "필독 (feeldog)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "FM Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-27",
+    "members": [
+      "빛새온",
+      "나라찬",
+      "로다"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "MONT (몬트)",
+      "ko": "MONT (몬트)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "FAB M&P",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-27",
+    "members": [
+      "김소희 (KIMSOHEE)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "김소희 (KIMSOHEE)",
+      "ko": "김소희 (KIMSOHEE)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "TT MUSIC",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-27",
+    "members": [
+      "구한나",
+      "권예진",
+      "리사코",
+      "한채희",
+      "우정"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "UDTT(우당탕탕 소녀단)",
+      "ko": "UDTT(우당탕탕 소녀단)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "씨엘로그루브",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-27",
+    "members": [
+      "JOOAN"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "JOOAN",
+      "ko": "JOOAN"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "PAPERMAKER",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-27",
+    "members": [
+      "한지효"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "한지효",
+      "ko": "한지효"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "WAY BETTER",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-26",
+    "members": [
+      "from20(프롬트웬티)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "from20(프롬트웬티)",
+      "ko": "from20(프롬트웬티)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "FNC ENTERTAINMENT JAPAN INC.",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-26",
+    "members": [
+      "기윤",
+      "민",
+      "엄태민 (Hi-Fi Un!corn)",
+      "현율",
+      "슈토"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Hi-Fi Un!corn",
+      "ko": "Hi-Fi Un!corn"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "그리드 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-26",
+    "members": [
+      "요치",
+      "현빈",
+      "정빈",
+      "동연",
+      "홍"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "POW (파우)",
+      "ko": "POW (파우)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "레벨스",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-26",
+    "members": [
+      "이언 (B THE HOOD)",
+      "제이스 (B THE HOOD)",
+      "퍼비 (B THE HOOD)",
+      "기류 (B THE HOOD)",
+      "루안 (B THE HOOD)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "비더후드(B THE HOOD)",
+      "ko": "비더후드(B THE HOOD)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "H MUSIC ENTERTAINMENT, 아이언이엔엠",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-26",
+    "members": [
+      "비비(VV)",
+      "서진(SEOJIN)",
+      "서희(SEOHEE)",
+      "혜린 (HYERIN)",
+      "이유(IYOO)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "HITGS(힛지스)",
+      "ko": "HITGS(힛지스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "NTT docomo Studio&Live",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-25",
+    "members": [
+      "himesha(히메샤)",
+      "de_hana(디하나)",
+      "kamión(카미온)",
+      "a'mei(에이메이)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "cosmosy",
+      "ko": "cosmosy"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "주식회사 타이탄콘텐츠",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-25",
+    "members": [
+      "미치 (MICHI)",
+      "서현 (SEOHYEON)",
+      "아우로라 (AURORA)",
+      "케이틀린 (KATELYN)",
+      "봄 (BOME)",
+      "아린 (ARIN)",
+      "나현 (NAHYUN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "AtHeart (앳하트)",
+      "ko": "AtHeart (앳하트)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "GRIM PRODUCTION",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-25",
+    "members": [
+      "청목",
+      "비화",
+      "매화린",
+      "백희"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "사령화",
+      "ko": "사령화"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "SM UNIVERSE",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-25",
+    "members": [
+      "KISU"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "KISU",
+      "ko": "KISU"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "(주)JYP엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-24",
+    "members": [
+      "방찬 (Stray Kids)",
+      "리노 (Stray Kids)",
+      "창빈 (Stray Kids)",
+      "현진 (Stray Kids)",
+      "한 (Stray Kids)",
+      "필릭스 (Stray Kids)",
+      "승민 (Stray Kids)",
+      "아이엔 (Stray Kids)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Stray Kids (스트레이 키즈)",
+      "ko": "Stray Kids (스트레이 키즈)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "FNC엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-24",
+    "members": [
+      "하유준 (AxMxP)",
+      "김신 (AxMxP)",
+      "크루 (AxMxP)",
+      "주환 (AxMxP)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "AxMxP (에이엠피)",
+      "ko": "AxMxP (에이엠피)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "AO Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-24",
+    "members": [
+      "하윤(HAYUN)",
+      "나현",
+      "레이니",
+      "루비"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "프림로즈",
+      "ko": "프림로즈"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "K타이거즈 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-23",
+    "members": [
+      "김리원 (CLASSy)",
+      "김선유 (CLASSy)",
+      "명형서 (CLASSy)",
+      "박보은 (CLASSy)",
+      "원지민 (CLASSy)",
+      "윤채원 (CLASSy)",
+      "홍혜주 (CLASSy)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "CLASSy (클라씨)",
+      "ko": "CLASSy (클라씨)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "D.I",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-23",
+    "members": [
+      "D.I"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "D.I",
+      "ko": "D.I"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "SM ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-23",
+    "members": [
+      "려욱 (RYEOWOOK)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "려욱 (RYEOWOOK)",
+      "ko": "려욱 (RYEOWOOK)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "MUMW",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-23",
+    "members": [
+      "여진(L∞na)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "여진(L∞na)",
+      "ko": "여진(L∞na)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "SM ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-22",
+    "members": [
+      "지우 (JIWOO)",
+      "카르멘 (CARMEN)",
+      "유하 (YUHA)",
+      "스텔라 (STELLA)",
+      "주은 (JUUN)",
+      "에이나 (A-NA)",
+      "이안 (IAN)",
+      "예온 (YE-ON)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Hearts2Hearts (하츠투하츠)",
+      "ko": "Hearts2Hearts (하츠투하츠)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "제이스타",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-22",
+    "members": [
+      "승희",
+      "우리",
+      "이노",
+      "제이",
+      "하루",
+      "휘"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "안타레스(ANTARES)",
+      "ko": "안타레스(ANTARES)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "빌리프랩",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-22",
+    "members": [
+      "에반(EVAN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "에반(EVAN)",
+      "ko": "에반(EVAN)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "그루블린",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-22",
+    "members": [
+      "라비(RAVI)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "라비(RAVI)",
+      "ko": "라비(RAVI)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "스튜디오363",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-21",
+    "members": [
+      "영재"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "영재",
+      "ko": "영재"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "ARADNAS",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-20",
+    "members": [
+      "산다라박"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "산다라박",
+      "ko": "산다라박"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "아이피큐",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-19",
+    "members": [
+      "재한 (OMEGA X)",
+      "세빈",
+      "한겸 (OMEGA X)",
+      "제현",
+      "XEN",
+      "예찬",
+      "김태동",
+      "KEVIN",
+      "혁",
+      "휘찬"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "OMEGA X (오메가엑스)",
+      "ko": "OMEGA X (오메가엑스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "KZ Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-19",
+    "members": [
+      "Z-UK (지욱)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Z-UK (지욱)",
+      "ko": "Z-UK (지욱)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "ATTRAKT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-19",
+    "members": [
+      "키나",
+      "문샤넬",
+      "예원",
+      "하나",
+      "아테나"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "FIFTY FIFTY",
+      "ko": "FIFTY FIFTY"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "주식회사 달라라네트워크",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-19",
+    "members": [
+      "제넥스(XENEX)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "제넥스(XENEX)",
+      "ko": "제넥스(XENEX)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "스타쉽엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-19",
+    "members": [
+      "민혁 (몬스타엑스)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "민혁 (몬스타엑스)",
+      "ko": "민혁 (몬스타엑스)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "주식회사 패러블",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-19",
+    "members": [
+      "아이네",
+      "징버거",
+      "릴파",
+      "주르르",
+      "고세구",
+      "비챤"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "이세계아이돌",
+      "ko": "이세계아이돌"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "㈜RBW",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-18",
+    "members": [
+      "징거",
+      "전효성",
+      "예빈"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "시크릿(Secret)",
+      "ko": "시크릿(Secret)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "Carpenterz Art Republic",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-18",
+    "members": [
+      "ILHOON"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ILHOON",
+      "ko": "ILHOON"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "Essence Archive",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-18",
+    "members": [
+      "제아"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "제아",
+      "ko": "제아"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "블랙베어엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-18",
+    "members": [
+      "이든",
+      "케이",
+      "시우",
+      "인태",
+      "예종"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "데이차일드(DayChild)",
+      "ko": "데이차일드(DayChild)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "푸른꿈엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-18",
+    "members": [
+      "김지현",
+      "양소연",
+      "이소영",
+      "장세인",
+      "진나영"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "A-plus(아플러스)",
+      "ko": "A-plus(아플러스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "KI ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-17",
+    "members": [
+      "효진",
+      "이션",
+      "승준",
+      "와이엇",
+      "민균",
+      "유토"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "온앤오프(ONF)",
+      "ko": "온앤오프(ONF)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "MW 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-17",
+    "members": [
+      "소이",
+      "시안",
+      "서유",
+      "다온",
+      "채나",
+      "로아"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "USPEER (유스피어)",
+      "ko": "USPEER (유스피어)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "coca",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-17",
+    "members": [
+      "동원",
+      "용하",
+      "상희",
+      "태유"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "비하트(B.HEART)",
+      "ko": "비하트(B.HEART)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "빅토리 컴퍼니",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-17",
+    "members": [
+      "형진",
+      "윤혁",
+      "시하(XIHA)",
+      "창훈",
+      "호준",
+      "로현",
+      "은호",
+      "승원"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "NTX (엔티엑스)",
+      "ko": "NTX (엔티엑스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "어비스컴퍼니",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-16",
+    "members": [
+      "마하진",
+      "임온",
+      "원주율",
+      "안석우",
+      "나이선"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "미완소년",
+      "ko": "미완소년"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "하이업엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-16",
+    "members": [
+      "수민 (SUMIN)",
+      "시은 (SIEUN)",
+      "아이사 (ISA)",
+      "세은 (SEEUN)",
+      "윤 (YOON)",
+      "재이 (J)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "STAYC(스테이씨)",
+      "ko": "STAYC(스테이씨)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "SM ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-15",
+    "members": [
+      "성찬(SUNGCHAN)",
+      "쇼타로(SHOTARO)",
+      "은석(EUNSEOK)",
+      "원빈(WONBIN)",
+      "소희(SOHEE)",
+      "앤톤(ANTON)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "RIIZE",
+      "ko": "RIIZE"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "월드메이트PLUS",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-15",
+    "members": [
+      "히토미(HITOMI)",
+      "메이(MEI)",
+      "카니(KANNY)",
+      "소하(SOHA)",
+      "도희(DOHEE)",
+      "준휘(JUNHWI)",
+      "승주(SEUNGJOO)",
+      "슈이 (SHUIE)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "SAY MY NAME(세이마이네임)",
+      "ko": "SAY MY NAME(세이마이네임)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "(주)JYP엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-15",
+    "members": [
+      "준케이 (JUN. K)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "준케이 (JUN. K)",
+      "ko": "준케이 (JUN. K)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "소리지음",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-15",
+    "members": [
+      "강한울",
+      "홍지영",
+      "가인",
+      "소유정",
+      "이종은"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "컨티뉴드",
+      "ko": "컨티뉴드"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "플레디스엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-15",
+    "members": [
+      "호시"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "호시",
+      "ko": "호시"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "㈜노느니특공대엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-14",
+    "members": [
+      "하슬 (ARTMS)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "하슬 (ARTMS)",
+      "ko": "하슬 (ARTMS)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "문유정",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-13",
+    "members": [
+      "ISHA (이샤)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ISHA (이샤)",
+      "ko": "ISHA (이샤)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "무브레이블",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-13",
+    "members": [
+      "천둥"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "천둥",
+      "ko": "천둥"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "BIGHIT MUSIC",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-12",
+    "members": [
+      "RM",
+      "SUGA",
+      "진",
+      "j-hope",
+      "지민",
+      "V",
+      "정국"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "방탄소년단",
+      "ko": "방탄소년단"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "빌리프랩, 쏘스뮤직, HYBE UMG, LLC",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-12",
+    "members": [
+      "허윤진",
+      "사쿠라",
+      "김채원",
+      "카즈하",
+      "홍은채"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "LE SSERAFIM (르세라핌)",
+      "ko": "LE SSERAFIM (르세라핌)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "주식회사 네이키드(NAKED, Inc.)",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-12",
+    "members": [
+      "KINO"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "KINO",
+      "ko": "KINO"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "(주)JYP엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-11",
+    "members": [
+      "한 (Stray Kids)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "한 (Stray Kids)",
+      "ko": "한 (Stray Kids)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "원앤원컴퍼니",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-11",
+    "members": [
+      "비비안(BBAHN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "비비안(BBAHN)",
+      "ko": "비비안(BBAHN)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "플레디스엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-11",
+    "members": [
+      "신유",
+      "도훈",
+      "영재",
+      "한진",
+      "지훈",
+      "경민"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "TWS (투어스)",
+      "ko": "TWS (투어스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "자체 제작 / 레이블 미상",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-10",
+    "members": [
+      "제이콥(THE BOYZ)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "제이콥(THE BOYZ)",
+      "ko": "제이콥(THE BOYZ)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "528Hz",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-10",
+    "members": [
+      "JAY B"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "JAY B",
+      "ko": "JAY B"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "12MUSIC",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-10",
+    "members": [
+      "지민"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "지민",
+      "ko": "지민"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "에이사이드컴퍼니",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-09",
+    "members": [
+      "예린 (YERIN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "예린 (YERIN)",
+      "ko": "예린 (YERIN)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "C9 Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-09",
+    "members": [
+      "위시",
+      "뮤",
+      "아민",
+      "백승",
+      "에이든",
+      "예왕",
+      "제프"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "EPEX (이펙스)",
+      "ko": "EPEX (이펙스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "MUKU LABS.",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-09",
+    "members": [
+      "아인(모모랜드)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "아인(모모랜드)",
+      "ko": "아인(모모랜드)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "WAKEONE",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-08",
+    "members": [
+      "마이",
+      "방지민",
+      "코코",
+      "유사랑",
+      "최정은",
+      "정세비"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "izna (이즈나)",
+      "ko": "izna (이즈나)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "coca",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-08",
+    "members": [
+      "태유"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "태유",
+      "ko": "태유"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "코스믹 레이더스",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-08",
+    "members": [
+      "옐(YEL)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "옐(YEL)",
+      "ko": "옐(YEL)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "Chapter-I",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-08",
+    "members": [
+      "수진",
+      "도이",
+      "니코",
+      "YSY",
+      "리노",
+      "코코",
+      "유주"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "H//PE Princess (하입프린세스)",
+      "ko": "H//PE Princess (하입프린세스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "(주)아뮤즈엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-08",
+    "members": [
+      "신원호",
+      "용석"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "크로스진(CROSS GENE)",
+      "ko": "크로스진(CROSS GENE)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "YG Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-08",
+    "members": [
+      "루카(RUKA)",
+      "파리타(PHARITA)",
+      "아사(ASA)",
+      "라미(RAMI)",
+      "로라(RORA)",
+      "치키타(CHIQUITA)",
+      "아현(AHYEON)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "BABYMONSTER",
+      "ko": "BABYMONSTER"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "B. Studio NEW C.C.C.",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-08",
+    "members": [
+      "루나 (LUNA)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "루나 (LUNA)",
+      "ko": "루나 (LUNA)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "모드하우스",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-08",
+    "members": [
+      "서다현",
+      "정혜린",
+      "김유연",
+      "김나경",
+      "공유빈",
+      "윤서연",
+      "이지우",
+      "김채연",
+      "김수민",
+      "카에데",
+      "니엔",
+      "박소현",
+      "신위",
+      "마유",
+      "코토네",
+      "곽연지",
+      "린",
+      "주빈",
+      "정하연",
+      "박시온",
+      "김채원",
+      "설린",
+      "서아",
+      "지연"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "tripleS (트리플에스)",
+      "ko": "tripleS (트리플에스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "CONSENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-06",
+    "members": [
+      "방용국"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "방용국",
+      "ko": "방용국"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "주식회사 헤네치아",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-06",
+    "members": [
+      "김현중"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "김현중",
+      "ko": "김현중"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "정욱",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-05",
+    "members": [
+      "정욱"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "정욱",
+      "ko": "정욱"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "㈜RBW, 케이팝음원IP전문(유)",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-04",
+    "members": [
+      "문별",
+      "솔라",
+      "화사 (HWASA)",
+      "휘인"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "마마무(Mamamoo)",
+      "ko": "마마무(Mamamoo)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "5SECONDS COMPANY",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-04",
+    "members": [
+      "유권"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "유권",
+      "ko": "유권"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "문석 (Moonsek)",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-03",
+    "members": [
+      "문석 (Moonsek)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "문석 (Moonsek)",
+      "ko": "문석 (Moonsek)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "SM ENTERTAINMENT, ScreaM Records",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-03",
+    "members": [
+      "카리나",
+      "지젤",
+      "윈터",
+      "닝닝"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "aespa",
+      "ko": "aespa"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "팜트리아일랜드",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-02",
+    "members": [
+      "XIA(준수)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "XIA(준수)",
+      "ko": "XIA(준수)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "Jacso Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-02",
+    "members": [
+      "다빈",
+      "렉스",
+      "범수",
+      "씽",
+      "웨인",
+      "현식",
+      "규민",
+      "자얀",
+      "리오"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "XODIAC",
+      "ko": "XODIAC"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "FNC엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-02",
+    "members": [
+      "이승협",
+      "김재현",
+      "차훈",
+      "서동성",
+      "유회승"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "엔플라잉(N.Flying)",
+      "ko": "엔플라잉(N.Flying)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "YG Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-06-01",
+    "members": [
+      "최현석",
+      "지훈",
+      "요시",
+      "준규",
+      "윤재혁",
+      "아사히",
+      "도영",
+      "하루토",
+      "박정우",
+      "소정환"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "TREASURE(트레저)",
+      "ko": "TREASURE(트레저)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "THEBLACKLABEL",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-01",
+    "members": [
+      "수인 (SOOIN)",
+      "가원 (GAWON)",
+      "안나 (ANNA)",
+      "나린 (NARIN)",
+      "엘라 (ELLA)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "MEOVV (미야오)",
+      "ko": "MEOVV (미야오)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "SM ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-06-01",
+    "members": [
+      "종현",
+      "민호 (MINHO)",
+      "태민",
+      "온유(ONEW)",
+      "키 (KEY)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "SHINee (샤이니)",
+      "ko": "SHINee (샤이니)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "유오드림",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-06-01",
+    "members": [
+      "유오 (UO)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "유오 (UO)",
+      "ko": "유오 (UO)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "뒤지버엔터앤컬쳐",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-06-01",
+    "members": [
+      "산이",
+      "기훈",
+      "남현",
+      "준용",
+      "정모"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Catch The Young(캐치더영)",
+      "ko": "Catch The Young(캐치더영)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "Universe",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-29",
+    "members": [
+      "Universe"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Universe",
+      "ko": "Universe"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "BLUEBROWN RECORDS",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-28",
+    "members": [
+      "지현 (HEART OF WOMAN)",
+      "채이 (HEART OF WOMAN)",
+      "아인 (HEART OF WOMAN)",
+      "리리 (HEART OF WOMAN)",
+      "류인 (HEART OF WOMAN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "HEART OF WOMAN (하트오브우먼)",
+      "ko": "HEART OF WOMAN (하트오브우먼)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "(주)빅마운틴엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-28",
+    "members": [
+      "원채",
+      "아윤",
+      "키리",
+      "진율",
+      "서빈",
+      "서하"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Queenz Eye",
+      "ko": "Queenz Eye"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "㈜RBW",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-28",
+    "members": [
+      "강현",
+      "용훈",
+      "하린",
+      "동명",
+      "기욱"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ONEWE(원위)",
+      "ko": "ONEWE(원위)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "Eternia Records",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-27",
+    "members": [
+      "이진솔"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "이진솔",
+      "ko": "이진솔"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "WM 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-05-27",
+    "members": [
+      "루이",
+      "현",
+      "하루",
+      "우무티"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "XLOV",
+      "ko": "XLOV"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "WJY",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-27",
+    "members": [
+      "우진영"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "우진영",
+      "ko": "우진영"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "스타쉽엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-05-27",
+    "members": [
+      "장용훈",
+      "김민재",
+      "박원빈",
+      "추유찬",
+      "박성현",
+      "백준혁",
+      "정세민"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "IDID (아이딧)",
+      "ko": "IDID (아이딧)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "YH 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-26",
+    "members": [
+      "장하오 (AND2BLE)",
+      "리키 (AND2BLE)",
+      "김규빈 (AND2BLE)",
+      "한유진 (AND2BLE)",
+      "유승언 (AND2BLE)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "AND2BLE (앤더블)",
+      "ko": "AND2BLE (앤더블)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "DSP미디어",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-26",
+    "members": [
+      "J.seph"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "J.seph",
+      "ko": "J.seph"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "WESTTIME Inc.",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-05-26",
+    "members": [
+      "영민",
+      "광민",
+      "민우",
+      "동현",
+      "현성",
+      "정민"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "보이프렌드(Boyfriend)",
+      "ko": "보이프렌드(Boyfriend)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "장현승",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-05-26",
+    "members": [
+      "장현승"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "장현승",
+      "ko": "장현승"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "WAKEONE",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-05-26",
+    "members": [
+      "리오",
+      "준서",
+      "씬롱",
+      "아르노",
+      "건우",
+      "상원",
+      "안신",
+      "상현"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ALPHA DRIVE ONE (알파드라이브원)",
+      "ko": "ALPHA DRIVE ONE (알파드라이브원)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "BANA",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-05-26",
+    "members": [
+      "크리스탈 (Krystal)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "크리스탈 (Krystal)",
+      "ko": "크리스탈 (Krystal)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "도한세",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-25",
+    "members": [
+      "HANSE (한세)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "HANSE (한세)",
+      "ko": "HANSE (한세)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "PCS ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-25",
+    "members": [
+      "희재(SEVENUS)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "희재(SEVENUS)",
+      "ko": "희재(SEVENUS)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "수소엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-24",
+    "members": [
+      "Raku",
+      "아리사 (ARISA)",
+      "와루 (WERE)",
+      "코루 (KORU)",
+      "TOMORI"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "절대전력Z",
+      "ko": "절대전력Z"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "(주)JYP엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-22",
+    "members": [
+      "예지",
+      "리아",
+      "류진",
+      "채령",
+      "유나"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ITZY (있지)",
+      "ko": "ITZY (있지)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "KQ Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-22",
+    "members": [
+      "김민재",
+      "박준민",
+      "최수민",
+      "함진식",
+      "최현우",
+      "김정훈",
+      "박세은",
+      "정유준",
+      "헌터",
+      "이예찬"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "xikers(싸이커스)",
+      "ko": "xikers(싸이커스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "갤럭시코퍼레이션",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-05-22",
+    "members": [
+      "태민 (TAEMIN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "태민 (TAEMIN)",
+      "ko": "태민 (TAEMIN)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "비투비컴퍼니",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-22",
+    "members": [
+      "프니엘 (비투비)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "프니엘 (비투비)",
+      "ko": "프니엘 (비투비)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "스타쉽엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-21",
+    "members": [
+      "형원",
+      "셔누"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "셔누X형원 (몬스타엑스)",
+      "ko": "셔누X형원 (몬스타엑스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "WM엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-21",
+    "members": [
+      "효정 (오마이걸)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "효정 (오마이걸)",
+      "ko": "효정 (오마이걸)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "판타지오",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-20",
+    "members": [
+      "윤산하"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "윤산하",
+      "ko": "윤산하"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "스윙엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-19",
+    "members": [
+      "정채연",
+      "전소미",
+      "김세정",
+      "최유정",
+      "청하",
+      "김소혜",
+      "김도연",
+      "임나영",
+      "유연정"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "아이오아이(I.O.I)",
+      "ko": "아이오아이(I.O.I)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "THEBLACKLABEL",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 1,
+    "isActive": true,
+    "recentComeback": "2026-05-18",
+    "members": [
+      "태양"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "태양",
+      "ko": "태양"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "SM ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-18",
+    "members": [
+      "태용 (TAEYONG)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "태용 (TAEYONG)",
+      "ko": "태용 (TAEYONG)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "WAKEONE",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-05-18",
+    "members": [
+      "성한빈",
+      "김지웅",
+      "석매튜",
+      "김태래",
+      "박건욱"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ZEROBASEONE (제로베이스원)",
+      "ko": "ZEROBASEONE (제로베이스원)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "포켓7엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-16",
+    "members": [
+      "효리"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "효리",
+      "ko": "효리"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "언코어",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-05-15",
+    "members": [
+      "전민욱 (CLOSE YOUR EYES)",
+      "마징시앙 (CLOSE YOUR EYES)",
+      "장여준 (CLOSE YOUR EYES)",
+      "김성민 (CLOSE YOUR EYES)",
+      "송승호 (CLOSE YOUR EYES)",
+      "켄신 (CLOSE YOUR EYES)",
+      "서경배 (CLOSE YOUR EYES)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "CLOSE YOUR EYES (클로즈 유어 아이즈)",
+      "ko": "CLOSE YOUR EYES (클로즈 유어 아이즈)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "빈뮤직",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-14",
+    "members": [
+      "소연(LABOUM)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "소연(LABOUM)",
+      "ko": "소연(LABOUM)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "FNC 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-05-13",
+    "members": [
+      "최립우",
+      "강우진"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "FLARE U (플레어 유)",
+      "ko": "FLARE U (플레어 유)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "BH엔터테인먼트, 카카오엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-13",
+    "members": [
+      "진영 (GOT7)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "진영 (GOT7)",
+      "ko": "진영 (GOT7)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "에이치뮤직엔터테인먼트, 주식회사 아이언이엔엠",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-13",
+    "members": [
+      "우연",
+      "루시",
+      "나나",
+      "민서",
+      "소라"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "WOOAH (우아)",
+      "ko": "WOOAH (우아)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "큐브 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-05-13",
+    "members": [
+      "시윤 (SIYUN)",
+      "진혁 (JINHYUK)",
+      "현빈 (HYEONBIN)",
+      "윤 (YOON)",
+      "연우 (YEONWOO)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "NOWZ (나우즈)",
+      "ko": "NOWZ (나우즈)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "파라뮤직",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-12",
+    "members": [
+      "은상",
+      "은호",
+      "스티브",
+      "형석",
+      "우노",
+      "DEY",
+      "경문",
+      "시온"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "YOUNITE",
+      "ko": "YOUNITE"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "포베스트엔터테인먼트 (Forbest Entertainment)",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-05-12",
+    "members": [
+      "솔미",
+      "데이즈",
+      "섀니",
+      "아언"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "CrazAngel (크레이즈엔젤)",
+      "ko": "CrazAngel (크레이즈엔젤)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "울림엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-12",
+    "members": [
+      "이협",
+      "김동윤",
+      "차준호"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "차동협 (DRIPPIN)",
+      "ko": "차동협 (DRIPPIN)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "HiD",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-12",
+    "members": [
+      "예은"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "예은",
+      "ko": "예은"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "KQ Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-11",
+    "members": [
+      "민기(ATEEZ)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "민기(ATEEZ)",
+      "ko": "민기(ATEEZ)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "JYP엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-11",
+    "members": [
+      "NMIXX"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "NMIXX",
+      "ko": "NMIXX"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "박정화",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-10",
+    "members": [
+      "정화"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "정화",
+      "ko": "정화"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "탱크 이엔엠",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-10",
+    "members": [
+      "TESSAR(테사르)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "TESSAR(테사르)",
+      "ko": "TESSAR(테사르)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "빌리언스",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-05-09",
+    "members": [
+      "남우현"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "남우현",
+      "ko": "남우현"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "Pacific Music Group",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-05-08",
+    "members": [
+      "Tiffany Young"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Tiffany Young",
+      "ko": "Tiffany Young"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "RODA ENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-05-08",
+    "members": [
+      "시니(XINI)",
+      "이유(LEE YOU)",
+      "마린"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Celestial Squad",
+      "ko": "Celestial Squad"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "JNA Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-05-08",
+    "members": [
+      "서은교"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "서은교",
+      "ko": "서은교"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "피나클엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-07",
+    "members": [
+      "효 (YUHZ)",
+      "보현 (YUHZ)",
+      "하루토 (YUHZ)",
+      "준성 (YUHZ)",
+      "재일 (YUHZ)",
+      "카이 (YUHZ)",
+      "연태 (YUHZ)",
+      "세찬 (YUHZ)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "YUHZ(유어즈)",
+      "ko": "YUHZ(유어즈)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "ORCAMUSIC",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-07",
+    "members": [
+      "이지함"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "이지함",
+      "ko": "이지함"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "미스틱스토리",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-06",
+    "members": [
+      "문수아",
+      "수현",
+      "시윤",
+      "츠키(Billlie)",
+      "하람",
+      "하루나",
+      "션"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Billlie (빌리)",
+      "ko": "Billlie (빌리)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "위엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-05-06",
+    "members": [
+      "화수목(花水木)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "화수목(花水木)",
+      "ko": "화수목(花水木)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "린브랜딩",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-05-06",
+    "members": [
+      "링링 (Ling Ling)",
+      "쿠루미 (Kurumi)",
+      "하린 (Harin)",
+      "카일리 (Kylie)",
+      "도연 (Doyeon)",
+      "로아 (Roah)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "KIIRAS (키라스)",
+      "ko": "KIIRAS (키라스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "C9 Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-05-04",
+    "members": [
+      "카이세이",
+      "윤기",
+      "아토",
+      "턴",
+      "유야",
+      "도혁",
+      "김건"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "NAZE (네이즈)",
+      "ko": "NAZE (네이즈)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "BIGHIT MUSIC",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-05-04",
+    "members": [
+      "마틴",
+      "제임스",
+      "주훈",
+      "성현",
+      "건호"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "CORTIS (코르티스)",
+      "ko": "CORTIS (코르티스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "아이슈",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-05-02",
+    "members": [
+      "얀",
+      "모모",
+      "이키",
+      "크림"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "아이슈 (AISYU)",
+      "ko": "아이슈 (AISYU)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "스튜디오파니니",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-05-01",
+    "members": [
+      "현성"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "현성",
+      "ko": "현성"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "빌리프랩",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-30",
+    "members": [
+      "윤아",
+      "민주",
+      "모카",
+      "원희",
+      "이로하"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "아일릿(ILLIT)",
+      "ko": "아일릿(ILLIT)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "AWAFE",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-30",
+    "members": [
+      "에모 (AEMO)",
+      "포파 (POPA)",
+      "파레오 (PAREO)",
+      "루네 (RUNE)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "나이트멜로 (Knight Mello)",
+      "ko": "나이트멜로 (Knight Mello)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "With Good People",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-30",
+    "members": [
+      "강민희"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "강민희",
+      "ko": "강민희"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "주식회사 럭스미스",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-30",
+    "members": [
+      "ELLY"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ELLY",
+      "ko": "ELLY"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "Code Chameleon",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-30",
+    "members": [
+      "켄(KEN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "켄(KEN)",
+      "ko": "켄(KEN)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "매직스트로베리사운드",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-04-29",
+    "members": [
+      "소유 (SOYOU)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "소유 (SOYOU)",
+      "ko": "소유 (SOYOU)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "스타쉽엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-29",
+    "members": [
+      "세림",
+      "앨런",
+      "정모",
+      "우빈",
+      "원진",
+      "민희",
+      "형준",
+      "태영",
+      "성민"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "CRAVITY",
+      "ko": "CRAVITY"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "Tapes",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-29",
+    "members": [
+      "지수연"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "지수연",
+      "ko": "지수연"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "AT AREA",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-29",
+    "members": [
+      "유주 (YUJU)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "유주 (YUJU)",
+      "ko": "유주 (YUJU)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "YY 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-29",
+    "members": [
+      "박지훈"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "박지훈",
+      "ko": "박지훈"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "DayOneDream",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-28",
+    "members": [
+      "이채연"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "이채연",
+      "ko": "이채연"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "그레이트엠 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-28",
+    "members": [
+      "남성모 (NAM SEONG MO)",
+      "박석준 (PARK SEOK JOON)",
+      "윤예찬 (YOON YE CHAN)",
+      "조성일 (CHO SEONG IL)",
+      "황성빈(HWANG SEONG BIN)",
+      "김도균 (KIM DO GYUN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "82MAJOR(82메이저)",
+      "ko": "82MAJOR(82메이저)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "승민",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-28",
+    "members": [
+      "승민"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "승민",
+      "ko": "승민"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "쓰리와이 코프레이션",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-27",
+    "members": [
+      "쵸단",
+      "마젠타",
+      "히나",
+      "시연"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "QWER",
+      "ko": "QWER"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "JYP엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-27",
+    "members": [
+      "토모야",
+      "유우",
+      "하루",
+      "소 건",
+      "세이타",
+      "휴이",
+      "유키"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "NEXZ (넥스지)",
+      "ko": "NEXZ (넥스지)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "위드어스엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-27",
+    "members": [
+      "후이(HUI)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "후이(HUI)",
+      "ko": "후이(HUI)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "디엔에이 엔터테인먼트㈜ / (주)디엔디 이엔에스",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-25",
+    "members": [
+      "리쿠토",
+      "휘",
+      "타이키",
+      "진",
+      "왕석",
+      "사토시"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "SW:C(스윗치)",
+      "ko": "SW:C(스윗치)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "YH 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-25",
+    "members": [
+      "YENA (최예나)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "YENA (최예나)",
+      "ko": "YENA (최예나)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "무브레이블",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-25",
+    "members": [
+      "미미(Mimi)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "미미(Mimi)",
+      "ko": "미미(Mimi)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "제이제이뮤직그룹",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-23",
+    "members": [
+      "휘준 (HUIJUN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "휘준 (HUIJUN)",
+      "ko": "휘준 (HUIJUN)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "판타지오",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-23",
+    "members": [
+      "이창섭"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "이창섭",
+      "ko": "이창섭"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "WON",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-23",
+    "members": [
+      "WON (박성원)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "WON (박성원)",
+      "ko": "WON (박성원)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "(주)엠제트엠씨아이앤씨코리아",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-22",
+    "members": [
+      "븨븨에스"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "븨븨에스",
+      "ko": "븨븨에스"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "WAKEONE, 오프더레코드",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-22",
+    "members": [
+      "김재환"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "김재환",
+      "ko": "김재환"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "(주)히읗피읖",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-04-21",
+    "members": [
+      "산들",
+      "신우",
+      "공찬"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "B1A4",
+      "ko": "B1A4"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "주식회사 오드엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-04-20",
+    "members": [
+      "동해 (DONGHAE)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "동해 (DONGHAE)",
+      "ko": "동해 (DONGHAE)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "SM ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-20",
+    "members": [
+      "시온 (SION)",
+      "유우시 (YUSHI)",
+      "리쿠 (RIKU)",
+      "재희 (JAEHEE)",
+      "료 (RYO)",
+      "사쿠야 (SAKUYA)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "NCT WISH",
+      "ko": "NCT WISH"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "젤리피쉬 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-20",
+    "members": [
+      "케이타",
+      "박한빈",
+      "이정현",
+      "문정현",
+      "박지후"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "EVNNE(이븐)",
+      "ko": "EVNNE(이븐)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "위드어스엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-04-19",
+    "members": [
+      "박초롱",
+      "정은지",
+      "윤보미",
+      "김남주",
+      "오하영"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Apink (에이핑크)",
+      "ko": "Apink (에이핑크)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "JYP엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-17",
+    "members": [
+      "건일",
+      "정수",
+      "가온",
+      "O.de",
+      "Jun Han",
+      "주연"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Xdinary Heroes",
+      "ko": "Xdinary Heroes"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "PAIX PER MIL",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-17",
+    "members": [
+      "Yves (이브)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Yves (이브)",
+      "ko": "Yves (이브)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "주식회사 엠오티엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-17",
+    "members": [
+      "정연주"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "정연주",
+      "ko": "정연주"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "위드어스엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-16",
+    "members": [
+      "휘인(Whee In)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "휘인(Whee In)",
+      "ko": "휘인(Whee In)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "HI-HAT ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-15",
+    "members": [
+      "카시아",
+      "라희",
+      "원화연",
+      "사샤",
+      "태린",
+      "미유"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ifeye (이프아이)",
+      "ko": "ifeye (이프아이)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "㈜원더",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-04-15",
+    "members": [
+      "강인 (KANGIN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "강인 (KANGIN)",
+      "ko": "강인 (KANGIN)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "오크컴퍼니",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-15",
+    "members": [
+      "윤서",
+      "구현",
+      "민준",
+      "학성",
+      "타쿠마",
+      "원천"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "BE BOYS",
+      "ko": "BE BOYS"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "5TION",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 1,
+    "isActive": true,
+    "recentComeback": "2026-04-14",
+    "members": [
+      "로이",
+      "Chris Lee",
+      "마린",
+      "노아",
+      "테오"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "오션(5tion)",
+      "ko": "오션(5tion)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "BIGHIT MUSIC",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-13",
+    "members": [
+      "수빈",
+      "연준",
+      "범규",
+      "태현",
+      "휴닝카이"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "투모로우바이투게더",
+      "ko": "투모로우바이투게더"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "VLAST",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-13",
+    "members": [
+      "노아",
+      "밤비",
+      "예준",
+      "은호",
+      "하민"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "PLAVE",
+      "ko": "PLAVE"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "ONECEAD Co.,Ltd.",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-13",
+    "members": [
+      "MODYSSEY (모디세이)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "MODYSSEY (모디세이)",
+      "ko": "MODYSSEY (모디세이)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "에프엠엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-13",
+    "members": [
+      "제이창"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "제이창",
+      "ko": "제이창"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "142 music",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-13",
+    "members": [
+      "미연 (MIYEON)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "미연 (MIYEON)",
+      "ko": "미연 (MIYEON)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "엔에이치엔링크(주)",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-13",
+    "members": [
+      "도겸",
+      "승관"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "도겸X승관 (SEVENTEEN)",
+      "ko": "도겸X승관 (SEVENTEEN)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "원바이트엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-04-11",
+    "members": [
+      "진온",
+      "이유",
+      "칸",
+      "심예준",
+      "래현",
+      "대건"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "포커즈(F.CUZ)",
+      "ko": "포커즈(F.CUZ)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "(주)초록별엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-09",
+    "members": [
+      "유솜(YOUSOM)",
+      "아연(AYEON)",
+      "유메(YUME)",
+      "유나(YUNA)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "LOVEONE(러브원)",
+      "ko": "LOVEONE(러브원)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "P NATION",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-09",
+    "members": [
+      "화사 (HWASA)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "화사 (HWASA)",
+      "ko": "화사 (HWASA)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "Kingspire music",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-09",
+    "members": [
+      "NIKA"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "NIKA",
+      "ko": "NIKA"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "iNKODE Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-08",
+    "members": [
+      "태환",
+      "현민",
+      "세나",
+      "재인",
+      "루키아"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "KEYVITUP",
+      "ko": "KEYVITUP"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "FNC엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-08",
+    "members": [
+      "나캠든",
+      "브라이언",
+      "최지호",
+      "윤시윤",
+      "카이렐",
+      "마카야",
+      "김승모"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "앰퍼샌드원 (AMPERS&ONE)",
+      "ko": "앰퍼샌드원 (AMPERS&ONE)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "카카오엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-08",
+    "members": [
+      "케이텐 (KEITEN)",
+      "하기와 (HAGIWA)",
+      "윤영준 (YOUN YOUNG JUN)",
+      "리안 (RIAAN)",
+      "데인 (DANE)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "hrtz.wav (하츠웨이브)",
+      "ko": "hrtz.wav (하츠웨이브)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "MUMW",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-08",
+    "members": [
+      "강승식"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "강승식",
+      "ko": "강승식"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "NineTwo Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-08",
+    "members": [
+      "동현 (W3WAY)",
+      "혜천 (W3WAY)",
+      "우석 (W3WAY)",
+      "료 (W3WAY)",
+      "린타로 (W3WAY)",
+      "시호 (W3WAY)",
+      "아오이 (W3WAY)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "W3WAY(위웨이)",
+      "ko": "W3WAY(위웨이)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "MAJOR LAB",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-04-07",
+    "members": [
+      "키코(KiKO)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "키코(KiKO)",
+      "ko": "키코(KiKO)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "DSP미디어, 비츠엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-07",
+    "members": [
+      "도은 (DOEUN)",
+      "위연정 (YEONJUNG)",
+      "정선혜 (SUNHYE)",
+      "지아나 (JIANA)",
+      "한지은 (JIEUN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "영파씨 (YOUNG POSSE)",
+      "ko": "영파씨 (YOUNG POSSE)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "스타쉽엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-07",
+    "members": [
+      "다영 (DAYOUNG)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "다영 (DAYOUNG)",
+      "ko": "다영 (DAYOUNG)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "JYP엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-06",
+    "members": [
+      "아마루 (KickFlip)",
+      "동화 (KickFlip)",
+      "계훈 (KickFlip)",
+      "민제 (KickFlip)",
+      "동현 (KickFlip)",
+      "주왕 (KickFlip)",
+      "케이주 (KickFlip)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "KickFlip(킥플립)",
+      "ko": "KickFlip(킥플립)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "주식회사 더웨이브스",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-06",
+    "members": [
+      "현식 (XODIAC)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "현식 (XODIAC)",
+      "ko": "현식 (XODIAC)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "S2 ENTERTAINMENT INC.",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-04-06",
+    "members": [
+      "벨 (KISS OF LIFE)",
+      "나띠 (KISS OF LIFE)",
+      "하늘 (KISS OF LIFE)",
+      "쥴리 (KISS OF LIFE)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "KISS OF LIFE",
+      "ko": "KISS OF LIFE"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "코스믹 레이더스",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-06",
+    "members": [
+      "유정(Kim Yu Jeong)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "유정(Kim Yu Jeong)",
+      "ko": "유정(Kim Yu Jeong)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "드라마하우스",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-05",
+    "members": [
+      "이소정"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "이소정",
+      "ko": "이소정"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "탑스팟픽쳐스 주식회사",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-04-03",
+    "members": [
+      "T.O.P"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "T.O.P",
+      "ko": "T.O.P"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "WESTTIME Inc.",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-04-03",
+    "members": [
+      "동현"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "동현",
+      "ko": "동현"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "DSP미디어",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-04-02",
+    "members": [
+      "전소민"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "전소민",
+      "ko": "전소민"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "KLAP, WAKEONE",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-31",
+    "members": [
+      "최유진",
+      "샤오팅",
+      "김채현",
+      "김다연",
+      "히카루",
+      "휴닝바히에"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Kep1er (케플러)",
+      "ko": "Kep1er (케플러)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "블랙스쿼드 (VLACKSQUAD)",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-31",
+    "members": [
+      "ZELO(젤로)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ZELO(젤로)",
+      "ko": "ZELO(젤로)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "JJ Music Group",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-30",
+    "members": [
+      "예찬"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "예찬",
+      "ko": "예찬"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "SM ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-30",
+    "members": [
+      "아이린 (IRENE)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "아이린 (IRENE)",
+      "ko": "아이린 (IRENE)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "JYP엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-30",
+    "members": [
+      "원필 (DAY6)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "원필 (DAY6)",
+      "ko": "원필 (DAY6)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "JYP엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-27",
+    "members": [
+      "유나 (ITZY)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "유나 (ITZY)",
+      "ko": "유나 (ITZY)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "보이스이엔티 & HG MUSIC",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-27",
+    "members": [
+      "박제업"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "박제업",
+      "ko": "박제업"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "아카이브아침",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-03-27",
+    "members": [
+      "조권"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "조권",
+      "ko": "조권"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "위엔터테인먼트그룹주식회사",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-27",
+    "members": [
+      "장대현",
+      "김동한",
+      "준서",
+      "유용하",
+      "김요한",
+      "강석화"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "위아이(WEi)",
+      "ko": "위아이(WEi)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "PCS ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-26",
+    "members": [
+      "LUO (디그니티)",
+      "민석 (디그니티)",
+      "LUKE (디그니티)",
+      "ON (디그니티)",
+      "형진 (디그니티)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "DIGNITY(디그니티)",
+      "ko": "DIGNITY(디그니티)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "젤리피쉬엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-26",
+    "members": [
+      "강민"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "강민",
+      "ko": "강민"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "FNC엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-25",
+    "members": [
+      "다원",
+      "영빈",
+      "인성",
+      "재윤",
+      "주호",
+      "찬희",
+      "유태양",
+      "휘영"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "SF9",
+      "ko": "SF9"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "HALO CORPORATION",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-25",
+    "members": [
+      "BamBam"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "BamBam",
+      "ko": "BamBam"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "KOODS Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-25",
+    "members": [
+      "바오"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "바오",
+      "ko": "바오"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "㈜RBW",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-25",
+    "members": [
+      "문별 (마마무)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "문별 (마마무)",
+      "ko": "문별 (마마무)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "P NATION",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-24",
+    "members": [
+      "이현 (Yihyun)",
+      "쿠미 (Kumi)",
+      "미아 (Mia)",
+      "베니 (Beni)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Baby DONT Cry",
+      "ko": "Baby DONT Cry"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "모어비전",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-23",
+    "members": [
+      "OHYUL of LNGSHOT",
+      "RYUL of LNGSHOT",
+      "WOOJIN of LNGSHOT",
+      "LOUIS of LNGSHOT"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "LNGSHOT",
+      "ko": "LNGSHOT"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "ODDWAVE",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-03-23",
+    "members": [
+      "장윤석 (DAILY:DIRECTION)",
+      "임지환 (DAILY:DIRECTION)",
+      "김주형 (DAILY:DIRECTION)",
+      "이원우 (DAILY:DIRECTION)",
+      "E-VAN (DAILY:DIRECTION)",
+      "EN KIM (DAILY:DIRECTION)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "DAILY:DIRECTION",
+      "ko": "DAILY:DIRECTION"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "SM ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-23",
+    "members": [
+      "효연 (HYO)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "효연 (HYO)",
+      "ko": "효연 (HYO)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "㈜오르카 뮤직",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-03-23",
+    "members": [
+      "빛새온",
+      "김민서",
+      "승훈",
+      "제이창"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "B.D.U (비디유)",
+      "ko": "B.D.U (비디유)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "포바이포 크리에이티브",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-21",
+    "members": [
+      "민지 (AFuture)",
+      "서연 (AFuture)",
+      "영은 (AFuture)",
+      "이레 (AFuture)",
+      "지수 (AFuture)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "에이퓨처 (AFuture)",
+      "ko": "에이퓨처 (AFuture)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "㈜아이피큐",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-21",
+    "members": [
+      "XEN"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "XEN",
+      "ko": "XEN"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "비투비컴퍼니",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-21",
+    "members": [
+      "서은광 (비투비)",
+      "이민혁 (허타)",
+      "이창섭",
+      "임현식",
+      "프니엘",
+      "육성재"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "비투비",
+      "ko": "비투비"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "(주)음그",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-03-20",
+    "members": [
+      "배다해"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "배다해",
+      "ko": "배다해"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "WESTTIME Inc.",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-03-20",
+    "members": [
+      "영민"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "영민",
+      "ko": "영민"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "Oddinary",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-18",
+    "members": [
+      "세미 (LATENCY)",
+      "지지원 (LATENCY)",
+      "희연 (LATENCY)",
+      "하은 (LATENCY)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "LATENCY (레이턴시)",
+      "ko": "LATENCY (레이턴시)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "FREQ(프리크)",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-17",
+    "members": [
+      "송선"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "송선",
+      "ko": "송선"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "LibertaENM",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-17",
+    "members": [
+      "효진 (온앤오프)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "효진 (온앤오프)",
+      "ko": "효진 (온앤오프)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "마루기획㈜",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-17",
+    "members": [
+      "최준성 (Jun S)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "최준성 (Jun S)",
+      "ko": "최준성 (Jun S)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "브랜뉴뮤직",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-16",
+    "members": [
+      "김동현 (AB6IX)",
+      "이대휘 (AB6IX)",
+      "박우진 (AB6IX)",
+      "전웅 (AB6IX)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "AB6IX (에이비식스)",
+      "ko": "AB6IX (에이비식스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "EDEN ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-03-16",
+    "members": [
+      "건호 of ALL(H)OURS",
+      "유민 of ALL(H)OURS",
+      "제이든 of ALL(H)OURS",
+      "민제 of ALL(H)OURS",
+      "마사미 of ALL(H)OURS",
+      "현빈 of ALL(H)OURS",
+      "온 of ALL(H)OURS"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ALL(H)OURS(올아워즈)",
+      "ko": "ALL(H)OURS(올아워즈)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "LOWKEY HOUSE",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-03-16",
+    "members": [
+      "NXMERCY"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "NXMERCY",
+      "ko": "NXMERCY"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "OWN, 헉스뮤직",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-15",
+    "members": [
+      "오은 (OWN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "오은 (OWN)",
+      "ko": "오은 (OWN)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "FOREST MEDIA",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-14",
+    "members": [
+      "허영지 (카라)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "허영지 (카라)",
+      "ko": "허영지 (카라)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "(주)몬스터브레인",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-03-14",
+    "members": [
+      "하루/HARU",
+      "연수/YEONSOO",
+      "세아/SEA",
+      "효빈/HYOBIN",
+      "승비/SEUNGBI"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "에스투잇",
+      "ko": "에스투잇"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "FNC 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-12",
+    "members": [
+      "기호",
+      "테오",
+      "지웅",
+      "인탁",
+      "소울",
+      "종섭"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "P1Harmony",
+      "ko": "P1Harmony"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "Winner J",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-03-12",
+    "members": [
+      "전율"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "전율",
+      "ko": "전율"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "(주)티오피미디어",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-03-12",
+    "members": [
+      "MAIKA",
+      "SUMMER",
+      "MYAH",
+      "YE EUM",
+      "KANIE"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ODD YOUTH (오드유스)",
+      "ko": "ODD YOUTH (오드유스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "아이엑스엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-03-11",
+    "members": [
+      "송유찬(V01D)",
+      "조주연(V01D)",
+      "KEVIN PARK(V01D)",
+      "SHINNOSUKE(V01D)",
+      "정지섭(V01D)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "V01D(보이드)",
+      "ko": "V01D(보이드)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "Bridge Enter",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-11",
+    "members": [
+      "도빈",
+      "다엘",
+      "태오",
+      "핀",
+      "재온",
+      "권이랑",
+      "율"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "SKINZ (스킨즈)",
+      "ko": "SKINZ (스킨즈)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "신지윤, MARTYN",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-11",
+    "members": [
+      "신지윤"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "신지윤",
+      "ko": "신지윤"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "안테나",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-03-10",
+    "members": [
+      "안태규 (Dragon Pony)",
+      "편성현 (Dragon Pony)",
+      "권세혁 (Dragon Pony)",
+      "고강훈 (Dragon Pony)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "Dragon Pony (드래곤포니)",
+      "ko": "Dragon Pony (드래곤포니)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "이엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-10",
+    "members": [
+      "라노",
+      "로민",
+      "백결",
+      "승엽",
+      "예준",
+      "원준",
+      "원혁 (엘라스트 (E'LAST))",
+      "최인"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "엘라스트 (E'LAST)",
+      "ko": "엘라스트 (E'LAST)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "그리핀엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-03-09",
+    "members": [
+      "온유 (ONEW)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "온유 (ONEW)",
+      "ko": "온유 (ONEW)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "주식회사 누아엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-09",
+    "members": [
+      "기현",
+      "준표",
+      "현준",
+      "유섭",
+      "린",
+      "판",
+      "미라쿠"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "NouerA (누에라)",
+      "ko": "NouerA (누에라)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "THEBLACKLABEL, PUBG: BATTLEGROUNDS",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-03-09",
+    "members": [
+      "WOOCHAN",
+      "ANNIE",
+      "TARZZAN",
+      "BAILEY",
+      "YOUNGSEO"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ALLDAY PROJECT",
+      "ko": "ALLDAY PROJECT"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "비비드컬처",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-07",
+    "members": [
+      "허유진 (Heo Yujin)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "허유진 (Heo Yujin)",
+      "ko": "허유진 (Heo Yujin)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "Columbia Records, a Division of Sony Music Entertainment, under exclusive license from OA ENTERTAINMENT, INC.",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-06",
+    "members": [
+      "제니 (JENNIE)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "제니 (JENNIE)",
+      "ko": "제니 (JENNIE)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "초이크리에이티브랩",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-05",
+    "members": [
+      "서이",
+      "리이나",
+      "옐",
+      "휘서"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "H1-KEY (하이키)",
+      "ko": "H1-KEY (하이키)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "EDAM 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-04",
+    "members": [
+      "WOODZ"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "WOODZ",
+      "ko": "WOODZ"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "(주)아뮤즈엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-04",
+    "members": [
+      "신원호"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "신원호",
+      "ko": "신원호"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "아이에스티 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-03-03",
+    "members": [
+      "시환 (TUNEXX)",
+      "성준 (TUNEXX)",
+      "제온 (TUNEXX)",
+      "타이라 (TUNEXX)",
+      "동규 (TUNEXX)",
+      "인후 (TUNEXX)",
+      "아틱 (TUNEXX)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "TUNEXX (튜넥스)",
+      "ko": "TUNEXX (튜넥스)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "주식회사 치타컴퍼니",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-03-03",
+    "members": [
+      "시현",
+      "온다",
+      "이유",
+      "아샤"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "EVERGLOW(에버글로우)",
+      "ko": "EVERGLOW(에버글로우)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "빌리언스",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-03-02",
+    "members": [
+      "김성규"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "김성규",
+      "ko": "김성규"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "131",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-02",
+    "members": [
+      "B.I(비아이)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "B.I(비아이)",
+      "ko": "B.I(비아이)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "WAY BETTER",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-03-02",
+    "members": [
+      "임세준"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "임세준",
+      "ko": "임세준"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "muu",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-02-28",
+    "members": [
+      "MUU(뮤)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "MUU(뮤)",
+      "ko": "MUU(뮤)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "YG Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-02-27",
+    "members": [
+      "지수",
+      "제니 (JENNIE)",
+      "로제",
+      "리사"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "BLACKPINK",
+      "ko": "BLACKPINK"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "ATUNES CORP.",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-02-27",
+    "members": [
+      "준혁",
+      "도아",
+      "경택",
+      "태현",
+      "시온"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "WEZAG",
+      "ko": "WEZAG"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "Danal Entertainment, Devine Channel",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-02-27",
+    "members": [
+      "웬디(WENDY)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "웬디(WENDY)",
+      "ko": "웬디(WENDY)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "NEWWAYS COMPANY",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-02-26",
+    "members": [
+      "가람",
+      "레온",
+      "제이",
+      "카일",
+      "효원"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "어센트(ASC2NT)",
+      "ko": "어센트(ASC2NT)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "Ktown4u",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-02-26",
+    "members": [
+      "나인",
+      "지성 (JISUNG)",
+      "규빈"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "QQQ",
+      "ko": "QQQ"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "아르마다이엔티",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-02-26",
+    "members": [
+      "예담 (ONE PACT)",
+      "성민 (ONE PACT)",
+      "제이창",
+      "태그 (ONE PACT)",
+      "종우 (ONE PACT)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "ONE PACT (원팩트)",
+      "ko": "ONE PACT (원팩트)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "스타쉽엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-02-25",
+    "members": [
+      "엑시(우주소녀)",
+      "설아",
+      "보나",
+      "은서",
+      "다영 (DAYOUNG)",
+      "다원",
+      "수빈",
+      "여름",
+      "루다",
+      "유연정"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "우주소녀",
+      "ko": "우주소녀"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "모스트콘텐츠",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-02-25",
+    "members": [
+      "성호 (BOYNEXTDOOR)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "성호 (BOYNEXTDOOR)",
+      "ko": "성호 (BOYNEXTDOOR)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "주식회사 비바이엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-02-20",
+    "members": [
+      "이샤(E.SHA)",
+      "니즈(NIZZ)",
+      "노바(NOVA)",
+      "한나(HANNAH)",
+      "아리아(ARIA)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "X:IN",
+      "ko": "X:IN"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "(주)하이퍼리듬",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-02-20",
+    "members": [
+      "은준 (AIMERS)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "은준 (AIMERS)",
+      "ko": "은준 (AIMERS)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "CODA",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-02-20",
+    "members": [
+      "I.M (아이엠)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "I.M (아이엠)",
+      "ko": "I.M (아이엠)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "폭스크리에이티브",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-02-20",
+    "members": [
+      "유니스"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "유니스",
+      "ko": "유니스"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "㈜뿌리엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-02-17",
+    "members": [
+      "바운 (BOUN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "바운 (BOUN)",
+      "ko": "바운 (BOUN)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "CYO",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-02-13",
+    "members": [
+      "owoon"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "owoon",
+      "ko": "owoon"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "DY엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-02-13",
+    "members": [
+      "ATO (아토)",
+      "ROA (로아)",
+      "문석 (Moonsek)",
+      "RIO (리오)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "TRIGER (트리거)",
+      "ko": "TRIGER (트리거)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "DSP미디어",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-02-11",
+    "members": [
+      "전지우"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "전지우",
+      "ko": "전지우"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "여창구",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-02-11",
+    "members": [
+      "여원"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "여원",
+      "ko": "여원"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "JOMEHAJ Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-02-11",
+    "members": [
+      "박준현"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "박준현",
+      "ko": "박준현"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "플레디스엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-02-11",
+    "members": [
+      "황민현"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "황민현",
+      "ko": "황민현"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "모드하우스",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-02-11",
+    "members": [
+      "김도훈",
+      "김희주",
+      "최태인",
+      "이재영",
+      "김주호",
+      "남지운",
+      "이환희",
+      "이청명",
+      "토와",
+      "이규혁",
+      "박누리",
+      "김성준",
+      "한예준",
+      "최경빈",
+      "황은수"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "idntt (아이덴티티)",
+      "ko": "idntt (아이덴티티)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "Vectormob, Virgin Music Group",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-02-10",
+    "members": [
+      "아우라(Aoora)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "아우라(Aoora)",
+      "ko": "아우라(Aoora)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "이대열",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-02-10",
+    "members": [
+      "이대열"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "이대열",
+      "ko": "이대열"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "주식회사 에이라",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-02-10",
+    "members": [
+      "강다니엘(KANG DANIEL)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "강다니엘(KANG DANIEL)",
+      "ko": "강다니엘(KANG DANIEL)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "어라운드어스",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-02-09",
+    "members": [
+      "양요섭"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "양요섭",
+      "ko": "양요섭"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "㈜고고이공이공",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-02-09",
+    "members": [
+      "NUA",
+      "범준",
+      "정현",
+      "호진",
+      "ZUNON"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "2Z(투지)",
+      "ko": "2Z(투지)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "143 Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-02-09",
+    "members": [
+      "수혜",
+      "미유",
+      "예서",
+      "마시로",
+      "세리나",
+      "나고미"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "MADEIN (메이딘)",
+      "ko": "MADEIN (메이딘)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "MORE VISION",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-02-09",
+    "members": [
+      "청하"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "청하",
+      "ko": "청하"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "P NATION, KOZ Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-02-04",
+    "members": [
+      "지코 (ZICO)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "지코 (ZICO)",
+      "ko": "지코 (ZICO)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "우조엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-02-03",
+    "members": [
+      "샤 (SYA)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "샤 (SYA)",
+      "ko": "샤 (SYA)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "TV CHOSUN E&M",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-02-03",
+    "members": [
+      "정은지"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "정은지",
+      "ko": "정은지"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "롬버스컴퍼니",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-01-30",
+    "members": [
+      "노태현"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "노태현",
+      "ko": "노태현"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "CJes Studios",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-01-29",
+    "members": [
+      "김준민(WHIB)",
+      "하승(WHIB)",
+      "진범(WHIB)",
+      "유건(WHIB)",
+      "이정(WHIB)",
+      "재하(WHIB)",
+      "원준(WHIB)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "WHIB(휘브)",
+      "ko": "WHIB(휘브)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "FNC엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-01-29",
+    "members": [
+      "유회승 (엔플라잉)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "유회승 (엔플라잉)",
+      "ko": "유회승 (엔플라잉)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "Winner J",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-01-28",
+    "members": [
+      "가영"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "가영",
+      "ko": "가영"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "MNH Entertainment",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-01-28",
+    "members": [
+      "윤규",
+      "윤성",
+      "재윤",
+      "해민",
+      "경민",
+      "명호",
+      "민호",
+      "승헌"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "8TURN (에잇턴)",
+      "ko": "8TURN (에잇턴)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "스타쉽엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-01-26",
+    "members": [
+      "지유 (KiiiKiii)",
+      "이솔 (KiiiKiii)",
+      "수이 (KiiiKiii)",
+      "하음 (KiiiKiii)",
+      "키야 (KiiiKiii)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "KiiiKiii (키키)",
+      "ko": "KiiiKiii (키키)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "엔에이(NA)엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-01-26",
+    "members": [
+      "앨리스",
+      "마리암",
+      "니콜",
+      "승주",
+      "바네사",
+      "비아",
+      "니나"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "NWHI",
+      "ko": "NWHI"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "O3 Collective",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-01-26",
+    "members": [
+      "이준호"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "이준호",
+      "ko": "이준호"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "인연엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-01-23",
+    "members": [
+      "나윤",
+      "낸시",
+      "아인",
+      "제인",
+      "주이",
+      "혜빈"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "모모랜드(MOMOLAND)",
+      "ko": "모모랜드(MOMOLAND)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "피네이션",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-01-22",
+    "members": [
+      "천준혁",
+      "은휘",
+      "최태훈",
+      "오성준",
+      "장현수"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "TNX",
+      "ko": "TNX"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "트루라이징 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-01-21",
+    "members": [
+      "최하리"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "최하리",
+      "ko": "최하리"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "주식회사 씽잉비틀",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-01-21",
+    "members": [
+      "HYUK",
+      "SEOK",
+      "KENNY",
+      "AITO",
+      "NATHAN"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "1VERSE",
+      "ko": "1VERSE"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "㈜RBW",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-01-20",
+    "members": [
+      "서호 (ONEUS)",
+      "이도 (ONEUS)",
+      "건희 (ONEUS)",
+      "환웅 (ONEUS)",
+      "시온 (ONEUS)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "원어스 (ONEUS)",
+      "ko": "원어스 (ONEUS)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "SM ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-01-19",
+    "members": [
+      "백현",
+      "첸",
+      "카이 (KAI)",
+      "수호",
+      "찬열 (CHANYEOL)",
+      "세훈 (SEHUN)",
+      "레이",
+      "시우민(XIUMIN)",
+      "도경수"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "EXO",
+      "ko": "EXO"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "빌리프랩",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-01-19",
+    "members": [
+      "제이",
+      "제이크",
+      "성훈",
+      "선우",
+      "정원",
+      "니키"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "엔하이픈 (ENHYPEN)",
+      "ko": "엔하이픈 (ENHYPEN)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "RX SOUND",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-01-19",
+    "members": [
+      "러니(RUNY)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "러니(RUNY)",
+      "ko": "러니(RUNY)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "JUNITY",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-01-19",
+    "members": [
+      "로라(LOLA)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "로라(LOLA)",
+      "ko": "로라(LOLA)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "윤정환(LUVEN)",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-01-15",
+    "members": [
+      "윤정환(LUVEN)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "윤정환(LUVEN)",
+      "ko": "윤정환(LUVEN)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "큐브 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-01-15",
+    "members": [
+      "나영",
+      "상아",
+      "유정",
+      "주현",
+      "초원",
+      "히나"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "LIGHTSUM",
+      "ko": "LIGHTSUM"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "어베인 뮤직",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-01-15",
+    "members": [
+      "보라 (BORA)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "보라 (BORA)",
+      "ko": "보라 (BORA)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "FNC엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-01-14",
+    "members": [
+      "인성"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "인성",
+      "ko": "인성"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "nCH 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-01-13",
+    "members": [
+      "도하",
+      "한준",
+      "희원",
+      "성윤",
+      "카즈타",
+      "로렌스",
+      "로빈"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "n.SSign(엔싸인)",
+      "ko": "n.SSign(엔싸인)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "HighGroundMusic",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-01-11",
+    "members": [
+      "전지윤(JENYER)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "전지윤(JENYER)",
+      "ko": "전지윤(JENYER)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "AMBI ENTERTAINMENT",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-01-10",
+    "members": [
+      "헨리 (HENRY)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "헨리 (HENRY)",
+      "ko": "헨리 (HENRY)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "하울링 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 5,
+    "isActive": true,
+    "recentComeback": "2026-01-08",
+    "members": [
+      "고현",
+      "권협",
+      "리오",
+      "새별",
+      "세범",
+      "이준"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "WAKER(웨이커)",
+      "ko": "WAKER(웨이커)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "IRI",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-01-08",
+    "members": [
+      "IRI"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "IRI",
+      "ko": "IRI"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "FNC엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-01-07",
+    "members": [
+      "정용화",
+      "이정신",
+      "강민혁 (CNBLUE)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "씨엔블루(CNBLUE)",
+      "ko": "씨엔블루(CNBLUE)"
+    },
+    "parentGroup": null,
+    "type": "group"
+  },
+  {
+    "agency": "뉴보트(NewBoat)",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 2,
+    "isActive": true,
+    "recentComeback": "2026-01-07",
+    "members": [
+      "신수현"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "신수현",
+      "ko": "신수현"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "S27M 엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-01-06",
+    "members": [
+      "진호 (펜타곤)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "진호 (펜타곤)",
+      "ko": "진호 (펜타곤)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "스타쉽엔터테인먼트",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 4,
+    "isActive": true,
+    "recentComeback": "2026-01-05",
+    "members": [
+      "주헌 (몬스타엑스)"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "주헌 (몬스타엑스)",
+      "ko": "주헌 (몬스타엑스)"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  },
+  {
+    "agency": "BIGPLANETMADE",
+    "createdAt": "2026-07-10T08:15:18Z",
+    "generation": 3,
+    "isActive": true,
+    "recentComeback": "2026-01-05",
+    "members": [
+      "하성운"
+    ],
+    "name": {
+      "aliases": [],
+      "en": "하성운",
+      "ko": "하성운"
+    },
+    "parentGroup": null,
+    "type": "solo"
+  }
+]

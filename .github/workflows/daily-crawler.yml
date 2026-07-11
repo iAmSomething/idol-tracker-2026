@@ -1,0 +1,29 @@
+name: Daily Comeback Crawler
+
+on:
+  schedule:
+    # Runs at 15:00 UTC (12:00 AM KST) every day
+    - cron: '0 15 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run Crawler
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      run: npm run crawl

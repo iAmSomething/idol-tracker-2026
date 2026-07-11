@@ -1,0 +1,25 @@
+name: Upcoming Comeback Augmentation Crawler
+
+on:
+  schedule:
+    - cron: '15 9 * * *' # Daily at 6:15 PM KST (9:15 AM UTC)
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  run-augment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Upcoming Augmentation
+        run: npx tsx scripts/augment_comebacks.ts
