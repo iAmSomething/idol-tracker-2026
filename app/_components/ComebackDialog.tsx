@@ -20,19 +20,32 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
   const [selectedComposer, setSelectedComposer] = useState<string | null>(null);
   const [clickableComposers, setClickableComposers] = useState<Record<string, boolean>>({});
 
-  const checkComposerClickable = async (composer: string) => {
-    if (clickableComposers[composer] !== undefined) return;
-    try {
-      const q = query(collection(db, "tracks"), where("composers", "array-contains", composer), limit(2));
-      const snap = await getDocs(q);
-      setClickableComposers(prev => ({
-        ...prev,
-        [composer]: snap.size >= 2
-      }));
-    } catch (e) {
-      console.error(e);
+  useEffect(() => {
+    if (tracks.length === 0) return;
+    const uniqueComposers = new Set<string>();
+    for (const t of tracks) {
+      if (t.composers) {
+        for (const c of t.composers) {
+          uniqueComposers.add(c);
+        }
+      }
     }
-  };
+    for (const comp of Array.from(uniqueComposers)) {
+      if (clickableComposers[comp] !== undefined) continue;
+      (async () => {
+        try {
+          const q = query(collection(db, "tracks"), where("composers", "array-contains", comp), limit(2));
+          const snap = await getDocs(q);
+          setClickableComposers(prev => ({
+            ...prev,
+            [comp]: snap.size >= 2
+          }));
+        } catch (e) {
+          console.error(e);
+        }
+      })();
+    }
+  }, [tracks]);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -255,7 +268,6 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
                                 <span key={cIdx}>
                                   {cIdx > 0 && ", "}
                                   <span
-                                    onMouseEnter={() => checkComposerClickable(comp)}
                                     onClick={() => isClickable && setSelectedComposer(comp)}
                                     style={{
                                       textDecoration: isClickable ? "underline" : "none",
