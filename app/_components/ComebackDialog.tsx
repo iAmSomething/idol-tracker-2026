@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Comeback, Track } from "../../types";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, limit } from "firebase/firestore";
 import { db } from "../firebase";
 import { FaYoutube } from "react-icons/fa";
 import Link from "next/link";
+import ComposerTracksDialog from "./ComposerTracksDialog";
 
 interface ComebackDialogProps {
   comeback: (Comeback & { dateObj: Date }) | null;
@@ -16,6 +17,22 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [tracks, setTracks] = useState<Track[]>([]);
   const [loadingTracks, setLoadingTracks] = useState(false);
+  const [selectedComposer, setSelectedComposer] = useState<string | null>(null);
+  const [clickableComposers, setClickableComposers] = useState<Record<string, boolean>>({});
+
+  const checkComposerClickable = async (composer: string) => {
+    if (clickableComposers[composer] !== undefined) return;
+    try {
+      const q = query(collection(db, "tracks"), where("composers", "array-contains", composer), limit(2));
+      const snap = await getDocs(q);
+      setClickableComposers(prev => ({
+        ...prev,
+        [composer]: snap.size >= 2
+      }));
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -74,6 +91,7 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
   const formattedMvUrl = youtubeId ? `https://www.youtube.com/embed/${youtubeId}` : null;
 
   return (
+    <>
     <dialog
       ref={dialogRef}
       onClose={onClose}
@@ -207,20 +225,60 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
                   border: track.isTitle ? "1px solid var(--accent-color)" : "1px solid var(--border-color)",
                   borderRadius: "8px",
                 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "16px", flex: 1 }}>
-                    <span className="text-secondary" style={{ width: "24px", fontWeight: 600 }}>{idx + 1}</span>
-                    <span style={{ fontWeight: track.isTitle ? 600 : 500, color: track.isTitle ? "var(--text-primary)" : "var(--text-secondary)" }}>
-                      {track.name}
-                    </span>
-                    {track.isTitle && (
-                      <span style={{ fontSize: "0.7rem", padding: "4px 8px", backgroundColor: "#eff6ff", color: "var(--accent-color)", border: "1px solid #bfdbfe", borderRadius: "4px", fontWeight: 700, letterSpacing: "0.5px" }}>
-                        TITLE
+                  <div style={{ display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                      <span className="text-secondary" style={{ width: "24px", fontWeight: 600 }}>{idx + 1}</span>
+                      <span style={{ fontWeight: track.isTitle ? 600 : 500, color: track.isTitle ? "var(--text-primary)" : "var(--text-secondary)" }}>
+                        {track.name}
                       </span>
-                    )}
-                    {track.musicVideoUrl && (
-                      <a href={track.musicVideoUrl} target="_blank" rel="noreferrer" title="Music Video" style={{ display: "flex", alignItems: "center", color: "var(--accent-color)" }}>
-                        <FaYoutube size={16} />
-                      </a>
+                      {track.isTitle && (
+                        <span style={{ fontSize: "0.7rem", padding: "4px 8px", backgroundColor: "#eff6ff", color: "var(--accent-color)", border: "1px solid #bfdbfe", borderRadius: "4px", fontWeight: 700, letterSpacing: "0.5px" }}>
+                          TITLE
+                        </span>
+                      )}
+                      {track.musicVideoUrl && (
+                        <a href={track.musicVideoUrl} target="_blank" rel="noreferrer" title="Music Video" style={{ display: "flex", alignItems: "center", color: "var(--accent-color)" }}>
+                          <FaYoutube size={16} />
+                        </a>
+                      )}
+                    </div>
+                    
+                    {/* Composers & Lyricists */}
+                    {(track.composers || track.lyricists) && (
+                      <div style={{ display: "flex", flexDirection: "column", gap: "2px", paddingLeft: "40px", marginTop: "4px" }}>
+                        {track.composers && track.composers.length > 0 && (
+                          <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
+                            <span style={{ fontWeight: 600 }}>작곡:</span>{" "}
+                            {track.composers.map((comp, cIdx) => {
+                              const isClickable = clickableComposers[comp];
+                              return (
+                                <span key={cIdx}>
+                                  {cIdx > 0 && ", "}
+                                  <span
+                                    onMouseEnter={() => checkComposerClickable(comp)}
+                                    onClick={() => isClickable && setSelectedComposer(comp)}
+                                    style={{
+                                      textDecoration: isClickable ? "underline" : "none",
+                                      cursor: isClickable ? "pointer" : "default",
+                                      color: isClickable ? "var(--accent-color)" : "inherit",
+                                      fontWeight: isClickable ? 600 : 400
+                                    }}
+                                    title={isClickable ? "다른 작곡 곡 보기" : ""}
+                                  >
+                                    {comp}
+                                  </span>
+                                </span>
+                              );
+                            })}
+                          </div>
+                        )}
+                        {track.lyricists && track.lyricists.length > 0 && (
+                          <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
+                            <span style={{ fontWeight: 600 }}>작사:</span>{" "}
+                            <span>{track.lyricists.join(", ")}</span>
+                          </div>
+                        )}
+                      </div>
                     )}
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -265,5 +323,7 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
         )}
       </div>
     </dialog>
+    <ComposerTracksDialog composerName={selectedComposer} onClose={() => setSelectedComposer(null)} />
+    </>
   );
 }

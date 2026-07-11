@@ -79,6 +79,10 @@ export interface Track {
     appleMusic?: string;
     bugs?: string;
   };
+  composers?: string[];
+  lyricists?: string[];
+  artistName?: string;
+  albumTitle?: string;
 }
 
 export interface Comeback {
