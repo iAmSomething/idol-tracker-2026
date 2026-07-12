@@ -14,7 +14,7 @@ const parser = new Parser();
 
 const stopWords = new Set(["신인", "보이그룹", "걸그룹", "아이돌", "밴드", "가수", "오늘", "내일", "정식", "드디어", "컴백", "데뷔", "신곡", "발매", "발표", "확정", "첫", "미니", "정규", "앨범", "티저", "공개", "음원", "뮤비", "쇼케이스", "출격", "기대", "주목", "화제", "제작", "소속사", "대표", "프로듀서", "합류", "멤버", "공식", "단독", "현장", "종합", "리포트", "인터뷰", "포토", "영상", "왔다", "품고", "돌아온다", "출신", "전격", "뉴스핌", "v", "daum", "net", "com", "co", "kr", "스포츠동아", "스타뉴스", "엑스포츠뉴스", "OSEN", "오센", "뉴스엔", "마이데일리", "스타투데이", "뉴스1", "뉴시스", "디스패치", "TV리포트"]);
 
-function extractCandidates(title: string): string[] {
+function extractLikelyProperNouns(title: string): string[] {
   const candidates = new Set<string>();
 
   // 1. Words enclosed in quotes
@@ -158,28 +158,61 @@ async function runWeeklyCrawler() {
   const seenCandidates = new Set<string>();
   let newReviewsCount = 0;
 
+  // Pre-sort existing artist keys by length (longest first) to prevent partial matching 
+  // (e.g. finding "우주" when the name is "우주소녀")
+  const knownArtistNames = Array.from(existingArtistsMap.keys()).sort((a, b) => b.length - a.length);
+
   for (const item of allNews) {
     const title = item.title || "";
-    const candidates = extractCandidates(title);
-    
-    for (const candidateName of candidates) {
-      if (candidateName.length < 2 || seenCandidates.has(candidateName)) {
-        continue;
+    const releaseDate = item.pubDate ? new Date(item.pubDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+    const releaseType = title.includes("정규") ? "full" : (title.includes("미니") ? "mini" : "single");
+
+    let foundExistingArtist = false;
+
+    // 1. FAST PATH: Check if any KNOWN artist name is directly in the title
+    for (const knownName of knownArtistNames) {
+      // Use regex to ensure word boundary or at least not part of a longer word if possible,
+      // but for Korean, simple includes is usually enough if sorted by length.
+      if (title.includes(knownName)) {
+        const artistId = existingArtistsMap.get(knownName);
+        const comebackKey = `${knownName}_${releaseDate}`;
+        
+        if (!existingComebackKeys.has(comebackKey) && !pendingKeys.has(comebackKey)) {
+          logger.info(`🔄 Existing artist ${knownName} is having a comeback! (from: ${title})`);
+          const docData = {
+            type: 'existing_artist',
+            artistName: knownName,
+            artistId: artistId,
+            releaseDate: releaseDate,
+            releaseType: releaseType,
+            sourceTitle: title,
+            sourceLink: item.link || "",
+            createdAt: new Date().toISOString()
+          };
+          await addDoc(collection(db, "pending_reviews"), docData);
+          newReviewsCount++;
+          pendingKeys.add(comebackKey);
+        }
+        foundExistingArtist = true;
+        break; // Found the primary subject, move on (or could allow multiple, but usually 1 main comeback)
       }
-      seenCandidates.add(candidateName);
+    }
 
-      const releaseDate = item.pubDate ? new Date(item.pubDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
-      const comebackKey = `${candidateName}_${releaseDate}`;
+    // 2. DISCOVERY PATH: If no known artist was found, look for NEW debuting teams using proper noun heuristics
+    if (!foundExistingArtist) {
+      const candidates = extractLikelyProperNouns(title);
+      
+      for (const candidateName of candidates) {
+        if (candidateName.length < 2 || seenCandidates.has(candidateName)) {
+          continue;
+        }
+        seenCandidates.add(candidateName);
 
-      if (existingComebackKeys.has(comebackKey) || pendingKeys.has(comebackKey)) {
-        continue; // Already tracked or already pending
-      }
+        const comebackKey = `${candidateName}_${releaseDate}`;
+        if (existingComebackKeys.has(comebackKey) || pendingKeys.has(comebackKey)) {
+          continue;
+        }
 
-      const releaseType = title.includes("정규") ? "full" : (title.includes("미니") ? "mini" : "single");
-      let artistId = existingArtistsMap.get(candidateName);
-
-      if (!artistId) {
-        // New artist, verify with Bugs Music
         const bugsInfo = await fetchBugsArtistValidation(candidateName);
         if (bugsInfo) {
           logger.info(`✅ Verified NEW artist ${candidateName} on Bugs! (from: ${title})`);
@@ -195,32 +228,16 @@ async function runWeeklyCrawler() {
             sourceLink: item.link || "",
             createdAt: new Date().toISOString()
           };
-          const docRef = await addDoc(collection(db, "pending_reviews"), docData);
+          await addDoc(collection(db, "pending_reviews"), docData);
           newReviewsCount++;
           pendingKeys.add(comebackKey);
+          break; // Found the new artist, move to next news item
         } else {
           logger.info(`❌ Rejected ${candidateName}: Not found as an active idol/singer on Bugs.`);
-          continue;
         }
-      } else {
-        logger.info(`🔄 Existing artist ${candidateName} is having a comeback! (from: ${title})`);
         
-        const docData = {
-          type: 'existing_artist',
-          artistName: candidateName,
-          artistId: artistId,
-          releaseDate: releaseDate,
-          releaseType: releaseType,
-          sourceTitle: title,
-          sourceLink: item.link || "",
-          createdAt: new Date().toISOString()
-        };
-        const docRef = await addDoc(collection(db, "pending_reviews"), docData);
-        newReviewsCount++;
-        pendingKeys.add(comebackKey);
+        await new Promise(r => setTimeout(r, 1000));
       }
-      
-      await new Promise(r => setTimeout(r, 1000));
     }
   }
 
