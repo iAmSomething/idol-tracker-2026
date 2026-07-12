@@ -7,7 +7,42 @@ import { collection, addDoc, getDocs, updateDoc, doc, query, where } from "fireb
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
-// Telegram logic is now handled by scripts/telegram_bot.ts daemon
+async function sendTelegramReviewMessage(docId: string, data: any) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) {
+    logger.warn('TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is missing. Skipping Telegram notification.');
+    return;
+  }
+  
+  const text = `🔔 <b>신규 컴백/데뷔 검토 필요</b>\n\n` +
+    `아티스트: <b>${data.artistName}</b>\n` +
+    `유형: ${data.type === 'new_artist' ? '신규 발굴 🆕' : '기존 컴백 🔄'}\n` +
+    `발매일: ${data.releaseDate}\n` +
+    `형태: ${data.releaseType}\n` +
+    (data.type === 'new_artist' ? `성별: ${data.artistGender} | 그룹/솔로: ${data.artistType}\n` : '') +
+    `출처: <a href="${data.sourceLink}">${data.sourceTitle}</a>\n\n` +
+    `아래 버튼을 눌러 처리해주세요.`;
+
+  try {
+    await axios.post(`https://api.telegram.org/bot${token}/sendMessage`, {
+      chat_id: chatId,
+      text: text,
+      parse_mode: 'HTML',
+      reply_markup: {
+        inline_keyboard: [
+          [
+            { text: "✅ 통과", callback_data: `APPROVE_${docId}` },
+            { text: "✏️ 수정", callback_data: `EDIT_${docId}` },
+            { text: "❌ 거부", callback_data: `REJECT_${docId}` }
+          ]
+        ]
+      }
+    });
+  } catch (e: any) {
+    logger.error('Failed to send Telegram message:', e.message);
+  }
+}
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
@@ -157,7 +192,7 @@ async function runWeeklyCrawler() {
         if (bugsInfo) {
           logger.info(`✅ Verified NEW artist ${candidateName} on Bugs! (from: ${title})`);
           
-          await addDoc(collection(db, "pending_reviews"), {
+          const docData = {
             type: 'new_artist',
             artistName: candidateName,
             artistGender: bugsInfo.gender || 'mixed',
@@ -165,8 +200,11 @@ async function runWeeklyCrawler() {
             releaseDate: releaseDate,
             releaseType: releaseType,
             sourceTitle: title,
+            sourceLink: item.link || "",
             createdAt: new Date().toISOString()
-          });
+          };
+          const docRef = await addDoc(collection(db, "pending_reviews"), docData);
+          await sendTelegramReviewMessage(docRef.id, docData);
           newReviewsCount++;
           pendingKeys.add(comebackKey);
         } else {
@@ -176,15 +214,18 @@ async function runWeeklyCrawler() {
       } else {
         logger.info(`🔄 Existing artist ${candidateName} is having a comeback! (from: ${title})`);
         
-        await addDoc(collection(db, "pending_reviews"), {
+        const docData = {
           type: 'existing_artist',
           artistName: candidateName,
           artistId: artistId,
           releaseDate: releaseDate,
           releaseType: releaseType,
           sourceTitle: title,
+          sourceLink: item.link || "",
           createdAt: new Date().toISOString()
-        });
+        };
+        const docRef = await addDoc(collection(db, "pending_reviews"), docData);
+        await sendTelegramReviewMessage(docRef.id, docData);
         newReviewsCount++;
         pendingKeys.add(comebackKey);
       }
@@ -194,7 +235,7 @@ async function runWeeklyCrawler() {
   }
 
   if (newReviewsCount > 0) {
-    logger.info(`Found ${newReviewsCount} new pending reviews. telegram_bot.ts daemon will notify the admin.`);
+    logger.info(`Found and sent ${newReviewsCount} new pending reviews to Telegram.`);
   } else {
     logger.info("No new comebacks found to review.");
   }

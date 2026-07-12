@@ -1,0 +1,42 @@
+name: Comeback Crawlers
+
+on:
+  schedule:
+    # Weekly Discovery Crawler (Every Tuesday at 18:30 KST -> 09:30 UTC)
+    - cron: '30 9 * * 2'
+    # Daily Precision Crawler (Everyday at 18:30 KST -> 09:30 UTC)
+    - cron: '30 9 * * *'
+  workflow_dispatch: # Allow manual trigger from GitHub UI
+
+jobs:
+  run-crawlers:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install Dependencies
+        run: npm ci
+        
+      - name: Create .env file from secrets
+        run: |
+          echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> .env
+          echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> .env
+          echo "TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}" >> .env
+          echo "NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL }}" >> .env
+          
+      - name: Run Daily Precision Crawler
+        # Runs every day
+        run: npm run crawl:daily
+        
+      - name: Run Weekly Discovery Crawler
+        # Only runs on Tuesday (day 2) OR if triggered manually
+        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '30 9 * * 2'
+        run: npm run crawl:weekly

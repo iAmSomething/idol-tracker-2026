@@ -9,8 +9,7 @@
     "lint": "biome check",
     "format": "biome format --write",
     "crawl:weekly": "npx tsx scripts/weekly_discovery_crawler.ts",
-    "crawl:daily": "npx tsx scripts/daily_precision_crawler.ts",
-    "bot": "npx tsx scripts/telegram_bot.ts"
+    "crawl:daily": "npx tsx scripts/daily_precision_crawler.ts"
   },
   "dependencies": {
     "axios": "^1.18.1",
