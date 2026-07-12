@@ -15,13 +15,16 @@ async function sendTelegramReviewMessage(docId: string, data: any) {
     return;
   }
   
+  const escapeHtml = (str: string) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  
   const text = `🔔 <b>신규 컴백/데뷔 검토 필요</b>\n\n` +
-    `아티스트: <b>${data.artistName}</b>\n` +
+    `아티스트: <b>${escapeHtml(data.artistName)}</b>\n` +
     `유형: ${data.type === 'new_artist' ? '신규 발굴 🆕' : '기존 컴백 🔄'}\n` +
     `발매일: ${data.releaseDate}\n` +
     `형태: ${data.releaseType}\n` +
     (data.type === 'new_artist' ? `성별: ${data.artistGender} | 그룹/솔로: ${data.artistType}\n` : '') +
-    `출처: <a href="${data.sourceLink}">${data.sourceTitle}</a>\n\n` +
+    `출처: <a href="${data.sourceLink}">${escapeHtml(data.sourceTitle)}</a>\n\n` +
     `아래 버튼을 눌러 처리해주세요.`;
 
   try {
