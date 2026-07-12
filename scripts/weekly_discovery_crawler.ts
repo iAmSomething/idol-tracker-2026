@@ -171,9 +171,15 @@ async function runWeeklyCrawler() {
 
     // 1. FAST PATH: Check if any KNOWN artist name is directly in the title
     for (const knownName of knownArtistNames) {
-      // Use regex to ensure word boundary or at least not part of a longer word if possible,
-      // but for Korean, simple includes is usually enough if sorted by length.
-      if (title.includes(knownName)) {
+      // Robust Korean word boundary matching:
+      // Preceded by space, start of string, or punctuation/bracket
+      // Followed by space, end of string, punctuation, or common Korean subject/object particles
+      const regexStr = `(^|[\\\\s'"\\\\\\[\\\\\\]\\\\(\\\\)⟨⟩«»])` + 
+                       knownName.replace(/[-\\/\\\\^$*+?.()|[\\]{}]/g, '\\\\$&') + 
+                       `([\\\\s'"\\\\\\[\\\\\\]\\\\(\\\\)⟨⟩«»,.?!]|은|는|이|가|를|을|의|로|와|과|$)`;
+      const regex = new RegExp(regexStr);
+
+      if (regex.test(title)) {
         const artistId = existingArtistsMap.get(knownName);
         const comebackKey = `${knownName}_${releaseDate}`;
         
