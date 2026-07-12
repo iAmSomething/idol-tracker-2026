@@ -15,27 +15,55 @@ const parser = new Parser();
 const stopWords = new Set(["신인", "보이그룹", "걸그룹", "아이돌", "밴드", "가수", "오늘", "내일", "정식", "드디어", "컴백", "데뷔", "신곡", "발매", "발표", "확정", "첫", "미니", "정규", "앨범", "티저", "공개", "음원", "뮤비", "쇼케이스", "출격", "기대", "주목", "화제", "제작", "소속사", "대표", "프로듀서", "합류", "멤버", "공식", "단독", "현장", "종합", "리포트", "인터뷰", "포토", "영상", "왔다", "품고", "돌아온다", "출신", "전격", "뉴스핌", "v", "daum", "net", "com", "co", "kr", "스포츠동아", "스타뉴스", "엑스포츠뉴스", "OSEN", "오센", "뉴스엔", "마이데일리", "스타투데이", "뉴스1", "뉴시스", "디스패치", "TV리포트"]);
 
 function extractCandidates(title: string): string[] {
-  let text = title.replace(/\[.*?\]|\(.*?\)/g, " ");
-  text = text.replace(/['"‘”“’`~!?@#$%^&*_+={}\[\]:;|<>\.\,\/\\…\-]/g, " ");
-  
-  const words = text.split(/\s+/).filter(w => w.length > 1);
-  const candidates: string[] = [];
-  const particles = ["으로", "만의", "에서", "부터", "까지", "은", "는", "이", "가", "로", "의", "와", "과", "도", "을", "를", "만"];
+  const candidates = new Set<string>();
 
-  for (let word of words) {
-    let cleanWord = word;
+  // 1. Words enclosed in quotes
+  const quoteRegex = /['"‘“](.*?)['"’”]/g;
+  let match;
+  while ((match = quoteRegex.exec(title)) !== null) {
+    const word = match[1].trim();
+    if (word.length > 1 && !stopWords.has(word)) candidates.add(word);
+  }
+
+  // 2. Capitalized English words (e.g. NCT DREAM)
+  const engRegex = /([A-Z][a-zA-Z0-9-]*(?:\s+[A-Z][a-zA-Z0-9-]*)*)/g;
+  while ((match = engRegex.exec(title)) !== null) {
+    const word = match[1].trim();
+    if (word.length > 1 && !stopWords.has(word)) candidates.add(word);
+  }
+
+  // 3. Words before comma (often subjects in news titles like "세븐틴, ...")
+  const commaRegex = /([가-힣A-Za-z0-9]+)\s*,/g;
+  while ((match = commaRegex.exec(title)) !== null) {
+    const word = match[1].trim();
+    if (word.length > 1 && !stopWords.has(word)) candidates.add(word);
+  }
+
+  // 4. Words ending with subject particles
+  const particleRegex = /([가-힣A-Za-z0-9]+)(은|는|이|가)\s+/g;
+  while ((match = particleRegex.exec(title)) !== null) {
+    const word = match[1].trim();
+    if (word.length > 1 && !stopWords.has(word)) candidates.add(word);
+  }
+
+  // 5. Fallback: just look at the very first word in the title after stripping brackets.
+  let cleanTitle = title.replace(/\[.*?\]/g, "").trim();
+  const firstWord = cleanTitle.split(/\s+/)[0].replace(/['"‘”“’`~!?@#$%^&*_+={}\[\]:;|<>\.\,\/\\…\-]/g, "");
+  if (firstWord.length > 1 && !stopWords.has(firstWord)) {
+    let cleaned = firstWord;
+    const particles = ["으로", "만의", "에서", "부터", "까지", "은", "는", "이", "가", "로", "의", "와", "과", "도", "을", "를", "만"];
     for (const p of particles) {
-      if (cleanWord.endsWith(p) && cleanWord.length > p.length) {
-        cleanWord = cleanWord.slice(0, -p.length);
-        break; 
+      if (cleaned.endsWith(p)) {
+        cleaned = cleaned.slice(0, -p.length);
+        break;
       }
     }
-    
-    if (cleanWord.length > 1 && !stopWords.has(cleanWord)) {
-      candidates.push(cleanWord);
+    if (cleaned.length > 1 && !stopWords.has(cleaned)) {
+      candidates.add(cleaned);
     }
   }
-  return candidates;
+
+  return Array.from(candidates);
 }
 
 async function fetchBugsArtistValidation(artistName: string) {
