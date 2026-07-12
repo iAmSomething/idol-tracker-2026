@@ -95,6 +95,7 @@ export default function AdminDashboard() {
         releaseDate: review.releaseDate,
         releaseType: review.releaseType,
         agencyName: "Unknown",
+        sourceLink: review.sourceLink || "",
         createdAt: new Date().toISOString(),
       });
 
