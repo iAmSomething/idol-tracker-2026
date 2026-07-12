@@ -129,9 +129,9 @@ export default function CalendarGrid({ searchQuery }: { searchQuery: string }) {
         <button className={`filter-chip ${filterType === 'unit' ? 'active' : ''}`} onClick={() => setFilterType('unit')}>Unit</button>
       </div>
       <div className="filters-wrapper" style={{ marginTop: '8px' }}>
-        <button className={`filter-chip ${genderFilter === 'all' ? 'active' : ''}`} onClick={() => setGenderFilter('all')}>전체 성별</button>
-        <button className={`filter-chip ${genderFilter === 'male' ? 'active' : ''}`} onClick={() => setGenderFilter('male')}>보이그룹(남)</button>
-        <button className={`filter-chip ${genderFilter === 'female' ? 'active' : ''}`} onClick={() => setGenderFilter('female')}>걸그룹(여)</button>
+        <button className={`filter-chip ${genderFilter === 'all' ? 'active' : ''}`} onClick={() => setGenderFilter('all')}>성별 무관</button>
+        <button className={`filter-chip ${genderFilter === 'male' ? 'active' : ''}`} onClick={() => setGenderFilter('male')}>남성 (남돌/솔로)</button>
+        <button className={`filter-chip ${genderFilter === 'female' ? 'active' : ''}`} onClick={() => setGenderFilter('female')}>여성 (여돌/솔로)</button>
         <button className={`filter-chip ${genderFilter === 'mixed' ? 'active' : ''}`} onClick={() => setGenderFilter('mixed')}>혼성</button>
       </div>
 
@@ -158,10 +158,18 @@ export default function CalendarGrid({ searchQuery }: { searchQuery: string }) {
             const typeMatch = filterType === 'all' ? true : (c.artistType?.toLowerCase() === filterType);
             const genderMatch = genderFilter === 'all' ? true : (c.artistGender?.toLowerCase() === genderFilter);
             
-            // Match artist name or album title
-            const searchMatch = !searchQuery || 
-                                (c.artistName && c.artistName.toLowerCase().includes(searchQuery.toLowerCase())) || 
-                                (c.albumTitle && c.albumTitle.toLowerCase().includes(searchQuery.toLowerCase()));
+            // Match artist name or album title, plus support natural language gender queries
+            const q = searchQuery.toLowerCase();
+            const searchMatch = !q || 
+                                (c.artistName && c.artistName.toLowerCase().includes(q)) || 
+                                (c.albumTitle && c.albumTitle.toLowerCase().includes(q)) ||
+                                (q.includes('남돌') && c.artistGender === 'male' && c.artistType === 'group') ||
+                                (q.includes('여돌') && c.artistGender === 'female' && c.artistType === 'group') ||
+                                (q.includes('보이그룹') && c.artistGender === 'male' && c.artistType === 'group') ||
+                                (q.includes('걸그룹') && c.artistGender === 'female' && c.artistType === 'group') ||
+                                (q.includes('남성') && c.artistGender === 'male') ||
+                                (q.includes('여성') && c.artistGender === 'female') ||
+                                (q.includes('혼성') && c.artistGender === 'mixed');
             
             return dateMatch && typeMatch && genderMatch && searchMatch;
           });
