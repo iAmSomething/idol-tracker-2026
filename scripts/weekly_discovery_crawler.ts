@@ -1,17 +1,14 @@
 import * as path from "path";
 import * as dotenv from "dotenv";
-import Parser from "rss-parser";
 import { db } from "./lib/firebase-helpers";
 import { logger } from "./lib/logger";
 import { fetchYouTubeCommunityInfo } from "./lib/youtube_scraper";
+import { searchNaverNews, scrapeNaverNewsContent } from "./lib/naver_news_scraper";
 import { collection, addDoc, getDocs, updateDoc, doc, query, where } from "firebase/firestore";
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
-
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
-
-const parser = new Parser();
 
 const stopWords = new Set(["신인", "보이그룹", "걸그룹", "아이돌", "밴드", "가수", "오늘", "내일", "정식", "드디어", "컴백", "데뷔", "신곡", "발매", "발표", "확정", "첫", "미니", "정규", "앨범", "티저", "공개", "음원", "뮤비", "쇼케이스", "출격", "기대", "주목", "화제", "제작", "소속사", "대표", "프로듀서", "합류", "멤버", "공식", "단독", "현장", "종합", "리포트", "인터뷰", "포토", "영상", "왔다", "품고", "돌아온다", "출신", "전격", "뉴스핌", "v", "daum", "net", "com", "co", "kr", "스포츠동아", "스타뉴스", "엑스포츠뉴스", "OSEN", "오센", "뉴스엔", "마이데일리", "스타투데이", "뉴스1", "뉴시스", "디스패치", "TV리포트"]);
 
@@ -39,7 +36,6 @@ function extractReleaseDate(title: string): string {
 function extractLikelyProperNouns(title: string): string[] {
   const candidates = new Set<string>();
 
-  // 1. Words enclosed in quotes
   const quoteRegex = /['"‘“](.*?)['"’”]/g;
   let match;
   while ((match = quoteRegex.exec(title)) !== null) {
@@ -47,28 +43,24 @@ function extractLikelyProperNouns(title: string): string[] {
     if (word.length > 1 && !stopWords.has(word)) candidates.add(word);
   }
 
-  // 2. Capitalized English words (e.g. NCT DREAM)
   const engRegex = /([A-Z][a-zA-Z0-9-]*(?:\s+[A-Z][a-zA-Z0-9-]*)*)/g;
   while ((match = engRegex.exec(title)) !== null) {
     const word = match[1].trim();
     if (word.length > 1 && !stopWords.has(word)) candidates.add(word);
   }
 
-  // 3. Words before comma (often subjects in news titles like "세븐틴, ...")
   const commaRegex = /([가-힣A-Za-z0-9]+)\s*,/g;
   while ((match = commaRegex.exec(title)) !== null) {
     const word = match[1].trim();
     if (word.length > 1 && !stopWords.has(word)) candidates.add(word);
   }
 
-  // 4. Words ending with subject particles
   const particleRegex = /([가-힣A-Za-z0-9]+)(은|는|이|가)\s+/g;
   while ((match = particleRegex.exec(title)) !== null) {
     const word = match[1].trim();
     if (word.length > 1 && !stopWords.has(word)) candidates.add(word);
   }
 
-  // 5. Fallback: just look at the very first word in the title after stripping brackets.
   let cleanTitle = title.replace(/\[.*?\]/g, "").trim();
   const firstWord = cleanTitle.split(/\s+/)[0].replace(/['"‘”“’`~!?@#$%^&*_+={}\[\]:;|<>\.\,\/\\…\-]/g, "");
   if (firstWord.length > 1 && !stopWords.has(firstWord)) {
@@ -102,20 +94,17 @@ async function fetchBugsArtistValidation(artistName: string) {
     const artistTypeStr = $detail('table.info tbody tr').text().replace(/\s+/g, ' ');
     const actualName = $detail('header.sectionPadding h1').text().trim();
     
-    // Defense against Bugs Music's fuzzy search returning unrelated artists (e.g. "버스" -> "장범준")
     const isSubstring = actualName.includes(artistName) || artistName.includes(actualName);
     if (!isSubstring) {
       const isGroup = artistTypeStr.includes('그룹');
       const debutYearMatch = artistTypeStr.match(/데뷔 (\d{4})/);
       const debutYear = debutYearMatch ? parseInt(debutYearMatch[1], 10) : 0;
       
-      // If not a substring, only accept if it's a group or debuted recently (>= 2020)
       if (!isGroup && debutYear < 2020) {
         return null;
       }
     }
 
-    // Check if it's an actor/comedian/irrelevant
     if (artistTypeStr.includes('배우') || artistTypeStr.includes('개그맨') || artistTypeStr.includes('방송인')) {
       return null;
     }
@@ -125,7 +114,7 @@ async function fetchBugsArtistValidation(artistName: string) {
     else if (artistTypeStr.includes('(남성)')) gender = 'male';
     else if (artistTypeStr.includes('(혼성)')) gender = 'mixed';
     
-    let type: "group" | "solo" = artistTypeStr.includes('그룹') ? 'group' : 'solo';
+    let type: "group" | "solo" | "unit" = artistTypeStr.includes('그룹') ? 'group' : 'solo';
 
     return { gender, type };
   } catch (e: any) {
@@ -135,33 +124,22 @@ async function fetchBugsArtistValidation(artistName: string) {
 }
 
 async function runWeeklyCrawler() {
-  logger.info("Starting Weekly Discovery Crawler...");
+  logger.info("Starting Weekly Discovery Crawler with Naver News API...");
   
-  // Search specifically for idol/singer comebacks to reduce noise
-  const queryStr = encodeURIComponent(`"컴백" OR "데뷔" OR "신곡" (아이돌 OR 걸그룹 OR 보이그룹 OR 밴드 OR 가수)`);
-  const url = `https://news.google.com/rss/search?q=${queryStr}&hl=ko&gl=KR&ceid=KR:ko`;
-  
-  let allNews = [];
-  try {
-    const feed = await parser.parseURL(url);
-    const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
-    allNews = feed.items.filter(item => item.isoDate && new Date(item.isoDate).getTime() > sevenDaysAgo);
-  } catch (e) {
-    logger.error(`Error fetching weekly news:`, e);
-    process.exit(1);
-  }
+  const allNews = await searchNaverNews("아이돌 컴백", 100);
+  const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+  const recentNews = allNews.filter(item => new Date(item.pubDate).getTime() > sevenDaysAgo);
 
-  logger.info(`Found ${allNews.length} news items in the last 7 days.`);
+  logger.info(`Found ${recentNews.length} relevant news items in the last 7 days.`);
 
-  // Load existing artists + their official YouTube URLs
+  // Load existing artists
   const artistsSnap = await getDocs(collection(db, 'artists'));
   const existingArtistsMap = new Map<string, string>();
-  const artistYoutubeMap = new Map<string, string>(); // artistName -> official youtube URL
+  const artistYoutubeMap = new Map<string, string>(); 
   artistsSnap.docs.forEach(d => {
     const data = d.data();
     const name = typeof data.name === 'object' ? data.name.ko || data.name.en : data.name;
     existingArtistsMap.set(name, d.id);
-    // Official YouTube URL 수집 (socialLinks.youtube 우선)
     const ytUrl = data.socialLinks?.youtube || data.agency?.youtubeUrl;
     if (ytUrl) artistYoutubeMap.set(name, ytUrl);
     if (data.aliases) {
@@ -187,49 +165,50 @@ async function runWeeklyCrawler() {
   const seenCandidates = new Set<string>();
   let newReviewsCount = 0;
 
-  // Pre-sort existing artist keys by length (longest first) to prevent partial matching 
-  // (e.g. finding "우주" when the name is "우주소녀")
   const knownArtistNames = Array.from(existingArtistsMap.keys()).sort((a, b) => b.length - a.length);
 
-  for (const item of allNews) {
-    const title = item.title || "";
-    // Instead of using pubDate, extract actual comeback date from title
-    const releaseDate = extractReleaseDate(title);
-    const releaseType = title.includes("정규") ? "full" : (title.includes("미니") ? "mini" : "single");
+  for (const item of recentNews) {
+    const title = item.title;
+    
+    // Scrape article body for accurate info!
+    const scrapedData = await scrapeNaverNewsContent(item.link);
+    if (!scrapedData) continue; // Skip non-entertain articles
 
-    // --- PAST COMEBACK FILTER ---
+    const releaseDate = scrapedData.releaseDate || extractReleaseDate(title);
+    const releaseType = scrapedData.releaseType || (title.includes("정규") ? "full" : (title.includes("미니") ? "mini" : "single"));
+    const albumCoverUrl = scrapedData.officialImageUrl || "";
+    const artistTypeFromArticle = scrapedData.artistType; // unit, solo, group, band
+
+    // PAST COMEBACK FILTER
     const todayStr = new Date().toISOString().split('T')[0];
     if (releaseDate !== "TBA" && !releaseDate.includes("TBA") && releaseDate < todayStr) {
-      continue; // Skip if explicitly extracted date is in the past
+      continue;
     }
     if (/(발매했다|돌아왔다|컴백했다|데뷔했다|공개했다|마쳤다|성료|마무리)/.test(title)) {
-      continue; // Skip if article is written in past tense
+      continue;
     }
-    // ----------------------------
 
     let foundExistingArtist = false;
 
-    // 1. FAST PATH: Check if any KNOWN artist name is directly in the title
+    // 1. FAST PATH: Existing Artists
     for (const knownName of knownArtistNames) {
-      // Robust Korean word boundary matching:
-      // Preceded by space, start of string, or punctuation/bracket
-      // Followed by space, end of string, punctuation, or common Korean subject/object particles
       const regexStr = `(^|[\\\\s'"\\\\\\[\\\\\\]\\\\(\\\\)⟨⟩«»])` + 
                        knownName.replace(/[-\\/\\\\^$*+?.()|[\\]{}]/g, '\\\\$&') + 
                        `([\\\\s'"\\\\\\[\\\\\\]\\\\(\\\\)⟨⟩«»,.?!]|은|는|이|가|를|을|의|로|와|과|$)`;
       const regex = new RegExp(regexStr);
 
-      if (regex.test(title)) {
+      if (regex.test(title) || regex.test(scrapedData.content.substring(0, 50))) { // Also check start of body
         const artistId = existingArtistsMap.get(knownName);
         const comebackKey = `${knownName}_${releaseDate}`;
         
         if (!existingComebackKeys.has(comebackKey) && !pendingKeys.has(comebackKey)) {
-          logger.info(`🔄 Existing artist ${knownName} is having a comeback! (from: ${title})`);
+          logger.info(`🔄 Existing artist ${knownName} is having a comeback!`);
           
-          // YouTube Community 교차 검증: TBA이거나 정보 부족 시 보강 시도
           let enrichedDate = releaseDate;
           let enrichedType = releaseType;
           let enrichedTitle = "";
+          
+          // YouTube Community 교차 검증 (보강)
           if (releaseDate === "TBA" || releaseDate.includes("TBA")) {
             const officialYtUrl = artistYoutubeMap.get(knownName);
             const ytInfo = await fetchYouTubeCommunityInfo(knownName, officialYtUrl);
@@ -242,7 +221,7 @@ async function runWeeklyCrawler() {
             await new Promise(r => setTimeout(r, 1500));
           }
 
-          const docData = {
+          const docData: any = {
             type: 'existing_artist',
             artistName: knownName,
             artistId: artistId,
@@ -250,19 +229,22 @@ async function runWeeklyCrawler() {
             releaseDate: enrichedDate,
             releaseType: enrichedType,
             sourceTitle: title,
-            sourceLink: item.link || "",
+            sourceLink: item.link,
             createdAt: new Date().toISOString()
           };
+          
+          if (albumCoverUrl) docData.albumCoverUrl = albumCoverUrl;
+
           await addDoc(collection(db, "pending_reviews"), docData);
           newReviewsCount++;
           pendingKeys.add(`${knownName}_${enrichedDate}`);
         }
         foundExistingArtist = true;
-        break; // Found the primary subject, move on (or could allow multiple, but usually 1 main comeback)
+        break;
       }
     }
 
-    // 2. DISCOVERY PATH: If no known artist was found, look for NEW debuting teams using proper noun heuristics
+    // 2. DISCOVERY PATH: New Artists
     if (!foundExistingArtist) {
       const candidates = extractLikelyProperNouns(title);
       
@@ -279,41 +261,50 @@ async function runWeeklyCrawler() {
 
         const bugsInfo = await fetchBugsArtistValidation(candidateName);
         if (bugsInfo) {
-          logger.info(`✅ Verified NEW artist ${candidateName} on Bugs! (from: ${title})`);
+          logger.info(`✅ Verified NEW artist ${candidateName} on Bugs!`);
           
-          // 신규 아티스트도 YouTube Community 교차 검증 시도
           let enrichedDate = releaseDate;
           let enrichedType = releaseType;
           let enrichedTitle = "";
+          
           if (releaseDate === "TBA" || releaseDate.includes("TBA")) {
             const ytInfo = await fetchYouTubeCommunityInfo(candidateName);
             if (ytInfo) {
               if (ytInfo.releaseDate) enrichedDate = ytInfo.releaseDate;
               if (ytInfo.releaseType) enrichedType = ytInfo.releaseType;
               if (ytInfo.title) enrichedTitle = ytInfo.title;
-              logger.info(`📺 YouTube enriched NEW ${candidateName}: date=${enrichedDate}, type=${enrichedType}, title=${enrichedTitle}`);
+              logger.info(`📺 YouTube enriched NEW ${candidateName}: date=${enrichedDate}`);
             }
             await new Promise(r => setTimeout(r, 1500));
           }
 
-          const docData = {
+          // Use the more specific artistType from Naver News if available (e.g. 'unit', 'solo')
+          // Otherwise, fallback to the one from Bugs ('group' or 'solo')
+          const finalArtistType = artistTypeFromArticle && artistTypeFromArticle !== 'band' 
+                                  ? artistTypeFromArticle 
+                                  : bugsInfo.type;
+
+          const docData: any = {
             type: 'new_artist',
             artistName: candidateName,
             artistGender: bugsInfo.gender || 'mixed',
-            artistType: bugsInfo.type,
+            artistType: finalArtistType,
             title: enrichedTitle || undefined,
             releaseDate: enrichedDate,
             releaseType: enrichedType,
             sourceTitle: title,
-            sourceLink: item.link || "",
+            sourceLink: item.link,
             createdAt: new Date().toISOString()
           };
+
+          if (albumCoverUrl) docData.albumCoverUrl = albumCoverUrl;
+
           await addDoc(collection(db, "pending_reviews"), docData);
           newReviewsCount++;
           pendingKeys.add(`${candidateName}_${enrichedDate}`);
-          break; // Found the new artist, move to next news item
+          break; 
         } else {
-          logger.info(`❌ Rejected ${candidateName}: Not found as an active idol/singer on Bugs.`);
+          logger.info(`❌ Rejected ${candidateName}: Not found on Bugs.`);
         }
         
         await new Promise(r => setTimeout(r, 1000));
@@ -322,7 +313,7 @@ async function runWeeklyCrawler() {
   }
 
   if (newReviewsCount > 0) {
-    logger.info(`Found and sent ${newReviewsCount} new pending reviews to Telegram.`);
+    logger.info(`Found and sent ${newReviewsCount} new pending reviews.`);
   } else {
     logger.info("No new comebacks found to review.");
   }

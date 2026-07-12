@@ -1,32 +1,14 @@
 import * as path from "path";
 import * as dotenv from "dotenv";
-import Parser from "rss-parser";
 import { db } from "./lib/firebase-helpers";
 import { logger } from "./lib/logger";
 import { fetchYouTubeCommunityInfo } from "./lib/youtube_scraper";
+import { searchNaverNews, scrapeNaverNewsContent } from "./lib/naver_news_scraper";
 import { collection, getDocs, updateDoc, doc, deleteDoc } from "firebase/firestore";
 import axios from "axios";
 import * as cheerio from "cheerio";
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
-
-const parser = new Parser();
-
-async function fetchPrecisionNews(artistName: string) {
-  const queryStr = encodeURIComponent(`"${artistName}" (트랙리스트 OR 콘셉트 포토 OR 티저 OR 하이라이트 메들리)`);
-  const url = `https://news.google.com/rss/search?q=${queryStr}&hl=ko&gl=KR&ceid=KR:ko`;
-  
-  try {
-    const feed = await parser.parseURL(url);
-    const threeDaysAgo = Date.now() - (3 * 24 * 60 * 60 * 1000);
-    return feed.items
-      .filter(item => item.isoDate && new Date(item.isoDate).getTime() > threeDaysAgo)
-      .map(item => ({ title: item.title, link: item.link, pubDate: item.pubDate }));
-  } catch (e) {
-    logger.error(`Error fetching precision news for ${artistName}:`, e);
-    return [];
-  }
-}
 
 async function verifyBugsAlbum(artistName: string, expectedReleaseDate: string) {
   try {
@@ -35,7 +17,6 @@ async function verifyBugsAlbum(artistName: string, expectedReleaseDate: string) 
     const res = await axios.get(url, { timeout: 5000 });
     const $ = cheerio.load(res.data);
     
-    // Check top 3 albums to see if any match the artist name roughly
     let foundAlbum = null;
     $("div#albumList table.list.albumList tbody tr").slice(0, 3).each((i, el) => {
       const rowArtist = $(el).find("p.artist a").text().trim();
@@ -44,9 +25,9 @@ async function verifyBugsAlbum(artistName: string, expectedReleaseDate: string) 
           albumId: $(el).attr("albumid"),
           title: $(el).find("p.title a").text().trim(),
           coverUrl: $(el).find("a.thumbnail img").attr("src"),
-          releaseDateStr: $(el).find("time").text().trim() // Sometimes present
+          releaseDateStr: $(el).find("time").text().trim() 
         };
-        return false; // break loop
+        return false; 
       }
     });
 
@@ -58,7 +39,7 @@ async function verifyBugsAlbum(artistName: string, expectedReleaseDate: string) 
 }
 
 async function runDailyCrawler() {
-  logger.info("Starting Daily Precision Crawler...");
+  logger.info("Starting Daily Precision Crawler with Naver News API...");
   
   const today = new Date();
   const nextWeek = new Date();
@@ -73,7 +54,6 @@ async function runDailyCrawler() {
 
   const comebacksSnap = await getDocs(collection(db, 'comebacks'));
 
-  // Artist DB에서 official YouTube URL 로드
   const artistsSnap = await getDocs(collection(db, 'artists'));
   const artistYoutubeMap = new Map<string, string>();
   artistsSnap.docs.forEach(d => {
@@ -86,9 +66,8 @@ async function runDailyCrawler() {
   for (const cDoc of comebacksSnap.docs) {
     const data = cDoc.data();
     
-    // Check if released (Date has passed or is today)
+    // 1. Check if released (Date has passed or is today)
     if (data.releaseDate !== "TBA" && data.releaseDate <= todayStr && !data.isReleased) {
-      // If the date is older than 1 week and still not verified, it's a fake/cancelled comeback. Delete it without calling Bugs API.
       if (data.releaseDate < pastWeekStr) {
         logger.info(`❌ [STALE] Comeback for ${data.artistName} (${data.releaseDate}) is older than 1 week. Deleting to save API calls.`);
         await deleteDoc(doc(db, "comebacks", cDoc.id));
@@ -115,39 +94,71 @@ async function runDailyCrawler() {
       continue;
     }
 
-    // Check if approaching within 1 week
-    if (data.releaseDate >= todayStr && data.releaseDate <= nextWeekStr) {
-      logger.info(`[APPROACHING] Fetching precise teaser info for: "${data.artistName}"`);
-      const news = await fetchPrecisionNews(data.artistName);
-      
-      if (news.length > 0) {
-        logger.info(`Found ${news.length} new teasers/info for ${data.artistName}!`);
-        await updateDoc(doc(db, "comebacks", cDoc.id), {
-          lastTeaserUpdate: new Date().toISOString(),
-          recentNews: news.slice(0, 3) // Store top 3 latest updates
-        });
-      }
+    const needsEnrichment = !data.isReleased && (
+      data.title === "TBA" || !data.title || 
+      data.releaseDate?.includes("TBA") || 
+      !data.albumCoverUrl
+    );
+    const isApproaching = data.releaseDate >= todayStr && data.releaseDate <= nextWeekStr;
 
-      await new Promise(r => setTimeout(r, 1000));
-    }
-
-    // YouTube Community 보강: title이 TBA이거나 날짜가 불명확한 항목
-    if (!data.isReleased && (data.title === "TBA" || !data.title || data.releaseDate?.includes("TBA"))) {
-      logger.info(`[📺 YT ENRICH] Checking YouTube Community for ${data.artistName}...`);
-      const officialYtUrl = artistYoutubeMap.get(data.artistName);
-      const ytInfo = await fetchYouTubeCommunityInfo(data.artistName, officialYtUrl);
+    if (needsEnrichment || isApproaching) {
+      logger.info(`[ENRICH] Searching Naver News to enrich ${data.artistName}...`);
       
-      if (ytInfo) {
-        const updates: Record<string, any> = {};
-        if (ytInfo.title && (!data.title || data.title === "TBA")) updates.title = ytInfo.title;
-        if (ytInfo.releaseDate && (!data.releaseDate || data.releaseDate.includes("TBA"))) updates.releaseDate = ytInfo.releaseDate;
-        if (ytInfo.releaseType && (!data.releaseType || data.releaseType === "single")) updates.releaseType = ytInfo.releaseType;
+      const newsItems = await searchNaverNews(`"${data.artistName}" 컴백 OR 데뷔 OR 신곡`, 5);
+      let enriched = false;
+      let updates: Record<string, any> = {};
+
+      for (const news of newsItems) {
+        const scraped = await scrapeNaverNewsContent(news.link);
+        if (!scraped) continue;
+
+        if (!data.albumCoverUrl && !updates.albumCoverUrl && scraped.officialImageUrl) {
+           updates.albumCoverUrl = scraped.officialImageUrl;
+        }
         
+        if (data.releaseDate?.includes("TBA") && scraped.releaseDate && !scraped.releaseDate.includes("TBA") && !updates.releaseDate) {
+           updates.releaseDate = scraped.releaseDate;
+        }
+
+        if (data.releaseType === "unknown" && scraped.releaseType && !updates.releaseType) {
+           updates.releaseType = scraped.releaseType;
+        }
+
         if (Object.keys(updates).length > 0) {
-          logger.info(`[📺 YT ENRICH] Updated ${data.artistName}: ${JSON.stringify(updates)}`);
-          await updateDoc(doc(db, "comebacks", cDoc.id), updates);
+          enriched = true;
+          // Gather top 3 recent news for display
+          if (isApproaching) {
+            updates.recentNews = newsItems.slice(0, 3).map(n => ({ title: n.title, link: n.link, pubDate: n.pubDate }));
+            updates.lastTeaserUpdate = new Date().toISOString();
+          }
+          break; // Found the missing pieces, stop parsing more articles
         }
       }
+
+      if (Object.keys(updates).length > 0) {
+        logger.info(`[✅ NAVER ENRICH] Updated ${data.artistName}: ${JSON.stringify(updates)}`);
+        await updateDoc(doc(db, "comebacks", cDoc.id), updates);
+      }
+
+      // 2. YouTube Community Fallback (If Naver failed to find missing date/title)
+      if (needsEnrichment && (!enriched || data.releaseDate?.includes("TBA") || data.title === "TBA")) {
+         logger.info(`[📺 YT ENRICH] Naver didn't have full info, falling back to YouTube Community for ${data.artistName}...`);
+         const officialYtUrl = artistYoutubeMap.get(data.artistName);
+         const ytInfo = await fetchYouTubeCommunityInfo(data.artistName, officialYtUrl);
+         
+         if (ytInfo) {
+           const ytUpdates: Record<string, any> = {};
+           if (ytInfo.title && (!data.title || data.title === "TBA")) ytUpdates.title = ytInfo.title;
+           if (ytInfo.releaseDate && (!data.releaseDate || data.releaseDate.includes("TBA") || updates.releaseDate?.includes("TBA"))) ytUpdates.releaseDate = ytInfo.releaseDate;
+           if (ytInfo.releaseType && (!data.releaseType || data.releaseType === "unknown")) ytUpdates.releaseType = ytInfo.releaseType;
+           
+           if (Object.keys(ytUpdates).length > 0) {
+             logger.info(`[📺 YT ENRICH] Updated ${data.artistName}: ${JSON.stringify(ytUpdates)}`);
+             await updateDoc(doc(db, "comebacks", cDoc.id), ytUpdates);
+           }
+         }
+      }
+
       await new Promise(r => setTimeout(r, 1500));
     }
   }
