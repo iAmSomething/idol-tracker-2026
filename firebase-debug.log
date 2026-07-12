@@ -1,0 +1,16 @@
+[debug] [2026-07-12T08:32:25.351Z] ----------------------------------------------------------------------
+[debug] [2026-07-12T08:32:25.352Z] Command:       /opt/homebrew/Cellar/node/25.8.0/bin/node /opt/homebrew/bin/firebase deploy --only hosting --project idol-tracker-2026
+[debug] [2026-07-12T08:32:25.352Z] CLI Version:   15.20.0
+[debug] [2026-07-12T08:32:25.352Z] Platform:      darwin
+[debug] [2026-07-12T08:32:25.353Z] Node Version:  v25.8.0
+[debug] [2026-07-12T08:32:25.353Z] Time:          Sun Jul 12 2026 17:32:25 GMT+0900 (Korean Standard Time)
+[debug] [2026-07-12T08:32:25.353Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-07-12T08:32:26.084Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-07-12T08:32:26.084Z] > authorizing via signed-in user (st939823@gmail.com)
+[debug] [2026-07-12T08:32:26.085Z] [iam] checking project idol-tracker-2026 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-07-12T08:32:26.085Z] Checked if tokens are valid: true, expires at: 1783848566711
+[debug] [2026-07-12T08:32:26.085Z] Checked if tokens are valid: true, expires at: 1783848566711
+[debug] [2026-07-12T08:32:26.086Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/idol-tracker-2026:testIamPermissions [none]
+[debug] [2026-07-12T08:32:26.086Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/idol-tracker-2026:testIamPermissions  x-goog-user-project=idol-tracker-2026
+[debug] [2026-07-12T08:32:26.086Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/idol-tracker-2026:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}

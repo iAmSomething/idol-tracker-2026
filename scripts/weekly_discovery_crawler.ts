@@ -35,9 +35,7 @@ async function sendTelegramReviewMessage(docId: string, data: any) {
       reply_markup: {
         inline_keyboard: [
           [
-            { text: "✅ 통과", callback_data: `APPROVE_${docId}` },
-            { text: "✏️ 수정", callback_data: `EDIT_${docId}` },
-            { text: "❌ 거부", callback_data: `REJECT_${docId}` }
+            { text: "대시보드에서 처리하기 ➡️", url: "https://idol-tracker-2026.web.app/admin" }
           ]
         ]
       }
