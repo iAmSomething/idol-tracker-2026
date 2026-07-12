@@ -10,16 +10,8 @@ const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 async function fetchOfficialMVs() {
   logger.info("🎬 Fetching Official MVs for missing links (Cost Optimized)...");
   
-  // 1. Fetch only comebacks released in the last 180 days + future comebacks
-  const dateLimit = new Date();
-  dateLimit.setDate(dateLimit.getDate() - 180);
-  const dateLimitStr = dateLimit.toISOString().split('T')[0];
-
-  logger.info(`Querying comebacks released on or after ${dateLimitStr}...`);
-  const comebacksQuery = query(
-    collection(db, "comebacks"), 
-    where("releaseDate", ">=", dateLimitStr)
-  );
+  logger.info(`Querying all comebacks...`);
+  const comebacksQuery = query(collection(db, "comebacks"));
   
   const snapshot = await getDocs(comebacksQuery);
   const comebacks = snapshot.docs.map(d => ({ id: d.id, ...d.data() as any }));

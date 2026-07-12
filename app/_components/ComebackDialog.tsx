@@ -136,6 +136,23 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
               />
             )}
             <div>
+              {comeback.parentGroupId && comeback.parentGroupName && (
+                <Link 
+                  href={`/artist?id=${comeback.parentGroupId}`}
+                  onClick={onClose}
+                  style={{
+                    display: "block",
+                    margin: "0 0 2px 0",
+                    fontSize: "0.8rem",
+                    fontWeight: 600,
+                    color: "var(--text-secondary)",
+                    textDecoration: "none"
+                  }}
+                  className="hover:text-accent"
+                >
+                  {comeback.parentGroupName}
+                </Link>
+              )}
               <Link 
                 href={`/artist?id=${comeback.artistId}`}
                 onClick={onClose}

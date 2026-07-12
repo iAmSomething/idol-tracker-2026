@@ -13,6 +13,7 @@ export default function CalendarGrid({ searchQuery }: { searchQuery: string }) {
   const [loading, setLoading] = useState(true);
   const [selectedComeback, setSelectedComeback] = useState<ProcessedComeback | null>(null);
   const [filterType, setFilterType] = useState<"all" | "group" | "solo" | "unit">("all");
+  const [genderFilter, setGenderFilter] = useState<"all" | "male" | "female" | "mixed">("all");
   
   const [currentMonth, setCurrentMonth] = useState(new Date(2026, 6, 1)); 
 
@@ -127,6 +128,12 @@ export default function CalendarGrid({ searchQuery }: { searchQuery: string }) {
         <button className={`filter-chip ${filterType === 'solo' ? 'active' : ''}`} onClick={() => setFilterType('solo')}>Solo</button>
         <button className={`filter-chip ${filterType === 'unit' ? 'active' : ''}`} onClick={() => setFilterType('unit')}>Unit</button>
       </div>
+      <div className="filters-wrapper" style={{ marginTop: '8px' }}>
+        <button className={`filter-chip ${genderFilter === 'all' ? 'active' : ''}`} onClick={() => setGenderFilter('all')}>전체 성별</button>
+        <button className={`filter-chip ${genderFilter === 'male' ? 'active' : ''}`} onClick={() => setGenderFilter('male')}>보이그룹(남)</button>
+        <button className={`filter-chip ${genderFilter === 'female' ? 'active' : ''}`} onClick={() => setGenderFilter('female')}>걸그룹(여)</button>
+        <button className={`filter-chip ${genderFilter === 'mixed' ? 'active' : ''}`} onClick={() => setGenderFilter('mixed')}>혼성</button>
+      </div>
 
       <div className="calendar-header">
         <button className="btn" onClick={prevMonth}>&larr; Prev</button>
@@ -149,13 +156,14 @@ export default function CalendarGrid({ searchQuery }: { searchQuery: string }) {
             
             // Assume artistType exists on Comeback or default to matching all if undefined for now
             const typeMatch = filterType === 'all' ? true : (c.artistType?.toLowerCase() === filterType);
+            const genderMatch = genderFilter === 'all' ? true : (c.artistGender?.toLowerCase() === genderFilter);
             
             // Match artist name or album title
             const searchMatch = !searchQuery || 
                                 (c.artistName && c.artistName.toLowerCase().includes(searchQuery.toLowerCase())) || 
                                 (c.albumTitle && c.albumTitle.toLowerCase().includes(searchQuery.toLowerCase()));
             
-            return dateMatch && typeMatch && searchMatch;
+            return dateMatch && typeMatch && genderMatch && searchMatch;
           });
 
           return (

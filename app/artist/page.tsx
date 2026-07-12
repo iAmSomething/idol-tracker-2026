@@ -177,6 +177,11 @@ function ArtistDetailContent() {
               <span className="filter-chip active" style={{ padding: '4px 10px', fontSize: '0.75rem', borderRadius: '4px', cursor: 'default' }}>
                 {artist.type === 'group' ? 'Group' : artist.type === 'solo' ? 'Solo' : 'Unit'}
               </span>
+              {artist.gender && (
+                <span style={{ padding: '4px 10px', fontSize: '0.75rem', borderRadius: '4px', cursor: 'default', background: 'var(--surface-hover)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', fontWeight: 600 }}>
+                  {artist.gender === 'male' ? '남성 (Male)' : artist.gender === 'female' ? '여성 (Female)' : '혼성 (Mixed)'}
+                </span>
+              )}
               {artist.isActive ? (
                 <span style={{ fontSize: '0.75rem', padding: '3px 8px', backgroundColor: 'rgba(16, 185, 129, 0.1)', color: '#10b981', border: '1px solid #10b981', borderRadius: '4px', fontWeight: 600 }}>
                   Active
@@ -197,6 +202,15 @@ function ArtistDetailContent() {
 
             {/* Basic Info */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', borderTop: '1px solid var(--border-color)', paddingTop: '20px' }}>
+              {artist.parentGroupId && artist.parentGroupName && (
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', fontSize: '0.95rem' }}>
+                  <FaUsers size={16} color="var(--text-secondary)" />
+                  <span style={{ color: 'var(--text-secondary)', width: '70px' }}>소속 그룹</span>
+                  <Link href={`/artist?id=${artist.parentGroupId}`} style={{ fontWeight: 600, color: 'var(--text-primary)', textDecoration: 'underline' }} className="hover:text-accent">
+                    {artist.parentGroupName}
+                  </Link>
+                </div>
+              )}
               {agencyName && (
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'center', fontSize: '0.95rem' }}>
                   <FaBuilding size={16} color="var(--text-secondary)" />
@@ -211,6 +225,67 @@ function ArtistDetailContent() {
                   <span style={{ fontWeight: 600 }}>{artist.generation}세대 K-Pop</span>
                 </div>
               )}
+            </div>
+
+            {/* Playlists / Digging */}
+            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '20px', marginTop: '20px' }}>
+              <h3 style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '12px', fontWeight: 600 }}>아티스트 디깅 (전체 재생목록)</h3>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <a 
+                  href={`https://music.youtube.com/search?q=${encodeURIComponent(artist.name.ko + ' 재생목록')}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    background: 'rgba(255, 0, 0, 0.1)',
+                    color: '#FF0000',
+                    borderColor: 'rgba(255, 0, 0, 0.2)',
+                    fontWeight: 600,
+                    fontSize: '0.85rem'
+                  }}
+                >
+                  <FaYoutube size={16} /> YouTube Music
+                </a>
+                <a 
+                  href={`https://www.melon.com/search/song/index.htm?q=${encodeURIComponent(artist.name.ko)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    background: 'rgba(0, 205, 60, 0.1)',
+                    color: '#00CD3C',
+                    borderColor: 'rgba(0, 205, 60, 0.2)',
+                    fontWeight: 600,
+                    fontSize: '0.85rem'
+                  }}
+                >
+                  Melon (멜론)
+                </a>
+                <a 
+                  href={`https://music.bugs.co.kr/search/track?q=${encodeURIComponent(artist.name.ko)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    background: 'rgba(255, 60, 0, 0.1)',
+                    color: '#FF3C00',
+                    borderColor: 'rgba(255, 60, 0, 0.2)',
+                    fontWeight: 600,
+                    fontSize: '0.85rem'
+                  }}
+                >
+                  Bugs (벅스)
+                </a>
+              </div>
             </div>
 
             {/* Aliases */}

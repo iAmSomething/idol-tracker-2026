@@ -19,9 +19,12 @@ export interface Artist {
     en: string;               
     aliases: string[];        
   };
+  gender?: "male" | "female" | "mixed";
   generation: number;         
   type: "group" | "solo" | "unit";
   parentGroup?: string | null;
+  parentGroupId?: string;
+  parentGroupName?: string;
   members: { name: string; artistId?: string }[];          
   recentComebackId?: string;
   comebackIds?: string[];
@@ -89,7 +92,10 @@ export interface Comeback {
   id: string;
   artistId: string;
   artistName: string;
+  artistGender?: "male" | "female" | "mixed";
   artistType: "group" | "solo" | "unit" | "unknown";
+  parentGroupName?: string;
+  parentGroupId?: string;
   agencyName: string;
   albumTitle: string; // Renamed from title to albumTitle
   titleTracks: {
