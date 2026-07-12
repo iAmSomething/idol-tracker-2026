@@ -64,14 +64,20 @@ async function runWeeklyCrawler() {
 
   // Load existing artists
   const artistsSnap = await getDocs(collection(db, 'artists'));
-  const existingArtists = new Set<string>();
+  const existingArtistsMap = new Map<string, string>();
   artistsSnap.docs.forEach(d => {
     const data = d.data();
     const name = typeof data.name === 'object' ? data.name.ko || data.name.en : data.name;
-    existingArtists.add(name);
+    existingArtistsMap.set(name, d.id);
     if (data.aliases) {
-      data.aliases.forEach((a: string) => existingArtists.add(a));
+      data.aliases.forEach((a: string) => existingArtistsMap.set(a, d.id));
     }
+  });
+
+  const existingComebacksSnap = await getDocs(collection(db, 'comebacks'));
+  const existingComebackKeys = new Set<string>();
+  existingComebacksSnap.docs.forEach(d => {
+    existingComebackKeys.add(`${d.data().artistName}_${d.data().releaseDate}`);
   });
 
   const seenCandidates = new Set<string>();
@@ -85,41 +91,54 @@ async function runWeeklyCrawler() {
     if (match) {
       const candidateName = match[1].trim();
       
-      if (candidateName.length < 2 || seenCandidates.has(candidateName) || existingArtists.has(candidateName)) {
+      if (candidateName.length < 2 || seenCandidates.has(candidateName)) {
         continue;
       }
       seenCandidates.add(candidateName);
 
-      logger.info(`Candidate new artist found in news: ${candidateName} (from: ${title})`);
+      logger.info(`Candidate artist found in news: ${candidateName} (from: ${title})`);
       
-      // Verify with Bugs Music to ensure it's not a random word or actor
-      const bugsInfo = await fetchBugsArtistValidation(candidateName);
-      
-      if (bugsInfo) {
-        logger.info(`✅ Verified ${candidateName} as a real music artist! Gender: ${bugsInfo.gender}, Type: ${bugsInfo.type}`);
-        
-        // Register new artist
-        const artistRef = await addDoc(collection(db, "artists"), {
-          name: { ko: candidateName, en: candidateName },
-          type: bugsInfo.type,
-          gender: bugsInfo.gender || 'mixed',
-          createdAt: new Date().toISOString()
-        });
+      const releaseDate = item.pubDate ? new Date(item.pubDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+      const comebackKey = `${candidateName}_${releaseDate}`;
 
-        // Register their comeback
-        const releaseType = title.includes("정규") ? "full" : (title.includes("미니") ? "mini" : "single");
-        await addDoc(collection(db, "comebacks"), {
-          artistName: candidateName,
-          artistId: artistRef.id,
-          title: "TBA", // Will be filled by daily precision crawler
-          releaseDate: item.pubDate ? new Date(item.pubDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
-          releaseType: releaseType,
-          agencyName: "Unknown",
-          createdAt: new Date().toISOString(),
-        });
-      } else {
-        logger.info(`❌ Rejected ${candidateName}: Not found as an active idol/singer on Bugs.`);
+      if (existingComebackKeys.has(comebackKey)) {
+        continue; // Already tracked this exact comeback
       }
+
+      const releaseType = title.includes("정규") ? "full" : (title.includes("미니") ? "mini" : "single");
+      let artistId = existingArtistsMap.get(candidateName);
+
+      if (!artistId) {
+        // New artist, verify with Bugs Music
+        const bugsInfo = await fetchBugsArtistValidation(candidateName);
+        if (bugsInfo) {
+          logger.info(`✅ Verified NEW artist ${candidateName} on Bugs!`);
+          const artistRef = await addDoc(collection(db, "artists"), {
+            name: { ko: candidateName, en: candidateName },
+            type: bugsInfo.type,
+            gender: bugsInfo.gender || 'mixed',
+            createdAt: new Date().toISOString()
+          });
+          artistId = artistRef.id;
+        } else {
+          logger.info(`❌ Rejected ${candidateName}: Not found as an active idol/singer on Bugs.`);
+          continue;
+        }
+      } else {
+        logger.info(`🔄 Existing artist ${candidateName} is having a comeback!`);
+      }
+
+      // Register their comeback
+      await addDoc(collection(db, "comebacks"), {
+        artistName: candidateName,
+        artistId: artistId,
+        title: "TBA", // Will be filled by daily precision crawler
+        releaseDate: releaseDate,
+        releaseType: releaseType,
+        agencyName: "Unknown",
+        createdAt: new Date().toISOString(),
+      });
+      existingComebackKeys.add(comebackKey); // prevent dupes in same run
       
       await new Promise(r => setTimeout(r, 1000));
     }
