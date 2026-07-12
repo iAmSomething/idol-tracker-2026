@@ -65,10 +65,23 @@ async function resolveChannelId(
 }
 
 /**
+ * 콘서트/이벤트/팬미팅 등 컴백과 무관한 포스트를 걸러내는 블랙리스트 키워드
+ */
+const NON_COMEBACK_KEYWORDS = /\b(LIVE|CONCERT|TOUR|ANNIVERSARY|FAN\s*MEETING|FANMEETING|팬미팅|콘서트|투어|라이브|공연|EXHIBITION|전시|SUPER\s*SHOW|WORLD\s*TOUR|ENCORE|앙코르)\b/i;
+
+/**
  * 커뮤니티 포스트 텍스트에서 앨범명, 발매일, 발매 타입을 정규식으로 추출한다.
  */
-function extractInfoFromPost(text: string): YouTubeExtractedInfo {
+function extractInfoFromPost(text: string, artistName?: string, channelName?: string): YouTubeExtractedInfo {
   const result: YouTubeExtractedInfo = {};
+
+  // 콘서트/이벤트 포스트는 즉시 스킵
+  if (NON_COMEBACK_KEYWORDS.test(text)) {
+    return result;
+  }
+
+  // 아티스트명/채널명 매칭용 이름 목록
+  const nameVariants = [artistName, channelName].filter(Boolean) as string[];
 
   // 1. 날짜 추출 (다양한 포맷 지원)
   // Format: 2026.07.16, 2026-07-16, 2026/07/16
@@ -104,7 +117,10 @@ function extractInfoFromPost(text: string): YouTubeExtractedInfo {
     const candidate = quotedMatch[1].trim();
     // 해시태그나 날짜가 아닌지 확인
     if (!candidate.match(/^\d{4}/) && !candidate.startsWith('#')) {
-      result.title = candidate;
+      // 아티스트명과 동일한 텍스트는 앨범명이 아님
+      if (!nameVariants.some(n => isSimilarToArtistName(candidate, n))) {
+        result.title = candidate;
+      }
     }
   }
   
@@ -113,7 +129,9 @@ function extractInfoFromPost(text: string): YouTubeExtractedInfo {
     const unicodeMatch = text.match(/[⎮|]\s*([^\n]{2,30})\n/);
     if (unicodeMatch) {
       const candidate = unicodeMatch[1].trim();
-      if (candidate.length > 1 && !candidate.match(/^(Concept|Track|Highlight|Schedule)/i)) {
+      if (candidate.length > 1 && 
+          !candidate.match(/^(Concept|Track|Highlight|Schedule)/i) &&
+          !nameVariants.some(n => isSimilarToArtistName(candidate, n))) {
         result.title = candidate;
       }
     }
@@ -128,7 +146,8 @@ function extractInfoFromPost(text: string): YouTubeExtractedInfo {
         const cleaned = tag.replace('#', '');
         // 일반적인 아티스트 관련 해시태그 제외
         if (cleaned.length > 2 && 
-            !cleaned.match(/^(컴백|데뷔|컨셉포토|트랙리스트|하이라이트|스케줄|Concept|Track|Schedule|Photo|Teaser|MV|뮤비)/i)) {
+            !cleaned.match(/^(컴백|데뷔|컨셉포토|트랙리스트|하이라이트|스케줄|Concept|Track|Schedule|Photo|Teaser|MV|뮤비)/i) &&
+            !nameVariants.some(n => isSimilarToArtistName(cleaned, n))) {
           // 이것이 앨범명일 가능성이 있으면 저장 (나중에 다른 포스트와 교차 확인)
           if (!result.title) result.title = cleaned;
         }
@@ -137,6 +156,17 @@ function extractInfoFromPost(text: string): YouTubeExtractedInfo {
   }
 
   return result;
+}
+
+/**
+ * 추출된 타이틀이 아티스트명과 유사한지 체크 (채널명을 앨범명으로 오인하는 것을 방지)
+ */
+function isSimilarToArtistName(title: string, artistName: string): boolean {
+  const normalizedTitle = title.toLowerCase().replace(/[^a-z0-9가-힣]/g, '');
+  const normalizedArtist = artistName.toLowerCase().replace(/[^a-z0-9가-힣]/g, '');
+  return normalizedTitle === normalizedArtist || 
+         normalizedTitle.includes(normalizedArtist) || 
+         normalizedArtist.includes(normalizedTitle);
 }
 
 /**
@@ -161,6 +191,7 @@ export async function fetchYouTubeCommunityInfo(
     }
 
     const channel = await youtube.getChannel(channelId);
+    const channelName = channel.metadata?.title || "";
     const community = await channel.getCommunity();
 
     if (!community.posts || community.posts.length === 0) {
@@ -197,7 +228,17 @@ export async function fetchYouTubeCommunityInfo(
         // hours, minutes, "방금" 등은 7일 이내이므로 통과
       }
 
-      const extracted = extractInfoFromPost(text);
+      const extracted = extractInfoFromPost(text, artistName, channelName);
+
+      // 추출된 날짜가 과거이면 무시 (이미 지난 이벤트/발매)
+      if (extracted.releaseDate) {
+        const todayStr = new Date().toISOString().split('T')[0];
+        if (extracted.releaseDate < todayStr) {
+          extracted.releaseDate = undefined;
+          // 날짜가 과거이면 해당 포스트의 타이틀/타입도 신뢰도가 낮으므로 스킵
+          continue;
+        }
+      }
 
       // 합산: 빈 필드만 채움
       if (extracted.title && !aggregated.title) aggregated.title = extracted.title;
