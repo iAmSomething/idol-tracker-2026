@@ -189,6 +189,16 @@ async function runWeeklyCrawler() {
     const releaseDate = extractReleaseDate(title);
     const releaseType = title.includes("정규") ? "full" : (title.includes("미니") ? "mini" : "single");
 
+    // --- PAST COMEBACK FILTER ---
+    const todayStr = new Date().toISOString().split('T')[0];
+    if (releaseDate !== "TBA" && !releaseDate.includes("TBA") && releaseDate < todayStr) {
+      continue; // Skip if explicitly extracted date is in the past
+    }
+    if (/(발매했다|돌아왔다|컴백했다|데뷔했다|공개했다|마쳤다|성료|마무리)/.test(title)) {
+      continue; // Skip if article is written in past tense
+    }
+    // ----------------------------
+
     let foundExistingArtist = false;
 
     // 1. FAST PATH: Check if any KNOWN artist name is directly in the title

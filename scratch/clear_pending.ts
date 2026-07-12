@@ -1,18 +1,11 @@
-import * as path from "path";
-import * as dotenv from "dotenv";
-import { db } from "../scripts/lib/firebase-helpers";
-import { collection, getDocs, deleteDoc } from "firebase/firestore";
-
-dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { db } from "../app/firebase";
 
 async function clearPending() {
-  console.log("Clearing pending_reviews...");
   const snap = await getDocs(collection(db, "pending_reviews"));
   for (const d of snap.docs) {
-    await deleteDoc(d.ref);
+    await deleteDoc(doc(db, "pending_reviews", d.id));
   }
-  console.log(`Cleared ${snap.docs.length} documents.`);
-  process.exit(0);
+  console.log(`Cleared ${snap.size} pending reviews.`);
 }
-
 clearPending();
