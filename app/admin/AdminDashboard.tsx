@@ -8,6 +8,7 @@ import styles from "./Admin.module.css";
 function ReviewCard({ r, handleApprove, handleReject }: { r: any, handleApprove: (r: any) => void, handleReject: (r: any, reason: string) => void }) {
   const [releaseDate, setReleaseDate] = useState(r.releaseDate);
   const [releaseType, setReleaseType] = useState(r.releaseType);
+  const [albumTitle, setAlbumTitle] = useState(r.title || "TBA");
   const [rejectReason, setRejectReason] = useState("not_comeback");
 
   return (
@@ -16,12 +17,22 @@ function ReviewCard({ r, handleApprove, handleReject }: { r: any, handleApprove:
       <h2 className={styles.artistName}>{r.artistName}</h2>
       <div className={styles.details}>
         <p>
+          <strong>앨범명: </strong> 
+          <input 
+            type="text" 
+            value={albumTitle} 
+            onChange={e => setAlbumTitle(e.target.value)} 
+            placeholder="TBA"
+            style={{ padding: '4px', borderRadius: '4px', border: '1px solid #1f1e1c', background: '#0b0a09', color: '#f5f4f2', marginBottom: '8px' }}
+          />
+        </p>
+        <p>
           <strong>발매일: </strong> 
           <input 
             type="text" 
             value={releaseDate} 
             onChange={e => setReleaseDate(e.target.value)} 
-            style={{ padding: '4px', borderRadius: '4px', border: '1px solid #1f1e1c', background: '#0b0a09', color: '#f5f4f2' }}
+            style={{ padding: '4px', borderRadius: '4px', border: '1px solid #1f1e1c', background: '#0b0a09', color: '#f5f4f2', marginBottom: '8px' }}
           />
         </p>
         <p>
@@ -42,7 +53,7 @@ function ReviewCard({ r, handleApprove, handleReject }: { r: any, handleApprove:
         <p className={styles.source}><strong>출처 기사:</strong> {r.sourceTitle}</p>
       </div>
       <div className={styles.actions} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <button className={styles.approveBtn} onClick={() => handleApprove({ ...r, releaseDate, releaseType })}>Approve ✅</button>
+        <button className={styles.approveBtn} onClick={() => handleApprove({ ...r, releaseDate, releaseType, title: albumTitle })}>Approve ✅</button>
         
         <div style={{ display: 'flex', gap: '8px' }}>
           <select 
@@ -91,7 +102,7 @@ export default function AdminDashboard() {
       await addDoc(collection(db, "comebacks"), {
         artistName: review.artistName,
         artistId: artistId,
-        title: "TBA",
+        title: review.title || "TBA",
         releaseDate: review.releaseDate,
         releaseType: review.releaseType,
         agencyName: "Unknown",
