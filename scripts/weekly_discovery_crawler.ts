@@ -7,24 +7,7 @@ import { collection, addDoc, getDocs, updateDoc, doc, query, where } from "fireb
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
-async function sendTelegramMessage(message: string) {
-  const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!botToken || !chatId) {
-    logger.warn("TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is missing. Skipping Telegram notification.");
-    return;
-  }
-  try {
-    await axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      chat_id: chatId,
-      text: message,
-      parse_mode: 'HTML'
-    });
-    logger.info("Telegram notification sent.");
-  } catch (e: any) {
-    logger.error(`Failed to send Telegram message: ${e.message}`);
-  }
-}
+// Telegram logic is now handled by scripts/telegram_bot.ts daemon
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
@@ -68,7 +51,21 @@ async function fetchBugsArtistValidation(artistName: string) {
     const detailRes = await axios.get(detailUrl, { timeout: 5000 });
     const $detail = cheerio.load(detailRes.data);
     const artistTypeStr = $detail('table.info tbody tr').text().replace(/\s+/g, ' ');
+    const actualName = $detail('header.sectionPadding h1').text().trim();
     
+    // Defense against Bugs Music's fuzzy search returning unrelated artists (e.g. "버스" -> "장범준")
+    const isSubstring = actualName.includes(artistName) || artistName.includes(actualName);
+    if (!isSubstring) {
+      const isGroup = artistTypeStr.includes('그룹');
+      const debutYearMatch = artistTypeStr.match(/데뷔 (\d{4})/);
+      const debutYear = debutYearMatch ? parseInt(debutYearMatch[1], 10) : 0;
+      
+      // If not a substring, only accept if it's a group or debuted recently (>= 2020)
+      if (!isGroup && debutYear < 2020) {
+        return null;
+      }
+    }
+
     // Check if it's an actor/comedian/irrelevant
     if (artistTypeStr.includes('배우') || artistTypeStr.includes('개그맨') || artistTypeStr.includes('방송인')) {
       return null;
@@ -197,13 +194,7 @@ async function runWeeklyCrawler() {
   }
 
   if (newReviewsCount > 0) {
-    const appUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    await sendTelegramMessage(
-      `🔔 <b>[IDOL TRACKER] 신규 컴백/데뷔 알림!</b>\n\n` +
-      `발견된 항목: <b>${newReviewsCount}건</b>\n` +
-      `크롤러가 새 데이터를 발견했습니다. 라이브 서버에 반영하려면 검토 후 승인해주세요.\n\n` +
-      `👉 <a href="${appUrl}/admin">Admin 페이지로 이동</a>`
-    );
+    logger.info(`Found ${newReviewsCount} new pending reviews. telegram_bot.ts daemon will notify the admin.`);
   } else {
     logger.info("No new comebacks found to review.");
   }
