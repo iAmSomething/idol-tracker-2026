@@ -5,6 +5,64 @@ import { collection, onSnapshot, doc, deleteDoc, addDoc } from "firebase/firesto
 import { db } from "../firebase";
 import styles from "./Admin.module.css";
 
+function ReviewCard({ r, handleApprove, handleReject }: { r: any, handleApprove: (r: any) => void, handleReject: (r: any, reason: string) => void }) {
+  const [releaseDate, setReleaseDate] = useState(r.releaseDate);
+  const [releaseType, setReleaseType] = useState(r.releaseType);
+  const [rejectReason, setRejectReason] = useState("not_comeback");
+
+  return (
+    <div className={styles.card}>
+      <div className={styles.badge}>{r.type === 'new_artist' ? '🆕 신규 발굴' : '🔄 기존 아티스트 컴백'}</div>
+      <h2 className={styles.artistName}>{r.artistName}</h2>
+      <div className={styles.details}>
+        <p>
+          <strong>발매일: </strong> 
+          <input 
+            type="text" 
+            value={releaseDate} 
+            onChange={e => setReleaseDate(e.target.value)} 
+            style={{ padding: '4px', borderRadius: '4px', border: '1px solid #1f1e1c', background: '#0b0a09', color: '#f5f4f2' }}
+          />
+        </p>
+        <p>
+          <strong>형태: </strong> 
+          <select 
+            value={releaseType} 
+            onChange={e => setReleaseType(e.target.value)}
+            style={{ padding: '4px', borderRadius: '4px', border: '1px solid #1f1e1c', background: '#0b0a09', color: '#f5f4f2' }}
+          >
+            <option value="single">Single</option>
+            <option value="mini">Mini (EP)</option>
+            <option value="full">Full Album</option>
+          </select>
+        </p>
+        {r.type === 'new_artist' && (
+          <p><strong>아티스트 정보:</strong> {r.artistType} / {r.artistGender}</p>
+        )}
+        <p className={styles.source}><strong>출처 기사:</strong> {r.sourceTitle}</p>
+      </div>
+      <div className={styles.actions} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <button className={styles.approveBtn} onClick={() => handleApprove({ ...r, releaseDate, releaseType })}>Approve ✅</button>
+        
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <select 
+            value={rejectReason} 
+            onChange={e => setRejectReason(e.target.value)}
+            style={{ flex: 1, padding: '8px', borderRadius: '8px', border: '1px solid #1f1e1c', background: '#1a1917', color: '#f5f4f2' }}
+          >
+            <option value="not_comeback">컴백 기사 아님</option>
+            <option value="member_name">멤버 이름으로 잘못 잡힘</option>
+            <option value="false_positive">오탐지 (가수 아님)</option>
+            <option value="expired">기간 지남</option>
+            <option value="other">기타</option>
+          </select>
+          <button className={styles.rejectBtn} onClick={() => handleReject(r, rejectReason)} style={{ flex: 1 }}>Reject ❌</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function AdminDashboard() {
   const [reviews, setReviews] = useState<any[]>([]);
 
@@ -47,10 +105,11 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleReject = async (review: any) => {
+  const handleReject = async (review: any, reason: string) => {
     try {
       await addDoc(collection(db, "crawler_feedbacks"), {
         action: 'rejected',
+        reason: reason,
         originalData: review,
         rejectedAt: new Date().toISOString()
       });
@@ -67,22 +126,7 @@ export default function AdminDashboard() {
   return (
     <div className={styles.grid}>
       {reviews.map((r) => (
-        <div key={r.id} className={styles.card}>
-          <div className={styles.badge}>{r.type === 'new_artist' ? '🆕 신규 발굴' : '🔄 기존 아티스트 컴백'}</div>
-          <h2 className={styles.artistName}>{r.artistName}</h2>
-          <div className={styles.details}>
-            <p><strong>발매일:</strong> {r.releaseDate}</p>
-            <p><strong>형태:</strong> {r.releaseType}</p>
-            {r.type === 'new_artist' && (
-              <p><strong>아티스트 정보:</strong> {r.artistType} / {r.artistGender}</p>
-            )}
-            <p className={styles.source}><strong>출처 기사:</strong> {r.sourceTitle}</p>
-          </div>
-          <div className={styles.actions}>
-            <button className={styles.approveBtn} onClick={() => handleApprove(r)}>Approve ✅</button>
-            <button className={styles.rejectBtn} onClick={() => handleReject(r)}>Reject ❌</button>
-          </div>
-        </div>
+        <ReviewCard key={r.id} r={r} handleApprove={handleApprove} handleReject={handleReject} />
       ))}
     </div>
   );

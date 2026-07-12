@@ -14,6 +14,27 @@ const parser = new Parser();
 
 const stopWords = new Set(["신인", "보이그룹", "걸그룹", "아이돌", "밴드", "가수", "오늘", "내일", "정식", "드디어", "컴백", "데뷔", "신곡", "발매", "발표", "확정", "첫", "미니", "정규", "앨범", "티저", "공개", "음원", "뮤비", "쇼케이스", "출격", "기대", "주목", "화제", "제작", "소속사", "대표", "프로듀서", "합류", "멤버", "공식", "단독", "현장", "종합", "리포트", "인터뷰", "포토", "영상", "왔다", "품고", "돌아온다", "출신", "전격", "뉴스핌", "v", "daum", "net", "com", "co", "kr", "스포츠동아", "스타뉴스", "엑스포츠뉴스", "OSEN", "오센", "뉴스엔", "마이데일리", "스타투데이", "뉴스1", "뉴시스", "디스패치", "TV리포트"]);
 
+function extractReleaseDate(title: string): string {
+  const exactDateMatch = title.match(/(\d{1,2})월\s*(\d{1,2})일/);
+  if (exactDateMatch) {
+    const month = exactDateMatch[1].padStart(2, '0');
+    const day = exactDateMatch[2].padStart(2, '0');
+    return `2026-${month}-${day}`;
+  }
+  
+  const monthMatch = title.match(/(\d{1,2})월/);
+  if (monthMatch) {
+    const month = monthMatch[1].padStart(2, '0');
+    return `2026-${month}-TBA`;
+  }
+
+  if (title.includes("하반기")) return "2026-H2-TBA";
+  if (title.includes("상반기")) return "2026-H1-TBA";
+  if (title.includes("내달") || title.includes("다음달")) return "NextMonth-TBA";
+  
+  return "TBA";
+}
+
 function extractLikelyProperNouns(title: string): string[] {
   const candidates = new Set<string>();
 
@@ -164,7 +185,8 @@ async function runWeeklyCrawler() {
 
   for (const item of allNews) {
     const title = item.title || "";
-    const releaseDate = item.pubDate ? new Date(item.pubDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+    // Instead of using pubDate, extract actual comeback date from title
+    const releaseDate = extractReleaseDate(title);
     const releaseType = title.includes("정규") ? "full" : (title.includes("미니") ? "mini" : "single");
 
     let foundExistingArtist = false;
