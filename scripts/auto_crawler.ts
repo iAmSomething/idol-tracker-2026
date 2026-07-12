@@ -3,17 +3,10 @@ import * as dotenv from "dotenv";
 import Parser from "rss-parser";
 import { db, getActiveArtistsBatch } from "./lib/firebase-helpers";
 import { logger } from "./lib/logger";
-import { collection, addDoc, getDocs, updateDoc, doc, query, where } from "firebase/firestore";
-import { GoogleGenAI } from "@google/genai";
+import { collection, addDoc, getDocs, updateDoc, doc } from "firebase/firestore";
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
-if (!process.env.GEMINI_API_KEY) {
-  logger.error("GEMINI_API_KEY is missing in .env");
-  process.exit(1);
-}
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const parser = new Parser();
 
 interface ParsedComeback {
@@ -40,86 +33,83 @@ async function fetchNewsForArtist(artist: string) {
   }
 }
 
-async function verifyWithGemini(newsItems: any[]): Promise<ParsedComeback[]> {
-  if (newsItems.length === 0) return [];
+async function verifyWithKeywords(newsItems: any[]): Promise<ParsedComeback[]> {
+  const verified: ParsedComeback[] = [];
+  const comebackKeywords = ["컴백", "신곡", "발매", "데뷔", "타이틀곡"];
+  const ignoreKeywords = ["루머", "논의", "검토중", "콘서트", "팬미팅", "방송", "예능", "출연", "차트", "OST", "기부", "오에스티", "모델", "발탁", "MC"];
 
-  const prompt = `
-  You are a K-Pop news analyst. Review these news headlines.
-  Identify ONLY official announcements for a NEW ALBUM or SONG COMEBACK.
-  Ignore rumors, concerts, fanmeets, charting, OSTs, or TV show appearances.
-  
-  For each confirmed comeback, extract:
-  - artistName
-  - title (the name of the album/song, if available. otherwise "TBA")
-  - releaseDate in YYYY-MM-DD
-  - releaseType ("full", "mini", "single")
-
-  Return a JSON array of objects with keys: "isComeback", "artistName", "title", "releaseDate", "releaseType".
-  Return ONLY the JSON array.
-
-  Headlines:
-  ${JSON.stringify(newsItems, null, 2)}
-  `;
-
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
-      contents: prompt,
-      config: { responseMimeType: "application/json" }
-    });
+  for (const item of newsItems) {
+    const title = item.title || "";
     
-    if (response.text) {
-      const text = response.text.trim();
-      const cleaned = text.startsWith("```") ? text.replace(/^```json\s*/i, "").replace(/```$/, "").trim() : text;
-      const parsed = JSON.parse(cleaned);
-      if (Array.isArray(parsed)) {
-        return parsed as ParsedComeback[];
-      }
+    // Check for ignore keywords
+    if (ignoreKeywords.some(kw => title.includes(kw))) {
+      continue;
     }
-  } catch (e) {
-    logger.error("Gemini Parser Error:", e);
+
+    // Check for comeback keywords
+    if (comebackKeywords.some(kw => title.includes(kw))) {
+      verified.push({
+        isComeback: true,
+        artistName: item.artist,
+        title: title.length > 40 ? title.substring(0, 40) + "..." : title,
+        releaseDate: item.pubDate ? new Date(item.pubDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+        releaseType: title.includes("정규") ? "full" : (title.includes("미니") ? "mini" : "single")
+      });
+    }
   }
-  return [];
+
+  // Deduplicate by artist to avoid multiple news articles for the same comeback flooding
+  const uniqueVerified = [];
+  const seen = new Set();
+  for (const v of verified) {
+    if (!seen.has(v.artistName)) {
+      seen.add(v.artistName);
+      uniqueVerified.push(v);
+    }
+  }
+
+  return uniqueVerified;
 }
 
 async function runCrawler() {
-  logger.info("Starting Auto Crawler (Deterministic Rotation)...");
+  logger.info("Starting Auto Crawler (1-Week Approaching Comebacks Only)...");
   
-  const batchSize = 40;
-  const artists = await getActiveArtistsBatch(batchSize);
-  logger.info(`Selected batch of ${artists.length} artists for deterministic crawling.`);
+  // Find comebacks happening in the next 7 days
+  const today = new Date();
+  const nextWeek = new Date();
+  nextWeek.setDate(today.getDate() + 7);
+  
+  const todayStr = today.toISOString().split('T')[0];
+  const nextWeekStr = nextWeek.toISOString().split('T')[0];
+
+  const comebacksSnap = await getDocs(collection(db, 'comebacks'));
+  const targetArtists = new Set<string>();
+
+  for (const doc of comebacksSnap.docs) {
+    const data = doc.data();
+    if (data.releaseDate >= todayStr && data.releaseDate <= nextWeekStr) {
+      targetArtists.add(data.artistName);
+    }
+  }
+
+  const artists = Array.from(targetArtists);
+  logger.info(`Selected ${artists.length} artists who have a comeback approaching within 1 week.`);
 
   let allNews = [];
   
-  for (const artist of artists) {
-    const artistNameStr = typeof artist.name === 'object' ? (artist.name.ko || artist.name.en) : artist.name;
-    logger.info(` -> Fetching news for: "${artistNameStr}"`);
-    const news = await fetchNewsForArtist(artistNameStr);
+  for (const artistName of artists) {
+    logger.info(` -> Fetching news for: "${artistName}"`);
+    const news = await fetchNewsForArtist(artistName);
     allNews.push(...news);
-
-    try {
-      await updateDoc(doc(db, "artists", artist.id), {
-        lastCrawledAt: new Date().toISOString()
-      });
-    } catch (e) {
-      logger.error(`Failed to update timestamp for artist ${artistNameStr}:`, e);
-    }
 
     await new Promise(r => setTimeout(r, 800));
   }
 
-  logger.info(`Found ${allNews.length} recent news items. Verifying with Gemini...`);
+  logger.info(`Found ${allNews.length} recent news items. Verifying with keywords...`);
 
-  const chunkSize = 20;
-  const verifiedComebacks: ParsedComeback[] = [];
+  const verifiedComebacks = await verifyWithKeywords(allNews);
 
-  for (let i = 0; i < allNews.length; i += chunkSize) {
-    const chunk = allNews.slice(i, i + chunkSize);
-    const parsed = await verifyWithGemini(chunk);
-    verifiedComebacks.push(...parsed.filter(p => p.isComeback));
-  }
-
-  logger.info(`Gemini identified ${verifiedComebacks.length} true comebacks.`);
+  logger.info(`Keyword filtering identified ${verifiedComebacks.length} true comebacks.`);
 
   if (verifiedComebacks.length > 0) {
     logger.info("Loading all comebacks to optimize queries...");
