@@ -225,14 +225,13 @@ async function runWeeklyCrawler() {
             type: 'existing_artist',
             artistName: knownName,
             artistId: artistId,
-            title: enrichedTitle || undefined,
             releaseDate: enrichedDate,
             releaseType: enrichedType,
             sourceTitle: title,
             sourceLink: item.link,
             createdAt: new Date().toISOString()
           };
-          
+          if (enrichedTitle) docData.title = enrichedTitle;
           if (albumCoverUrl) docData.albumCoverUrl = albumCoverUrl;
 
           await addDoc(collection(db, "pending_reviews"), docData);
@@ -289,7 +288,6 @@ async function runWeeklyCrawler() {
             artistName: candidateName,
             artistGender: bugsInfo.gender || 'mixed',
             artistType: finalArtistType,
-            title: enrichedTitle || undefined,
             releaseDate: enrichedDate,
             releaseType: enrichedType,
             sourceTitle: title,
@@ -297,6 +295,7 @@ async function runWeeklyCrawler() {
             createdAt: new Date().toISOString()
           };
 
+          if (enrichedTitle) docData.title = enrichedTitle;
           if (albumCoverUrl) docData.albumCoverUrl = albumCoverUrl;
 
           await addDoc(collection(db, "pending_reviews"), docData);
