@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/firebase';
+import { db } from '../../firebase';
 import { doc, getDoc, deleteDoc, addDoc, collection } from 'firebase/firestore';
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
