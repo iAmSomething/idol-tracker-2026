@@ -71,8 +71,8 @@ async function runDailyCrawler() {
   for (const cDoc of comebacksSnap.docs) {
     const data = cDoc.data();
     
-    // Check if released (Date has passed)
-    if (data.releaseDate !== "TBA" && data.releaseDate < todayStr && !data.isReleased) {
+    // Check if released (Date has passed or is today)
+    if (data.releaseDate !== "TBA" && data.releaseDate <= todayStr && !data.isReleased) {
       logger.info(`[RELEASED] ${data.artistName} comeback date passed (${data.releaseDate}). Scraping final bugs data...`);
       
       const albumData = await verifyBugsAlbum(data.artistName, data.releaseDate);
