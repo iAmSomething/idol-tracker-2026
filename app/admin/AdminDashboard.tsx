@@ -47,9 +47,14 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleReject = async (id: string) => {
+  const handleReject = async (review: any) => {
     try {
-      await deleteDoc(doc(db, "pending_reviews", id));
+      await addDoc(collection(db, "crawler_feedbacks"), {
+        action: 'rejected',
+        originalData: review,
+        rejectedAt: new Date().toISOString()
+      });
+      await deleteDoc(doc(db, "pending_reviews", review.id));
     } catch (e: any) {
       alert("Error rejecting: " + e.message);
     }
@@ -75,7 +80,7 @@ export default function AdminDashboard() {
           </div>
           <div className={styles.actions}>
             <button className={styles.approveBtn} onClick={() => handleApprove(r)}>Approve ✅</button>
-            <button className={styles.rejectBtn} onClick={() => handleReject(r.id)}>Reject ❌</button>
+            <button className={styles.rejectBtn} onClick={() => handleReject(r)}>Reject ❌</button>
           </div>
         </div>
       ))}
