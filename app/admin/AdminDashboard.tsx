@@ -84,7 +84,7 @@ function ReviewCard({ r, handleApprove, handleReject }: { r: any, handleApprove:
           {r.sourceLink ? (
             <a href={r.sourceLink} target="_blank" rel="noreferrer" style={{ color: "var(--accent-color)" }}>{r.sourceTitle}</a>
           ) : (
-            <a href={`https://www.google.com/search?q=${encodeURIComponent(r.artistName + ' 컴백')}&tbm=nws`} target="_blank" rel="noreferrer" style={{ color: "var(--accent-color)" }}>🔗 기사 직접 검색하기 (링크 없음)</a>
+            <a href={`https://search.naver.com/search.naver?where=news&query=${encodeURIComponent(r.artistName + ' 컴백')}`} target="_blank" rel="noreferrer" style={{ color: "var(--accent-color)" }}>🔗 네이버 기사 직접 검색하기 (링크 없음)</a>
           )}
         </p>
 
