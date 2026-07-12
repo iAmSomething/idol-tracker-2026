@@ -7,6 +7,25 @@ import { collection, addDoc, getDocs, updateDoc, doc, query, where } from "fireb
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
+async function sendTelegramMessage(message: string) {
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!botToken || !chatId) {
+    logger.warn("TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is missing. Skipping Telegram notification.");
+    return;
+  }
+  try {
+    await axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      chat_id: chatId,
+      text: message,
+      parse_mode: 'HTML'
+    });
+    logger.info("Telegram notification sent.");
+  } catch (e: any) {
+    logger.error(`Failed to send Telegram message: ${e.message}`);
+  }
+}
+
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
 const parser = new Parser();
@@ -106,7 +125,14 @@ async function runWeeklyCrawler() {
     existingComebackKeys.add(`${d.data().artistName}_${d.data().releaseDate}`);
   });
 
+  const pendingReviewsSnap = await getDocs(collection(db, 'pending_reviews'));
+  const pendingKeys = new Set<string>();
+  pendingReviewsSnap.docs.forEach(d => {
+    pendingKeys.add(`${d.data().artistName}_${d.data().releaseDate}`);
+  });
+
   const seenCandidates = new Set<string>();
+  let newReviewsCount = 0;
 
   for (const item of allNews) {
     const title = item.title || "";
@@ -121,8 +147,8 @@ async function runWeeklyCrawler() {
       const releaseDate = item.pubDate ? new Date(item.pubDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
       const comebackKey = `${candidateName}_${releaseDate}`;
 
-      if (existingComebackKeys.has(comebackKey)) {
-        continue; // Already tracked this exact comeback
+      if (existingComebackKeys.has(comebackKey) || pendingKeys.has(comebackKey)) {
+        continue; // Already tracked or already pending
       }
 
       const releaseType = title.includes("정규") ? "full" : (title.includes("미니") ? "mini" : "single");
@@ -133,35 +159,53 @@ async function runWeeklyCrawler() {
         const bugsInfo = await fetchBugsArtistValidation(candidateName);
         if (bugsInfo) {
           logger.info(`✅ Verified NEW artist ${candidateName} on Bugs! (from: ${title})`);
-          const artistRef = await addDoc(collection(db, "artists"), {
-            name: { ko: candidateName, en: candidateName },
-            type: bugsInfo.type,
-            gender: bugsInfo.gender || 'mixed',
+          
+          await addDoc(collection(db, "pending_reviews"), {
+            type: 'new_artist',
+            artistName: candidateName,
+            artistGender: bugsInfo.gender || 'mixed',
+            artistType: bugsInfo.type,
+            releaseDate: releaseDate,
+            releaseType: releaseType,
+            sourceTitle: title,
             createdAt: new Date().toISOString()
           });
-          artistId = artistRef.id;
+          newReviewsCount++;
+          pendingKeys.add(comebackKey);
         } else {
           logger.info(`❌ Rejected ${candidateName}: Not found as an active idol/singer on Bugs.`);
           continue;
         }
       } else {
         logger.info(`🔄 Existing artist ${candidateName} is having a comeback! (from: ${title})`);
+        
+        await addDoc(collection(db, "pending_reviews"), {
+          type: 'existing_artist',
+          artistName: candidateName,
+          artistId: artistId,
+          releaseDate: releaseDate,
+          releaseType: releaseType,
+          sourceTitle: title,
+          createdAt: new Date().toISOString()
+        });
+        newReviewsCount++;
+        pendingKeys.add(comebackKey);
       }
-
-      // Register their comeback
-      await addDoc(collection(db, "comebacks"), {
-        artistName: candidateName,
-        artistId: artistId,
-        title: "TBA", // Will be filled by daily precision crawler
-        releaseDate: releaseDate,
-        releaseType: releaseType,
-        agencyName: "Unknown",
-        createdAt: new Date().toISOString(),
-      });
-      existingComebackKeys.add(comebackKey); // prevent dupes in same run
       
       await new Promise(r => setTimeout(r, 1000));
     }
+  }
+
+  if (newReviewsCount > 0) {
+    const appUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    await sendTelegramMessage(
+      `🔔 <b>[IDOL TRACKER] 신규 컴백/데뷔 알림!</b>\n\n` +
+      `발견된 항목: <b>${newReviewsCount}건</b>\n` +
+      `크롤러가 새 데이터를 발견했습니다. 라이브 서버에 반영하려면 검토 후 승인해주세요.\n\n` +
+      `👉 <a href="${appUrl}/admin">Admin 페이지로 이동</a>`
+    );
+  } else {
+    logger.info("No new comebacks found to review.");
   }
 
   logger.info("Weekly Discovery complete.");
