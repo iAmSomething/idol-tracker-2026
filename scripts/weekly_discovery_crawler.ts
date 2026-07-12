@@ -7,43 +7,6 @@ import { collection, addDoc, getDocs, updateDoc, doc, query, where } from "fireb
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
-async function sendTelegramReviewMessage(docId: string, data: any) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chatId) {
-    logger.warn('TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is missing. Skipping Telegram notification.');
-    return;
-  }
-  
-  const escapeHtml = (str: string) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-  
-  const text = `🔔 <b>신규 컴백/데뷔 검토 필요</b>\n\n` +
-    `아티스트: <b>${escapeHtml(data.artistName)}</b>\n` +
-    `유형: ${data.type === 'new_artist' ? '신규 발굴 🆕' : '기존 컴백 🔄'}\n` +
-    `발매일: ${data.releaseDate}\n` +
-    `형태: ${data.releaseType}\n` +
-    (data.type === 'new_artist' ? `성별: ${data.artistGender} | 그룹/솔로: ${data.artistType}\n` : '') +
-    `출처: <a href="${data.sourceLink}">${escapeHtml(data.sourceTitle)}</a>\n\n` +
-    `아래 버튼을 눌러 처리해주세요.`;
-
-  try {
-    await axios.post(`https://api.telegram.org/bot${token}/sendMessage`, {
-      chat_id: chatId,
-      text: text,
-      parse_mode: 'HTML',
-      reply_markup: {
-        inline_keyboard: [
-          [
-            { text: "대시보드에서 처리하기 ➡️", url: "https://idol-tracker-2026.web.app/admin" }
-          ]
-        ]
-      }
-    });
-  } catch (e: any) {
-    logger.error('Failed to send Telegram message:', e.message);
-  }
-}
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
@@ -205,7 +168,6 @@ async function runWeeklyCrawler() {
             createdAt: new Date().toISOString()
           };
           const docRef = await addDoc(collection(db, "pending_reviews"), docData);
-          await sendTelegramReviewMessage(docRef.id, docData);
           newReviewsCount++;
           pendingKeys.add(comebackKey);
         } else {
@@ -226,7 +188,6 @@ async function runWeeklyCrawler() {
           createdAt: new Date().toISOString()
         };
         const docRef = await addDoc(collection(db, "pending_reviews"), docData);
-        await sendTelegramReviewMessage(docRef.id, docData);
         newReviewsCount++;
         pendingKeys.add(comebackKey);
       }
