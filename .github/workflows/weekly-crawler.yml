@@ -1,9 +1,9 @@
-name: Daily Comeback Crawler
+name: Weekly Discovery Crawler
 
 on:
   schedule:
-    # Runs at 09:30 UTC (18:30 KST) every day
-    - cron: '30 9 * * *'
+    # Runs at 09:30 UTC (18:30 KST) every Tuesday
+    - cron: '30 9 * * 2'
   workflow_dispatch: # Allows manual trigger from GitHub UI
 
 jobs:
@@ -26,4 +26,4 @@ jobs:
     - name: Run Crawler
       env:
         NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
-      run: npm run crawl:daily
+      run: npm run crawl:weekly

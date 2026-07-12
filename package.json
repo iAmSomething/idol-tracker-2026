@@ -8,10 +8,10 @@
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
-    "crawl": "npx tsx scripts/auto_crawler.ts"
+    "crawl:weekly": "npx tsx scripts/weekly_discovery_crawler.ts",
+    "crawl:daily": "npx tsx scripts/daily_precision_crawler.ts"
   },
   "dependencies": {
-    "@google/genai": "^2.11.0",
     "axios": "^1.18.1",
     "cheerio": "^1.2.0",
     "dotenv": "^17.4.2",
