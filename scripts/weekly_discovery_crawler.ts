@@ -11,6 +11,32 @@ dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
 const parser = new Parser();
 
+const stopWords = new Set(["신인", "보이그룹", "걸그룹", "아이돌", "밴드", "가수", "오늘", "내일", "정식", "드디어", "컴백", "데뷔", "신곡", "발매", "발표", "확정", "첫", "미니", "정규", "앨범", "티저", "공개", "음원", "뮤비", "쇼케이스", "출격", "기대", "주목", "화제", "제작", "소속사", "대표", "프로듀서", "합류", "멤버", "공식", "단독", "현장", "종합", "리포트", "인터뷰", "포토", "영상", "왔다", "품고", "돌아온다", "출신", "전격", "뉴스핌", "v", "daum", "net", "com", "co", "kr", "스포츠동아", "스타뉴스", "엑스포츠뉴스", "OSEN", "오센", "뉴스엔", "마이데일리", "스타투데이", "뉴스1", "뉴시스", "디스패치", "TV리포트"]);
+
+function extractCandidates(title: string): string[] {
+  let text = title.replace(/\[.*?\]|\(.*?\)/g, " ");
+  text = text.replace(/['"‘”“’`~!?@#$%^&*_+={}\[\]:;|<>\.\,\/\\…\-]/g, " ");
+  
+  const words = text.split(/\s+/).filter(w => w.length > 1);
+  const candidates: string[] = [];
+  const particles = ["으로", "만의", "에서", "부터", "까지", "은", "는", "이", "가", "로", "의", "와", "과", "도", "을", "를", "만"];
+
+  for (let word of words) {
+    let cleanWord = word;
+    for (const p of particles) {
+      if (cleanWord.endsWith(p) && cleanWord.length > p.length) {
+        cleanWord = cleanWord.slice(0, -p.length);
+        break; 
+      }
+    }
+    
+    if (cleanWord.length > 1 && !stopWords.has(cleanWord)) {
+      candidates.push(cleanWord);
+    }
+  }
+  return candidates;
+}
+
 async function fetchBugsArtistValidation(artistName: string) {
   try {
     const searchUrl = `https://music.bugs.co.kr/search/artist?q=${encodeURIComponent(artistName)}`;
@@ -84,20 +110,14 @@ async function runWeeklyCrawler() {
 
   for (const item of allNews) {
     const title = item.title || "";
-    // Extremely basic heuristic to extract names before standard delimiters
-    // [단독] 아티스트명, 8월 컴백 -> 아티스트명
-    const match = title.match(/(?:\[.+?\]\s*)?([가-힣a-zA-Z0-9&]+(?:\s[가-힣a-zA-Z0-9&]+)?)(?:[,\s]+|는|이|가|은).*(컴백|신곡|발매|데뷔)/);
+    const candidates = extractCandidates(title);
     
-    if (match) {
-      const candidateName = match[1].trim();
-      
+    for (const candidateName of candidates) {
       if (candidateName.length < 2 || seenCandidates.has(candidateName)) {
         continue;
       }
       seenCandidates.add(candidateName);
 
-      logger.info(`Candidate artist found in news: ${candidateName} (from: ${title})`);
-      
       const releaseDate = item.pubDate ? new Date(item.pubDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
       const comebackKey = `${candidateName}_${releaseDate}`;
 
@@ -112,7 +132,7 @@ async function runWeeklyCrawler() {
         // New artist, verify with Bugs Music
         const bugsInfo = await fetchBugsArtistValidation(candidateName);
         if (bugsInfo) {
-          logger.info(`✅ Verified NEW artist ${candidateName} on Bugs!`);
+          logger.info(`✅ Verified NEW artist ${candidateName} on Bugs! (from: ${title})`);
           const artistRef = await addDoc(collection(db, "artists"), {
             name: { ko: candidateName, en: candidateName },
             type: bugsInfo.type,
@@ -125,7 +145,7 @@ async function runWeeklyCrawler() {
           continue;
         }
       } else {
-        logger.info(`🔄 Existing artist ${candidateName} is having a comeback!`);
+        logger.info(`🔄 Existing artist ${candidateName} is having a comeback! (from: ${title})`);
       }
 
       // Register their comeback
