@@ -69,7 +69,7 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
       setLoadingTracks(true);
       const q = query(collection(db, "tracks"), where("comebackId", "==", comeback.id));
       getDocs(q).then(snap => {
-        const t = snap.docs.map(d => d.data() as Track);
+        const t = snap.docs.map(d => ({ ...d.data(), id: d.id } as Track));
         // Sort tracks by id or just keep order if possible, though id might be comebackId-track-0
         t.sort((a, b) => a.id.localeCompare(b.id));
         setTracks(t);
@@ -241,9 +241,9 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
                   <div style={{ display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                       <span className="text-secondary" style={{ width: "24px", fontWeight: 600 }}>{idx + 1}</span>
-                      <span style={{ fontWeight: track.isTitle ? 600 : 500, color: track.isTitle ? "var(--text-primary)" : "var(--text-secondary)" }}>
+                      <Link href={`/track?id=${track.id}`} style={{ fontWeight: track.isTitle ? 600 : 500, color: "var(--text-primary)", textDecoration: "underline", textUnderlineOffset: "4px" }} className="hover:text-accent">
                         {track.name}
-                      </span>
+                      </Link>
                       {track.isTitle && (
                         <span style={{ fontSize: "0.7rem", padding: "4px 8px", backgroundColor: "#eff6ff", color: "var(--accent-color)", border: "1px solid #bfdbfe", borderRadius: "4px", fontWeight: 700, letterSpacing: "0.5px" }}>
                           TITLE
