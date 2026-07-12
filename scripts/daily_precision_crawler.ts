@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import Parser from "rss-parser";
 import { db } from "./lib/firebase-helpers";
 import { logger } from "./lib/logger";
+import { fetchYouTubeCommunityInfo } from "./lib/youtube_scraper";
 import { collection, getDocs, updateDoc, doc, deleteDoc } from "firebase/firestore";
 import axios from "axios";
 import * as cheerio from "cheerio";
@@ -71,6 +72,16 @@ async function runDailyCrawler() {
   const pastWeekStr = pastWeek.toISOString().split('T')[0];
 
   const comebacksSnap = await getDocs(collection(db, 'comebacks'));
+
+  // Artist DB에서 official YouTube URL 로드
+  const artistsSnap = await getDocs(collection(db, 'artists'));
+  const artistYoutubeMap = new Map<string, string>();
+  artistsSnap.docs.forEach(d => {
+    const data = d.data();
+    const name = typeof data.name === 'object' ? data.name.ko || data.name.en : data.name;
+    const ytUrl = data.socialLinks?.youtube || data.agency?.youtubeUrl;
+    if (ytUrl) artistYoutubeMap.set(name, ytUrl);
+  });
   
   for (const cDoc of comebacksSnap.docs) {
     const data = cDoc.data();
@@ -118,6 +129,26 @@ async function runDailyCrawler() {
       }
 
       await new Promise(r => setTimeout(r, 1000));
+    }
+
+    // YouTube Community 보강: title이 TBA이거나 날짜가 불명확한 항목
+    if (!data.isReleased && (data.title === "TBA" || !data.title || data.releaseDate?.includes("TBA"))) {
+      logger.info(`[📺 YT ENRICH] Checking YouTube Community for ${data.artistName}...`);
+      const officialYtUrl = artistYoutubeMap.get(data.artistName);
+      const ytInfo = await fetchYouTubeCommunityInfo(data.artistName, officialYtUrl);
+      
+      if (ytInfo) {
+        const updates: Record<string, any> = {};
+        if (ytInfo.title && (!data.title || data.title === "TBA")) updates.title = ytInfo.title;
+        if (ytInfo.releaseDate && (!data.releaseDate || data.releaseDate.includes("TBA"))) updates.releaseDate = ytInfo.releaseDate;
+        if (ytInfo.releaseType && (!data.releaseType || data.releaseType === "single")) updates.releaseType = ytInfo.releaseType;
+        
+        if (Object.keys(updates).length > 0) {
+          logger.info(`[📺 YT ENRICH] Updated ${data.artistName}: ${JSON.stringify(updates)}`);
+          await updateDoc(doc(db, "comebacks", cDoc.id), updates);
+        }
+      }
+      await new Promise(r => setTimeout(r, 1500));
     }
   }
 

@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import Parser from "rss-parser";
 import { db } from "./lib/firebase-helpers";
 import { logger } from "./lib/logger";
+import { fetchYouTubeCommunityInfo } from "./lib/youtube_scraper";
 import { collection, addDoc, getDocs, updateDoc, doc, query, where } from "firebase/firestore";
 import axios from 'axios';
 import * as cheerio from 'cheerio';
@@ -152,15 +153,22 @@ async function runWeeklyCrawler() {
 
   logger.info(`Found ${allNews.length} news items in the last 7 days.`);
 
-  // Load existing artists
+  // Load existing artists + their official YouTube URLs
   const artistsSnap = await getDocs(collection(db, 'artists'));
   const existingArtistsMap = new Map<string, string>();
+  const artistYoutubeMap = new Map<string, string>(); // artistName -> official youtube URL
   artistsSnap.docs.forEach(d => {
     const data = d.data();
     const name = typeof data.name === 'object' ? data.name.ko || data.name.en : data.name;
     existingArtistsMap.set(name, d.id);
+    // Official YouTube URL 수집 (socialLinks.youtube 우선)
+    const ytUrl = data.socialLinks?.youtube || data.agency?.youtubeUrl;
+    if (ytUrl) artistYoutubeMap.set(name, ytUrl);
     if (data.aliases) {
-      data.aliases.forEach((a: string) => existingArtistsMap.set(a, d.id));
+      data.aliases.forEach((a: string) => {
+        existingArtistsMap.set(a, d.id);
+        if (ytUrl) artistYoutubeMap.set(a, ytUrl);
+      });
     }
   });
 
@@ -217,19 +225,37 @@ async function runWeeklyCrawler() {
         
         if (!existingComebackKeys.has(comebackKey) && !pendingKeys.has(comebackKey)) {
           logger.info(`🔄 Existing artist ${knownName} is having a comeback! (from: ${title})`);
+          
+          // YouTube Community 교차 검증: TBA이거나 정보 부족 시 보강 시도
+          let enrichedDate = releaseDate;
+          let enrichedType = releaseType;
+          let enrichedTitle = "";
+          if (releaseDate === "TBA" || releaseDate.includes("TBA")) {
+            const officialYtUrl = artistYoutubeMap.get(knownName);
+            const ytInfo = await fetchYouTubeCommunityInfo(knownName, officialYtUrl);
+            if (ytInfo) {
+              if (ytInfo.releaseDate) enrichedDate = ytInfo.releaseDate;
+              if (ytInfo.releaseType) enrichedType = ytInfo.releaseType;
+              if (ytInfo.title) enrichedTitle = ytInfo.title;
+              logger.info(`📺 YouTube enriched ${knownName}: date=${enrichedDate}, type=${enrichedType}, title=${enrichedTitle}`);
+            }
+            await new Promise(r => setTimeout(r, 1500));
+          }
+
           const docData = {
             type: 'existing_artist',
             artistName: knownName,
             artistId: artistId,
-            releaseDate: releaseDate,
-            releaseType: releaseType,
+            title: enrichedTitle || undefined,
+            releaseDate: enrichedDate,
+            releaseType: enrichedType,
             sourceTitle: title,
             sourceLink: item.link || "",
             createdAt: new Date().toISOString()
           };
           await addDoc(collection(db, "pending_reviews"), docData);
           newReviewsCount++;
-          pendingKeys.add(comebackKey);
+          pendingKeys.add(`${knownName}_${enrichedDate}`);
         }
         foundExistingArtist = true;
         break; // Found the primary subject, move on (or could allow multiple, but usually 1 main comeback)
@@ -255,20 +281,36 @@ async function runWeeklyCrawler() {
         if (bugsInfo) {
           logger.info(`✅ Verified NEW artist ${candidateName} on Bugs! (from: ${title})`);
           
+          // 신규 아티스트도 YouTube Community 교차 검증 시도
+          let enrichedDate = releaseDate;
+          let enrichedType = releaseType;
+          let enrichedTitle = "";
+          if (releaseDate === "TBA" || releaseDate.includes("TBA")) {
+            const ytInfo = await fetchYouTubeCommunityInfo(candidateName);
+            if (ytInfo) {
+              if (ytInfo.releaseDate) enrichedDate = ytInfo.releaseDate;
+              if (ytInfo.releaseType) enrichedType = ytInfo.releaseType;
+              if (ytInfo.title) enrichedTitle = ytInfo.title;
+              logger.info(`📺 YouTube enriched NEW ${candidateName}: date=${enrichedDate}, type=${enrichedType}, title=${enrichedTitle}`);
+            }
+            await new Promise(r => setTimeout(r, 1500));
+          }
+
           const docData = {
             type: 'new_artist',
             artistName: candidateName,
             artistGender: bugsInfo.gender || 'mixed',
             artistType: bugsInfo.type,
-            releaseDate: releaseDate,
-            releaseType: releaseType,
+            title: enrichedTitle || undefined,
+            releaseDate: enrichedDate,
+            releaseType: enrichedType,
             sourceTitle: title,
             sourceLink: item.link || "",
             createdAt: new Date().toISOString()
           };
           await addDoc(collection(db, "pending_reviews"), docData);
           newReviewsCount++;
-          pendingKeys.add(comebackKey);
+          pendingKeys.add(`${candidateName}_${enrichedDate}`);
           break; // Found the new artist, move to next news item
         } else {
           logger.info(`❌ Rejected ${candidateName}: Not found as an active idol/singer on Bugs.`);
