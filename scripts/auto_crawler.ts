@@ -92,8 +92,9 @@ async function runCrawler() {
   let allNews = [];
   
   for (const artist of artists) {
-    logger.info(` -> Fetching news for: "${artist.name}"`);
-    const news = await fetchNewsForArtist(artist.name);
+    const artistNameStr = typeof artist.name === 'object' ? (artist.name.ko || artist.name.en) : artist.name;
+    logger.info(` -> Fetching news for: "${artistNameStr}"`);
+    const news = await fetchNewsForArtist(artistNameStr);
     allNews.push(...news);
 
     try {
@@ -101,7 +102,7 @@ async function runCrawler() {
         lastCrawledAt: new Date().toISOString()
       });
     } catch (e) {
-      logger.error(`Failed to update timestamp for artist ${artist.name}:`, e);
+      logger.error(`Failed to update timestamp for artist ${artistNameStr}:`, e);
     }
 
     await new Promise(r => setTimeout(r, 800));
