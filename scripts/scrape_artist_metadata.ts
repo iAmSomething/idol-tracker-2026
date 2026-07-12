@@ -31,13 +31,13 @@ async function fetchBugsArtistInfo(artistName: string) {
 
     const detailRes = await axios.get(detailUrl, { timeout: 5000 });
     const $detail = cheerio.load(detailRes.data);
-    const artistTypeStr = $detail('p.subInfo span.artistType').text().trim();
+    const artistTypeStr = $detail('table.info tbody tr').text().replace(/\s+/g, ' ');
     // Example: "솔로 (여성)" or "그룹 (혼성)"
     
     let gender: "male" | "female" | "mixed" | undefined;
-    if (artistTypeStr.includes('여성')) gender = 'female';
-    else if (artistTypeStr.includes('남성')) gender = 'male';
-    else if (artistTypeStr.includes('혼성')) gender = 'mixed';
+    if (artistTypeStr.includes('(여성)')) gender = 'female';
+    else if (artistTypeStr.includes('(남성)')) gender = 'male';
+    else if (artistTypeStr.includes('(혼성)')) gender = 'mixed';
     
     return { gender };
   } catch (e: any) {
