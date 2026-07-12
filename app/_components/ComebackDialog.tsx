@@ -19,6 +19,7 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
   const [loadingTracks, setLoadingTracks] = useState(false);
   const [selectedComposer, setSelectedComposer] = useState<string | null>(null);
   const [clickableComposers, setClickableComposers] = useState<Record<string, boolean>>({});
+  const [expandedTracks, setExpandedTracks] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     if (tracks.length === 0) return;
@@ -256,17 +257,21 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
                       )}
                     </div>
                     
-                    {/* Composers & Lyricists */}
-                    {(track.composers || track.lyricists) && (
-                      <div style={{ display: "flex", flexDirection: "column", gap: "2px", paddingLeft: "40px", marginTop: "4px" }}>
-                        {track.composers && track.composers.length > 0 && (
-                          <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
-                            <span style={{ fontWeight: 600 }}>작곡:</span>{" "}
-                            {track.composers.map((comp, cIdx) => {
+                    {/* Composers */}
+                    {track.composers && track.composers.length > 0 && (() => {
+                      const isExpanded = expandedTracks[track.id];
+                      const visibleComposers = isExpanded ? track.composers : track.composers.slice(0, 2);
+                      const hasMore = track.composers.length > 2;
+                      
+                      return (
+                        <div style={{ display: "flex", flexDirection: "column", gap: "2px", paddingLeft: "40px", marginTop: "4px" }}>
+                          <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "4px" }}>
+                            <span style={{ fontWeight: 600 }}>작곡:</span>
+                            {visibleComposers.map((comp, cIdx) => {
                               const isClickable = clickableComposers[comp];
                               return (
-                                <span key={cIdx}>
-                                  {cIdx > 0 && ", "}
+                                <span key={cIdx} style={{ display: "inline-flex", alignItems: "center" }}>
+                                  {cIdx > 0 && <span style={{ marginRight: "4px" }}>,</span>}
                                   <span
                                     onClick={() => isClickable && setSelectedComposer(comp)}
                                     style={{
@@ -282,16 +287,27 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
                                 </span>
                               );
                             })}
+                            {hasMore && (
+                              <button
+                                onClick={() => setExpandedTracks(prev => ({ ...prev, [track.id]: !isExpanded }))}
+                                style={{
+                                  background: "none",
+                                  border: "none",
+                                  padding: "0 4px",
+                                  fontSize: "0.75rem",
+                                  color: "var(--text-secondary)",
+                                  textDecoration: "underline",
+                                  cursor: "pointer",
+                                  marginLeft: "2px"
+                                }}
+                              >
+                                {isExpanded ? "접기" : "더보기"}
+                              </button>
+                            )}
                           </div>
-                        )}
-                        {track.lyricists && track.lyricists.length > 0 && (
-                          <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
-                            <span style={{ fontWeight: 600 }}>작사:</span>{" "}
-                            <span>{track.lyricists.join(", ")}</span>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                        </div>
+                      );
+                    })()}
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                     {track.streamingLinks && Object.entries(track.streamingLinks).map(([platform, link]) => {
