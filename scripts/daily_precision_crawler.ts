@@ -63,8 +63,12 @@ async function runDailyCrawler() {
   const nextWeek = new Date();
   nextWeek.setDate(today.getDate() + 7);
   
+  const pastWeek = new Date();
+  pastWeek.setDate(today.getDate() - 7);
+  
   const todayStr = today.toISOString().split('T')[0];
   const nextWeekStr = nextWeek.toISOString().split('T')[0];
+  const pastWeekStr = pastWeek.toISOString().split('T')[0];
 
   const comebacksSnap = await getDocs(collection(db, 'comebacks'));
   
@@ -73,6 +77,13 @@ async function runDailyCrawler() {
     
     // Check if released (Date has passed or is today)
     if (data.releaseDate !== "TBA" && data.releaseDate <= todayStr && !data.isReleased) {
+      // If the date is older than 1 week and still not verified, it's a fake/cancelled comeback. Delete it without calling Bugs API.
+      if (data.releaseDate < pastWeekStr) {
+        logger.info(`❌ [STALE] Comeback for ${data.artistName} (${data.releaseDate}) is older than 1 week. Deleting to save API calls.`);
+        await deleteDoc(doc(db, "comebacks", cDoc.id));
+        continue;
+      }
+
       logger.info(`[RELEASED] ${data.artistName} comeback date passed (${data.releaseDate}). Scraping final bugs data...`);
       
       const albumData = await verifyBugsAlbum(data.artistName, data.releaseDate);
