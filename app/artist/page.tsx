@@ -25,6 +25,7 @@ function ArtistDetailContent() {
 
   const [artist, setArtist] = useState<Artist | null>(null);
   const [comebacks, setComebacks] = useState<Comeback[]>([]);
+  const [childArtists, setChildArtists] = useState<Artist[]>([]);
   const [agencyName, setAgencyName] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -70,6 +71,17 @@ function ArtistDetailContent() {
         const comebacksSnap = await getDocs(q);
         const comebacksData = comebacksSnap.docs.map(d => ({ ...d.data() as Comeback, id: d.id }));
         setComebacks(comebacksData);
+
+        // 4. Fetch child artists (solo/unit members) if this is a group
+        if (artistData.type === 'group') {
+          const childQ = query(
+            collection(db, "artists"),
+            where("parentGroupId", "==", id)
+          );
+          const childSnap = await getDocs(childQ);
+          const childrenData = childSnap.docs.map(d => ({ ...d.data() as Artist, id: d.id }));
+          setChildArtists(childrenData);
+        }
       } catch (err) {
         console.error("Failed to fetch artist data", err);
         setError("데이터를 로드하는 중 오류가 발생했습니다.");
@@ -226,6 +238,23 @@ function ArtistDetailContent() {
                 </div>
               )}
             </div>
+
+            {/* Child Artists (Solo / Unit) */}
+            {childArtists.length > 0 && (
+              <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '20px', marginTop: '20px' }}>
+                <h3 style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '12px', fontWeight: 600 }}>솔로 / 유닛 활동</h3>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  {childArtists.map((child) => (
+                    <Link key={child.id} href={`/artist?id=${child.id}`}>
+                      <span className="btn hover:border-accent hover:text-accent" style={{ fontSize: '0.85rem', padding: '6px 12px', backgroundColor: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '6px', fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: '6px', transition: 'all 0.2s' }}>
+                        {child.type === 'solo' ? <FaUser size={12} color="var(--text-secondary)" /> : <FaUsers size={12} color="var(--text-secondary)" />}
+                        {child.name.ko}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Playlists / Digging */}
             <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '20px', marginTop: '20px' }}>
