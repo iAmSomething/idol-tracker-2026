@@ -221,6 +221,25 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
           </span>
         </div>
 
+        {/* Source Article Link for Future Comebacks */}
+        {!comeback.isReleased && comeback.sourceLink && (
+          <div style={{ marginBottom: "32px", padding: "16px", backgroundColor: "rgba(255, 107, 0, 0.05)", border: "1px solid rgba(255, 107, 0, 0.2)", borderRadius: "8px" }}>
+            <h3 style={{ fontSize: "0.9rem", marginBottom: "8px", fontWeight: 700, color: "var(--accent-color)" }}>컴백 추정 근거</h3>
+            <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", marginBottom: "12px", lineHeight: "1.4" }}>
+              아직 앨범이 발매되지 않은 예정된 컴백입니다. 봇이 수집한 아래 뉴스 기사에서 컴백 일정을 유추했습니다.
+            </p>
+            <a 
+              href={comeback.sourceLink} 
+              target="_blank" 
+              rel="noreferrer"
+              className="btn"
+              style={{ display: "inline-flex", alignItems: "center", fontSize: "0.8rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", color: "var(--text-primary)", borderRadius: "6px" }}
+            >
+              📰 뉴스 기사 원문 보기
+            </a>
+          </div>
+        )}
+
         {/* Music Video / Media */}
         {formattedMvUrl && (
           <div style={{ marginBottom: "32px" }}>

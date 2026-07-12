@@ -113,4 +113,6 @@ export interface Comeback {
   status?: "ANNOUNCED" | "TEASING" | "RELEASED";
   teasers?: string[]; // YouTube URLs
   isTba?: boolean;
+  isReleased?: boolean;
+  sourceLink?: string;
 }
