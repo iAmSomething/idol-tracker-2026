@@ -47,9 +47,12 @@ graph LR
     *   해당 컴백의 트랙 목록 조회 (`where("comebackId", "==", id)`)
 *   **특수 기능:** 트랙 정보 내 작곡가명 클릭 시 해당 작곡가의 다른 곡들을 모아보는 다이얼로그 연동.
 
-### 2.4 트랙/작곡가 조회 (`app/_components/ComposerTracksDialog.tsx`)
-*   **기능 요약:** 클릭된 작곡가가 참여한 트랙들을 조회하여 팝업으로 노출.
-*   **데이터 조달:** `where("composers", "array-contains", composerName)` 쿼리 활용.
+### 2.4 트랙/작곡가 조회 (`app/_components/ComposerTracksDialog.tsx` & `ComebackDialog.tsx`)
+*   **기능 요약:** 클릭된 작곡가가 참여한 트랙들을 조회하여 팝업으로 노출합니다.
+*   **탐색 로직 최적화:** 
+    *   트랙 리스트 렌더링 시, 각 트랙의 `composers` 배열 내 작곡가 이름들에 대해 `where("composers", "array-contains", comp)`, `limit(2)` 쿼리를 백그라운드에서 실행합니다.
+    *   결과가 2개 이상일 경우(즉, 본인 트랙 외에 다른 트랙을 작곡한 이력이 있는 경우)에만 해당 작곡가 이름에 클릭 가능한 밑줄(`clickable`) UI를 활성화합니다.
+*   **데이터 조달:** 작곡가 이름 클릭 시 `where("composers", "array-contains", composerName)` 쿼리를 통해 해당 작곡가의 모든 트랙을 가져옵니다.
 
 ### 2.5 아티스트 상세 조회 (`app/artist/page.tsx`)
 *   **기능 요약:** 아티스트 프로필 이미지, 그룹/솔로 여부, 세대, 멤버 목록, 소셜 미디어 바로가기 링크(SNS, 나무위키 등) 및 전체 발매 히스토리 목록 제공.

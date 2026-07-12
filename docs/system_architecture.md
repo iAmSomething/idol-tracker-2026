@@ -10,9 +10,13 @@ Idol Tracker 2026은 K-Pop 아이돌의 컴백 일정, 앨범 발매, 뮤직비�
 *   **아티스트 상세 (Artist Profile):** 특정 아티스트의 프로필, 소셜 미디어 링크, 최신 뮤직비디오, 전체 컴백 히스토리 제공.
 *   **컴백 상세 (Comeback Detail):** 단일 컴백(앨범)의 뮤직비디오, 전체 트랙리스트, 각 트랙의 작사/작곡 정보, 음원 스트리밍 링크 제공.
 
-### 1.2 지원 업무 (운영 및 백그라운드)
-*   **데이터 크롤러:** Bugs Music, YouTube, Spotify 등을 주기적으로 스크래핑하여 새로운 아티스트와 앨범 데이터를 발굴하고 데이터베이스에 적재.
-*   **데이터 정제 및 보완 스크립트:** 중복 데이터 병합, 식별자(ID) 정규화, 누락된 트랙 크레딧 및 뮤직비디오 주소 백필링(Backfilling).
+### 1.2 지원 업무 (운영 및 백그라운드 스크립트)
+*   **데이터 크롤러 (Crawlers):** 외부 시스템(Bugs, YouTube, Spotify 등)을 스크래핑하여 새로운 아티스트와 앨범 데이터를 DB에 적재 (`auto_crawler.ts`, `fetch_spotify_releases.ts`).
+*   **데이터 백필링 (Backfilling):** 누락된 과거 뮤직비디오 링크, 작사/작곡 크레딧 등 부족한 데이터를 채워 넣는 작업 (`fetch_official_mvs.ts`, `fetch_track_credits.ts`, `fetch_all_track_credits.ts`).
+*   **데이터 클렌징 및 정제 (Cleansing):** 
+    *   동일 아티스트 병합 및 ID 마이그레이션 (`migrate_artist_ids.ts`).
+    *   중복 삽입된 컴백 및 트랙 문서 제거 (`deduplicate_comebacks.ts`, `deduplicate_tracks.ts`).
+    *   누락된 아티스트 분류 타입(Group/Solo) 수정 (`infer_artist_types.ts`, `fix_comeback_artist_types.ts`).
 
 ---
 

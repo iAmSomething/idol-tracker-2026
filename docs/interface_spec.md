@@ -6,25 +6,46 @@
 
 ### 1.1 데이터 타입 및 형식 (`types/index.ts` 기준)
 
+#### Collection: `agencies`
+*   **역할:** 아티스트가 소속된 기획사(소속사) 메타데이터
+*   **주요 속성:**
+    *   `id` (string): 문서 식별자
+    *   `name` (string): 기획사명
+    *   `socialLinks` (Object): 기획사 공식 YouTube, X, Instagram, Weverse 등
+    *   `artistIds` (string[]): 해당 기획사에 소속된 아티스트 ID 배열
+
 #### Collection: `artists`
 *   **역할:** K-Pop 아티스트(그룹, 솔로, 유닛) 메타데이터
 *   **주요 속성:**
     *   `id` (string): 문서 식별자
+    *   `agencyId` (string): 소속 기획사 연관 ID (FK)
     *   `name` (Object): `{ ko: string, en: string, aliases: string[] }`
     *   `generation` (number): K-Pop 세대
     *   `type` (string): `"group" | "solo" | "unit"`
+    *   `parentGroup` (string): 유닛이나 솔로의 경우 본래 소속된 원본 그룹 이름
     *   `members` (Array): 멤버 정보 배열 `[{ name, artistId }]`
+    *   `recentComebackId` (string): 가장 최근 컴백 ID
+    *   `comebackIds` (string[]): 아티스트의 전체 컴백 ID 목록
     *   `socialLinks` (Object): YouTube, Instagram, X, TikTok, Weverse, 나무위키 주소
+    *   `profileImageUrl` (string): 프로필 이미지 URL
+    *   `isActive` (boolean): 현재 활동 여부
 
 #### Collection: `comebacks`
 *   **역할:** 아티스트의 앨범 발매(컴백) 이벤트 메타데이터
 *   **주요 속성:**
     *   `id` (string): 문서 식별자
     *   `artistId` (string): 연관 아티스트 ID (FK)
+    *   `artistName` (string): 아티스트 이름
+    *   `artistType` (string): `"group" | "solo" | "unit" | "unknown"`
+    *   `agencyName` (string): 기획사명
     *   `albumTitle` (string): 앨범명
+    *   `titleTracks` (Array): 타이틀곡 배열 `[{ name, musicVideoUrl }]`
     *   `releaseDate` (string): 발매일 (`YYYY-MM-DD` 형식)
-    *   `releaseType` (string): `"single" | "ep" | "full"` 등
+    *   `releaseType` (string): `"single" | "ep" | "full" | "repackage"` 등
+    *   `isCompleted` (boolean): 컴백 날짜가 이미 지났는지 여부
+    *   `albumCoverUrl` (string): 앨범 커버 썸네일 URL
     *   `mediaLinks` (Object): 뮤직비디오(`musicVideo`) 및 티저 URL 배열
+    *   `isTba` (boolean): 발매일이 확정되지 않고 "TBA" 상태인지 여부
 
 #### Collection: `tracks`
 *   **역할:** 개별 앨범에 속한 수록곡 메타데이터
