@@ -10,6 +10,35 @@ function ReviewCard({ r, handleApprove, handleReject }: { r: any, handleApprove:
   const [releaseType, setReleaseType] = useState(r.releaseType);
   const [albumTitle, setAlbumTitle] = useState(r.title || "TBA");
   const [rejectReason, setRejectReason] = useState("not_comeback");
+  const [pastedText, setPastedText] = useState("");
+
+  const handleAutoExtract = () => {
+    if (!pastedText) return;
+    
+    // 1. Album Type
+    const typeMatch = pastedText.match(/(미니\s*\d*집|새\s*싱글|정규\s*\d*집|EP|디지털\s*싱글|더블\s*싱글)/i);
+    if (typeMatch) {
+      const t = typeMatch[1];
+      if (t.includes('미니') || t.includes('EP')) setReleaseType('mini');
+      else if (t.includes('정규')) setReleaseType('full');
+      else if (t.includes('싱글')) setReleaseType('single');
+    }
+
+    // 2. Album Title
+    const titleMatch = pastedText.match(/(?:싱글|앨범|미니|정규|타이틀곡|신곡).*?['"‘“]([^'"’”]+)['"’”]/);
+    if (titleMatch && titleMatch[1]) {
+      setAlbumTitle(titleMatch[1].trim());
+    }
+
+    // 3. Date
+    const dateMatch = pastedText.match(/(?:오는|다음달|이달|7월|8월|9월|10월|11월|12월|1월|2월|3월|4월|5월|6월)?\s*(?:(\d{1,2})월\s*)?(\d{1,2})일/);
+    if (dateMatch) {
+      const currentYear = new Date().getFullYear();
+      const month = dateMatch[1] ? dateMatch[1].padStart(2, '0') : new Date().getMonth() + 1;
+      const day = dateMatch[2].padStart(2, '0');
+      setReleaseDate(`${currentYear}-${month.toString().padStart(2, '0')}-${day}`);
+    }
+  };
 
   return (
     <div className={styles.card}>
@@ -50,7 +79,26 @@ function ReviewCard({ r, handleApprove, handleReject }: { r: any, handleApprove:
         {r.type === 'new_artist' && (
           <p><strong>아티스트 정보:</strong> {r.artistType} / {r.artistGender}</p>
         )}
-        <p className={styles.source}><strong>출처 기사:</strong> {r.sourceTitle}</p>
+        <p className={styles.source} style={{ marginBottom: "16px" }}>
+          <strong>출처 기사:</strong> <a href={r.sourceLink} target="_blank" rel="noreferrer" style={{ color: "var(--accent-color)" }}>{r.sourceTitle}</a>
+        </p>
+
+        {/* Auto Extract Section */}
+        <div style={{ padding: "12px", background: "#1a1917", borderRadius: "8px", marginBottom: "16px", border: "1px solid #2a2927" }}>
+          <p style={{ fontSize: "0.8rem", color: "#8a8885", marginBottom: "8px" }}>기사 본문을 복사해서 아래에 붙여넣고 추출을 누르면 위 내용이 자동 완성됩니다.</p>
+          <textarea 
+            value={pastedText}
+            onChange={e => setPastedText(e.target.value)}
+            placeholder="예: ...브브걸의 새 싱글 ‘BODY WAVE’는 오는 16일 오후 6시 각종 온라인 음원사이트를 통해 발매된다."
+            style={{ width: "100%", height: "60px", padding: "8px", borderRadius: "4px", background: "#0b0a09", color: "#f5f4f2", border: "1px solid #1f1e1c", resize: "none", marginBottom: "8px", fontSize: "0.85rem" }}
+          />
+          <button 
+            onClick={handleAutoExtract} 
+            style={{ width: "100%", padding: "6px", background: "var(--surface-color)", color: "var(--accent-color)", border: "1px solid var(--accent-color)", borderRadius: "4px", cursor: "pointer", fontSize: "0.85rem" }}
+          >
+            ✨ 내용 자동 추출
+          </button>
+        </div>
       </div>
       <div className={styles.actions} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <button className={styles.approveBtn} onClick={() => handleApprove({ ...r, releaseDate, releaseType, title: albumTitle })}>Approve ✅</button>
