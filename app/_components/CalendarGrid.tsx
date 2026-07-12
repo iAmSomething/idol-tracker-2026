@@ -163,13 +163,11 @@ export default function CalendarGrid({ searchQuery }: { searchQuery: string }) {
             const searchMatch = !q || 
                                 (c.artistName && c.artistName.toLowerCase().includes(q)) || 
                                 (c.albumTitle && c.albumTitle.toLowerCase().includes(q)) ||
-                                (q.includes('남돌') && c.artistGender === 'male' && c.artistType === 'group') ||
-                                (q.includes('여돌') && c.artistGender === 'female' && c.artistType === 'group') ||
-                                (q.includes('보이그룹') && c.artistGender === 'male' && c.artistType === 'group') ||
-                                (q.includes('걸그룹') && c.artistGender === 'female' && c.artistType === 'group') ||
-                                (q.includes('남성') && c.artistGender === 'male') ||
-                                (q.includes('여성') && c.artistGender === 'female') ||
-                                (q.includes('혼성') && c.artistGender === 'mixed');
+                                ((q.includes('남돌') || q.includes('보이그룹') || q.includes('boy group')) && c.artistGender === 'male' && c.artistType === 'group') ||
+                                ((q.includes('여돌') || q.includes('걸그룹') || q.includes('girl group')) && c.artistGender === 'female' && c.artistType === 'group') ||
+                                ((q.includes('남성') || q.includes('male')) && c.artistGender === 'male') ||
+                                ((q.includes('여성') || q.includes('female')) && c.artistGender === 'female') ||
+                                ((q.includes('혼성') || q.includes('mixed')) && c.artistGender === 'mixed');
             
             return dateMatch && typeMatch && genderMatch && searchMatch;
           });
