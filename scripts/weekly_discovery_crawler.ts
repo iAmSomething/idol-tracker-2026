@@ -5,6 +5,7 @@ import { logger } from "./lib/logger";
 import { fetchYouTubeCommunityInfo } from "./lib/youtube_scraper";
 import { searchNaverNews, scrapeNaverNewsContent } from "./lib/naver_news_scraper";
 import { collection, addDoc, getDocs, updateDoc, doc, query, where } from "firebase/firestore";
+import { fetchBugsArtistValidation } from "./lib/bugs_scraper";
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
@@ -80,48 +81,7 @@ function extractLikelyProperNouns(title: string): string[] {
   return Array.from(candidates);
 }
 
-async function fetchBugsArtistValidation(artistName: string) {
-  try {
-    const searchUrl = `https://music.bugs.co.kr/search/artist?q=${encodeURIComponent(artistName)}`;
-    const searchRes = await axios.get(searchUrl, { timeout: 5000 });
-    const $search = cheerio.load(searchRes.data);
-    
-    const detailUrl = $search('figure.artistInfo a.thumbnail').first().attr('href');
-    if (!detailUrl) return null;
-
-    const detailRes = await axios.get(detailUrl, { timeout: 5000 });
-    const $detail = cheerio.load(detailRes.data);
-    const artistTypeStr = $detail('table.info tbody tr').text().replace(/\s+/g, ' ');
-    const actualName = $detail('header.sectionPadding h1').text().trim();
-    
-    const isSubstring = actualName.includes(artistName) || artistName.includes(actualName);
-    if (!isSubstring) {
-      const isGroup = artistTypeStr.includes('그룹');
-      const debutYearMatch = artistTypeStr.match(/데뷔 (\d{4})/);
-      const debutYear = debutYearMatch ? parseInt(debutYearMatch[1], 10) : 0;
-      
-      if (!isGroup && debutYear < 2020) {
-        return null;
-      }
-    }
-
-    if (artistTypeStr.includes('배우') || artistTypeStr.includes('개그맨') || artistTypeStr.includes('방송인')) {
-      return null;
-    }
-
-    let gender: "male" | "female" | "mixed" | undefined;
-    if (artistTypeStr.includes('(여성)')) gender = 'female';
-    else if (artistTypeStr.includes('(남성)')) gender = 'male';
-    else if (artistTypeStr.includes('(혼성)')) gender = 'mixed';
-    
-    let type: "group" | "solo" | "unit" = artistTypeStr.includes('그룹') ? 'group' : 'solo';
-
-    return { gender, type };
-  } catch (e: any) {
-    logger.error(`Error validating ${artistName} on Bugs: ${e.message}`);
-    return null;
-  }
-}
+// fetchBugsArtistValidation moved to scripts/lib/bugs_scraper.ts
 
 async function runWeeklyCrawler() {
   logger.info("Starting Weekly Discovery Crawler with Naver News API...");
@@ -134,17 +94,18 @@ async function runWeeklyCrawler() {
 
   // Load existing artists
   const artistsSnap = await getDocs(collection(db, 'artists'));
-  const existingArtistsMap = new Map<string, string>();
+  const existingArtistsMap = new Map<string, any>();
   const artistYoutubeMap = new Map<string, string>(); 
   artistsSnap.docs.forEach(d => {
     const data = d.data();
+    const artistObj = { id: d.id, ...data };
     const name = typeof data.name === 'object' ? data.name.ko || data.name.en : data.name;
-    existingArtistsMap.set(name, d.id);
+    existingArtistsMap.set(name, artistObj);
     const ytUrl = data.socialLinks?.youtube || data.agency?.youtubeUrl;
     if (ytUrl) artistYoutubeMap.set(name, ytUrl);
     if (data.aliases) {
       data.aliases.forEach((a: string) => {
-        existingArtistsMap.set(a, d.id);
+        existingArtistsMap.set(a, artistObj);
         if (ytUrl) artistYoutubeMap.set(a, ytUrl);
       });
     }
@@ -152,15 +113,38 @@ async function runWeeklyCrawler() {
 
   const existingComebacksSnap = await getDocs(collection(db, 'comebacks'));
   const existingComebackKeys = new Set<string>();
+  const artistComebackDates = new Map<string, any[]>();
+
   existingComebacksSnap.docs.forEach(d => {
-    existingComebackKeys.add(`${d.data().artistName}_${d.data().releaseDate}`);
+    const data = d.data();
+    existingComebackKeys.add(`${data.artistName}_${data.releaseDate}`);
+    if (!artistComebackDates.has(data.artistName)) artistComebackDates.set(data.artistName, []);
+    artistComebackDates.get(data.artistName)!.push({ id: d.id, ...data });
   });
 
-  const pendingReviewsSnap = await getDocs(collection(db, 'pending_reviews'));
-  const pendingKeys = new Set<string>();
-  pendingReviewsSnap.docs.forEach(d => {
-    pendingKeys.add(`${d.data().artistName}_${d.data().releaseDate}`);
-  });
+  function findMatchingComeback(artistName: string, date: string): any | null {
+    const comebacks = artistComebackDates.get(artistName);
+    if (!comebacks) return null;
+    
+    if (date.includes("TBA")) {
+         const todayStr = new Date().toISOString().split('T')[0];
+         return comebacks.find(c => c.releaseDate.includes("TBA") || c.releaseDate >= todayStr) || null;
+    }
+    
+    const newDateObj = new Date(date);
+    for (const c of comebacks) {
+        if (c.releaseDate.includes("TBA")) return c; 
+        const oldDateObj = new Date(c.releaseDate);
+        if (Math.abs(oldDateObj.getTime() - newDateObj.getTime()) <= 14 * 24 * 60 * 60 * 1000) return c;
+    }
+    return null;
+  }
+
+  function addComebackDate(artistName: string, date: string, docData: any, docId: string) {
+    if (!artistComebackDates.has(artistName)) artistComebackDates.set(artistName, []);
+    artistComebackDates.get(artistName)!.push({ id: docId, ...docData, releaseDate: date });
+    existingComebackKeys.add(`${artistName}_${date}`);
+  }
 
   const seenCandidates = new Set<string>();
   let newReviewsCount = 0;
@@ -171,44 +155,77 @@ async function runWeeklyCrawler() {
     const title = item.title;
     
     // Scrape article body for accurate info!
-    const scrapedData = await scrapeNaverNewsContent(item.link);
+    const scrapedData = await scrapeNaverNewsContent(item.link, item.pubDate);
     if (!scrapedData) continue; // Skip non-entertain articles
 
     const releaseDate = scrapedData.releaseDate || extractReleaseDate(title);
     const releaseType = scrapedData.releaseType || (title.includes("정규") ? "full" : (title.includes("미니") ? "mini" : "single"));
-    const albumCoverUrl = scrapedData.officialImageUrl || "";
+    let albumCoverUrl = scrapedData.officialImageUrl || "";
     const artistTypeFromArticle = scrapedData.artistType; // unit, solo, group, band
 
-    // PAST COMEBACK FILTER
-    const todayStr = new Date().toISOString().split('T')[0];
-    if (releaseDate !== "TBA" && !releaseDate.includes("TBA") && releaseDate < todayStr) {
+    // PAST COMEBACK FILTER: 7일 이상 지난 과거 컴백만 스킵 (어제/오늘 발매된 누락건은 포함시키기 위함)
+    const sevenDaysAgoStr = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    if (releaseDate !== "TBA" && !releaseDate.includes("TBA") && releaseDate < sevenDaysAgoStr) {
       continue;
     }
-    if (/(발매했다|돌아왔다|컴백했다|데뷔했다|공개했다|마쳤다|성료|마무리)/.test(title)) {
+    // "발매했다" 등의 과거형 제목이어도, 7일 이내 발매건이라면 스킵하지 않음
+    if (/(컴백했다|성료|마무리)/.test(title)) { // '발매했다', '데뷔했다', '공개했다', '돌아왔다'는 허용
+      continue;
+    }
+
+    if (scrapedData.isMusicComeback === false) {
+      console.log(`[SKIP] Not a music comeback: ${title}`);
       continue;
     }
 
     let foundExistingArtist = false;
+    let candidates = extractLikelyProperNouns(title);
+    if (scrapedData.artistName && scrapedData.artistName !== "null" && scrapedData.artistName !== "TBA" && scrapedData.artistName.length > 1) {
+        candidates = [scrapedData.artistName];
+        logger.info(`🤖 Qwen extracted exact artist: ${scrapedData.artistName}`);
+    } else {
+        logger.info(`🤖 Qwen missed artist, fallback to regex candidates: ${candidates.join(', ')}`);
+    }
+    
+    // 1. DISCOVERY PATH: Existing Artists
+    for (const candidate of candidates) {
+          const search = candidate.toLowerCase().replace(/\s+/g, '');
+          
+          let artistObj = null;
+          let knownName = "";
+          // exact normalized match first
+          for (const [key, obj] of existingArtistsMap.entries()) {
+             if (key.toLowerCase().replace(/\s+/g, '') === search) {
+                 artistObj = obj;
+                 knownName = key;
+                 break;
+             }
+          }
+          // if not found, try includes
+          if (!artistObj) {
+            for (const [key, obj] of existingArtistsMap.entries()) {
+               const normKey = key.toLowerCase().replace(/\s+/g, '');
+               if (normKey.length > 2 && search.length > 2 && (normKey.includes(search) || search.includes(normKey))) {
+                   artistObj = obj;
+                   knownName = key;
+                   break;
+               }
+            }
+          }
 
-    // 1. FAST PATH: Existing Artists
-    for (const knownName of knownArtistNames) {
-      const regexStr = `(^|[\\\\s'"\\\\\\[\\\\\\]\\\\(\\\\)⟨⟩«»])` + 
-                       knownName.replace(/[-\\/\\\\^$*+?.()|[\\]{}]/g, '\\\\$&') + 
-                       `([\\\\s'"\\\\\\[\\\\\\]\\\\(\\\\)⟨⟩«»,.?!]|은|는|이|가|를|을|의|로|와|과|$)`;
-      const regex = new RegExp(regexStr);
-
-      if (regex.test(title) || regex.test(scrapedData.content.substring(0, 50))) { // Also check start of body
-        const artistId = existingArtistsMap.get(knownName);
-        const comebackKey = `${knownName}_${releaseDate}`;
+          if (artistObj) {
+            const artistId = artistObj.id;
+            
+            const comebackKey = `${knownName}_${releaseDate}`;
+        const matchingCb = findMatchingComeback(knownName, releaseDate);
         
-        if (!existingComebackKeys.has(comebackKey) && !pendingKeys.has(comebackKey)) {
+        if (!matchingCb && !existingComebackKeys.has(comebackKey)) {
           logger.info(`🔄 Existing artist ${knownName} is having a comeback!`);
           
           let enrichedDate = releaseDate;
           let enrichedType = releaseType;
           let enrichedTitle = "";
           
-          // YouTube Community 교차 검증 (보강)
           if (releaseDate === "TBA" || releaseDate.includes("TBA")) {
             const officialYtUrl = artistYoutubeMap.get(knownName);
             const ytInfo = await fetchYouTubeCommunityInfo(knownName, officialYtUrl);
@@ -216,27 +233,87 @@ async function runWeeklyCrawler() {
               if (ytInfo.releaseDate) enrichedDate = ytInfo.releaseDate;
               if (ytInfo.releaseType) enrichedType = ytInfo.releaseType;
               if (ytInfo.title) enrichedTitle = ytInfo.title;
+              if (ytInfo.albumCoverUrl && !albumCoverUrl) albumCoverUrl = ytInfo.albumCoverUrl;
               logger.info(`📺 YouTube enriched ${knownName}: date=${enrichedDate}, type=${enrichedType}, title=${enrichedTitle}`);
             }
             await new Promise(r => setTimeout(r, 1500));
           }
 
           const docData: any = {
-            type: 'existing_artist',
             artistName: knownName,
             artistId: artistId,
+            artistGender: artistObj.gender || "mixed",
+            artistType: artistObj.type || "unknown",
+            title: enrichedTitle || "TBA",
             releaseDate: enrichedDate,
             releaseType: enrichedType,
+            agencyName: artistObj.agencyName || "Unknown",
+            isReleased: false,
             sourceTitle: title,
             sourceLink: item.link,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            recentNews: [{ title: item.title, link: item.link, pubDate: item.pubDate }]
           };
-          if (enrichedTitle) docData.title = enrichedTitle;
+          if (artistObj.parentGroupName) docData.parentGroupName = artistObj.parentGroupName;
+          if (artistObj.parentGroupId) docData.parentGroupId = artistObj.parentGroupId;
           if (albumCoverUrl) docData.albumCoverUrl = albumCoverUrl;
+          if (scrapedData.summary) docData.aiSummary = scrapedData.summary;
 
-          await addDoc(collection(db, "pending_reviews"), docData);
+          // Double check after enrichment
+          const postEnrichMatch = findMatchingComeback(knownName, enrichedDate);
+          if (postEnrichMatch || existingComebackKeys.has(`${knownName}_${enrichedDate}`)) {
+             logger.info(`Skipping duplicate after enrichment: ${knownName}_${enrichedDate}`);
+             if (postEnrichMatch) {
+                // Enrich it instead
+                const updates: any = {};
+                if (!postEnrichMatch.recentNews) postEnrichMatch.recentNews = [];
+                if (!postEnrichMatch.recentNews.some((n: any) => n.link === item.link)) {
+                    postEnrichMatch.recentNews.unshift({ title: item.title, link: item.link, pubDate: item.pubDate });
+                    updates.recentNews = postEnrichMatch.recentNews.slice(0, 5);
+                }
+                if (scrapedData.summary && !postEnrichMatch.aiSummary) {
+                    updates.aiSummary = scrapedData.summary;
+                }
+                if (Object.keys(updates).length > 0) {
+                    await updateDoc(doc(db, "comebacks", postEnrichMatch.id), updates);
+                }
+             }
+             addComebackDate(knownName, releaseDate, docData, postEnrichMatch?.id || "");
+             foundExistingArtist = true;
+             break;
+          }
+
+          const newDocRef = await addDoc(collection(db, "comebacks"), docData);
           newReviewsCount++;
-          pendingKeys.add(`${knownName}_${enrichedDate}`);
+          addComebackDate(knownName, releaseDate, docData, newDocRef.id);
+          addComebackDate(knownName, enrichedDate, docData, newDocRef.id);
+        } else if (matchingCb) {
+          // ENRICH EXISTING
+          let updates: any = {};
+          if (matchingCb.releaseDate.includes("TBA") && !releaseDate.includes("TBA")) {
+              updates.releaseDate = releaseDate;
+          }
+          if (matchingCb.releaseType === "unknown" && releaseType && releaseType !== "unknown") {
+              updates.releaseType = releaseType;
+          }
+          if (!matchingCb.albumCoverUrl && albumCoverUrl) {
+              updates.albumCoverUrl = albumCoverUrl;
+          }
+          
+          if (!matchingCb.recentNews) matchingCb.recentNews = [];
+          if (!matchingCb.recentNews.some((n: any) => n.link === item.link)) {
+              matchingCb.recentNews.unshift({ title: item.title, link: item.link, pubDate: item.pubDate });
+              updates.recentNews = matchingCb.recentNews.slice(0, 5);
+          }
+          if (scrapedData.summary && !matchingCb.aiSummary) {
+              updates.aiSummary = scrapedData.summary;
+          }
+
+          if (Object.keys(updates).length > 0) {
+              logger.info(`📝 Enriching existing comeback for ${knownName}: ${JSON.stringify(updates)}`);
+              await updateDoc(doc(db, "comebacks", matchingCb.id), updates);
+              Object.assign(matchingCb, updates);
+          }
         }
         foundExistingArtist = true;
         break;
@@ -245,16 +322,50 @@ async function runWeeklyCrawler() {
 
     // 2. DISCOVERY PATH: New Artists
     if (!foundExistingArtist) {
-      const candidates = extractLikelyProperNouns(title);
-      
       for (const candidateName of candidates) {
+        const search = candidateName.toLowerCase().replace(/\s+/g, '');
+        const blocklist = ["sm", "jyp", "yg", "hybe", "bighit", "smtown", "cube", "starship", "fnc", "pledis", "sourcemusic", "ador", "beliftlab", "kakao", "cj", "mbk", "dsp", "wm", "woollim", "rbw", "pnation", "mystic", "fantagio", "antenna", "smentertainment", "jypentertainment", "ygentertainment", "bighitmusic"];
+        if (blocklist.includes(search)) {
+          logger.info(`🚨 [BLOCKLIST] Skipping blocked name: ${candidateName}`);
+          continue;
+        }
+
         if (candidateName.length < 2 || seenCandidates.has(candidateName)) {
           continue;
         }
         seenCandidates.add(candidateName);
 
         const comebackKey = `${candidateName}_${releaseDate}`;
-        if (existingComebackKeys.has(comebackKey) || pendingKeys.has(comebackKey)) {
+        const matchingCb = findMatchingComeback(candidateName, releaseDate);
+        
+        if (matchingCb) {
+          // ENRICH EXISTING
+          let updates: any = {};
+          if (matchingCb.releaseDate.includes("TBA") && !releaseDate.includes("TBA")) {
+              updates.releaseDate = releaseDate;
+          }
+          if (matchingCb.releaseType === "unknown" && releaseType && releaseType !== "unknown") {
+              updates.releaseType = releaseType;
+          }
+          if (!matchingCb.albumCoverUrl && albumCoverUrl) {
+              updates.albumCoverUrl = albumCoverUrl;
+          }
+          
+          if (!matchingCb.recentNews) matchingCb.recentNews = [];
+          if (!matchingCb.recentNews.some((n: any) => n.link === item.link)) {
+              matchingCb.recentNews.unshift({ title: item.title, link: item.link, pubDate: item.pubDate });
+              updates.recentNews = matchingCb.recentNews.slice(0, 5);
+          }
+
+          if (Object.keys(updates).length > 0) {
+              logger.info(`📝 Enriching existing NEW comeback for ${candidateName}: ${JSON.stringify(updates)}`);
+              await updateDoc(doc(db, "comebacks", matchingCb.id), updates);
+              Object.assign(matchingCb, updates);
+          }
+          continue;
+        }
+
+        if (existingComebackKeys.has(comebackKey)) {
           continue;
         }
 
@@ -272,6 +383,7 @@ async function runWeeklyCrawler() {
               if (ytInfo.releaseDate) enrichedDate = ytInfo.releaseDate;
               if (ytInfo.releaseType) enrichedType = ytInfo.releaseType;
               if (ytInfo.title) enrichedTitle = ytInfo.title;
+              if (ytInfo.albumCoverUrl && !albumCoverUrl) albumCoverUrl = ytInfo.albumCoverUrl;
               logger.info(`📺 YouTube enriched NEW ${candidateName}: date=${enrichedDate}`);
             }
             await new Promise(r => setTimeout(r, 1500));
@@ -283,24 +395,56 @@ async function runWeeklyCrawler() {
                                   ? artistTypeFromArticle 
                                   : bugsInfo.type;
 
+          const artistRef = await addDoc(collection(db, "artists"), {
+            name: { ko: candidateName, en: candidateName },
+            type: finalArtistType || "group",
+            gender: bugsInfo.gender || "mixed",
+            createdAt: new Date().toISOString()
+          });
+
           const docData: any = {
-            type: 'new_artist',
             artistName: candidateName,
-            artistGender: bugsInfo.gender || 'mixed',
-            artistType: finalArtistType,
+            artistId: artistRef.id,
+            title: enrichedTitle || "TBA",
             releaseDate: enrichedDate,
             releaseType: enrichedType,
+            agencyName: "Unknown",
+            isReleased: false,
             sourceTitle: title,
             sourceLink: item.link,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            recentNews: [{ title: item.title, link: item.link, pubDate: item.pubDate }]
           };
 
-          if (enrichedTitle) docData.title = enrichedTitle;
           if (albumCoverUrl) docData.albumCoverUrl = albumCoverUrl;
+          if (scrapedData.summary) docData.aiSummary = scrapedData.summary;
 
-          await addDoc(collection(db, "pending_reviews"), docData);
+          // Double check after enrichment
+          const postEnrichMatch = findMatchingComeback(candidateName, enrichedDate);
+          if (postEnrichMatch || existingComebackKeys.has(`${candidateName}_${enrichedDate}`)) {
+             if (postEnrichMatch) {
+                // Enrich it instead
+                const updates: any = {};
+                if (!postEnrichMatch.recentNews) postEnrichMatch.recentNews = [];
+                if (!postEnrichMatch.recentNews.some((n: any) => n.link === item.link)) {
+                    postEnrichMatch.recentNews.unshift({ title: item.title, link: item.link, pubDate: item.pubDate });
+                    updates.recentNews = postEnrichMatch.recentNews.slice(0, 5);
+                }
+                if (scrapedData.summary && !postEnrichMatch.aiSummary) {
+                    updates.aiSummary = scrapedData.summary;
+                }
+                if (Object.keys(updates).length > 0) {
+                    await updateDoc(doc(db, "comebacks", postEnrichMatch.id), updates);
+                }
+             }
+             addComebackDate(candidateName, releaseDate, docData, postEnrichMatch?.id || "");
+             break;
+          }
+
+          const newDocRef = await addDoc(collection(db, "comebacks"), docData);
           newReviewsCount++;
-          pendingKeys.add(`${candidateName}_${enrichedDate}`);
+          addComebackDate(candidateName, releaseDate, docData, newDocRef.id);
+          addComebackDate(candidateName, enrichedDate, docData, newDocRef.id);
           break; 
         } else {
           logger.info(`❌ Rejected ${candidateName}: Not found on Bugs.`);
@@ -312,9 +456,9 @@ async function runWeeklyCrawler() {
   }
 
   if (newReviewsCount > 0) {
-    logger.info(`Found and sent ${newReviewsCount} new pending reviews.`);
+    logger.info(`Found and added ${newReviewsCount} new comebacks directly to DB.`);
   } else {
-    logger.info("No new comebacks found to review.");
+    logger.info("No new comebacks found to add.");
   }
 
   logger.info("Weekly Discovery complete.");

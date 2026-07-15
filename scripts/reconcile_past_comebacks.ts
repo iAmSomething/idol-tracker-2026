@@ -1,222 +1,179 @@
 import dotenv from 'dotenv';
-dotenv.config();
-import { db } from './lib/firebase-helpers';
-import { logger } from './lib/logger';
-import { collection, getDocs, doc, deleteDoc, updateDoc, query, where, writeBatch, addDoc } from 'firebase/firestore';
-import * as cheerio from 'cheerio';
-import ytSearch from 'yt-search';
+dotenv.config({ path: '.env.local' });
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs, query, where, writeBatch, doc, deleteField } from 'firebase/firestore';
+import * as fs from 'fs';
 
-const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+const firebaseConfig = {
+  projectId: "idol-tracker-2026",
+  appId: "1:47996752520:web:bc7ebc514f82846f3ec53d",
+  storageBucket: "idol-tracker-2026.firebasestorage.app",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "",
+  authDomain: "idol-tracker-2026.firebaseapp.com",
+  messagingSenderId: "47996752520"
+};
 
-function getCleanText(str: string): string {
-  return str.replace(/[^a-zA-Z0-9가-힣]/g, "").trim().toLowerCase();
-}
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-async function searchBugsAlbum(queryStr: string, targetDateYmd: string): Promise<any | null> {
-  const url = `https://m.bugs.co.kr/api/getSearchList?type=album&query=${encodeURIComponent(queryStr)}&page=1&size=30`;
-  try {
-    const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-    if (!res.ok) return null;
-    const data = await res.json();
-    if (!data.list || !Array.isArray(data.list)) return null;
-
-    // Find album with release date matching targetDateYmd (+/- 1 day to handle timezones/release delay)
-    const targetVal = parseInt(targetDateYmd, 10);
-    const matches = data.list.filter((album: any) => {
-      const albumDate = album.release_ymd; // YYYYMMDD
-      if (!albumDate) return false;
-      const albumVal = parseInt(albumDate, 10);
-      return Math.abs(albumVal - targetVal) <= 1;
-    });
-
-    if (matches.length > 0) {
-      // Sort: prioritize albums matching the artist name
-      return matches[0];
-    }
-  } catch (e) {
-    logger.error(`Bugs search failed for query "${queryStr}":`, e);
-  }
-  return null;
-}
-
-async function scrapeAlbumTracks(albumId: string, comebackId: string, artistName: string, albumTitle: string) {
-  const res = await fetch(`https://music.bugs.co.kr/album/${albumId}`, {
-    headers: { 'User-Agent': 'Mozilla/5.0' }
-  });
-  if (!res.ok) throw new Error(`Bugs Album page HTTP ${res.status}`);
+// Simple similarity check
+function isSameComeback(dbCb: any, bugsCb: any) {
+  if (dbCb.releaseDate !== bugsCb.releaseDate) return false;
+  if (!dbCb.title || !bugsCb.title || !dbCb.artistName || !bugsCb.artistName) return false;
   
-  const html = await res.text();
-  const $ = cheerio.load(html);
-  
-  const tracks: any[] = [];
-  const titleTracks: any[] = [];
-  
-  $("table.list.trackList tbody tr[rowtype='track']").each((_, el) => {
-    let title = $(el).find('p.title a').first().text().trim();
-    if (!title) {
-      title = $(el).find('p.title').text().trim();
-    }
-    
-    const isTitle = $(el).find('span.albumTitle').text().includes('타이틀곡');
-    const mvid = $(el).attr('mvid');
-    const trackId = $(el).attr('trackid');
-    
-    if (title && trackId) {
-      tracks.push({
-        id: trackId,
-        name: title,
-        isTitle,
-        comebackId,
-        artistName,
-        albumTitle,
-        streamingLinks: {
-          bugs: `https://music.bugs.co.kr/track/${trackId}`
-        }
-      });
-      
-      if (isTitle) {
-        titleTracks.push({
-          name: title,
-          _mvid: mvid
-        });
-      }
-    }
-  });
-
-  // Resolve YouTube music videos for title tracks
-  for (const t of titleTracks) {
-    const queryStr = `${artistName} ${t.name} MV official`;
-    try {
-      const r = await ytSearch(queryStr);
-      if (r.videos.length > 0) {
-        t.musicVideoUrl = r.videos[0].url;
-      } else if (t._mvid && t._mvid !== '0') {
-        t.musicVideoUrl = `https://music.bugs.co.kr/mv/${t._mvid}`;
-      }
-    } catch (e) {
-      logger.error(`YouTube MV search failed for "${queryStr}":`, e);
-    }
-    delete t._mvid;
+  // Title match
+  const dbTitle = dbCb.title.toLowerCase().replace(/[^a-z0-9가-힣]/g, '');
+  const bugsTitle = bugsCb.title.toLowerCase().replace(/[^a-z0-9가-힣]/g, '');
+  if (dbTitle && bugsTitle && (dbTitle.includes(bugsTitle) || bugsTitle.includes(dbTitle))) {
+    return true;
   }
 
-  return { tracks, titleTracks };
+  // Artist match (very fuzzy for bugs since it includes English in parens)
+  const dbArtist = dbCb.artistName.toLowerCase().replace(/[^a-z0-9가-힣]/g, '');
+  const bugsArtist = bugsCb.artistName.toLowerCase().replace(/[^a-z0-9가-힣]/g, '');
+  if (dbArtist && bugsArtist && (dbArtist.includes(bugsArtist) || bugsArtist.includes(dbArtist))) {
+    return true;
+  }
+  
+  return false;
 }
 
-async function reconcile() {
-  logger.info("Starting Past Comebacks Reconciliation...");
+function isRemixOrVer(title: string) {
+  const t = title.toLowerCase();
+  return t.includes('remix') || t.includes('mix)') || t.includes('ver.') || t.includes('instrumental') || t.includes('inst.');
+}
 
-  const todayStr = new Date().toISOString().split('T')[0];
-  const snapshot = await getDocs(collection(db, "comebacks"));
-  const comebacks = snapshot.docs.map(d => ({ id: d.id, ...d.data() as any }));
+async function run() {
+  const bugsData = JSON.parse(fs.readFileSync('bugs_comeback_data.json', 'utf8'));
+  
+  const today = new Date('2026-07-15T00:00:00Z');
+  const sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const startStr = sevenDaysAgo.toISOString().split('T')[0];
+  const endStr = '2026-07-15';
 
-  // Find past comebacks that are incomplete
-  const pastIncomplete = comebacks.filter(c => {
-    const isPast = c.releaseDate && c.releaseDate <= todayStr;
-    const isIncomplete = !c.albumTitle || 
-                         c.albumTitle === "TBA" || 
-                         c.albumTitle === c.artistName ||
-                         !c.tracks || 
-                         c.tracks.length === 0 || 
-                         !c.albumCoverUrl || 
-                         c.albumCoverUrl.includes("unsplash.com");
-    return isPast && isIncomplete;
+  const q = query(
+    collection(db, 'comebacks'),
+    where('releaseDate', '>=', startStr),
+    where('releaseDate', '<=', endStr)
+  );
+  
+  const dbSnap = await getDocs(q);
+  const dbComebacks = new Map<string, any>();
+  
+  dbSnap.forEach(d => {
+    dbComebacks.set(d.id, { id: d.id, ...d.data() });
   });
 
-  logger.info(`Found ${pastIncomplete.length} past incomplete comebacks to reconcile.`);
+  // Filter out bugs data that are remixes or instrumental (we don't want to insert them as new comebacks)
+  const validBugsData = bugsData.filter((b: any) => !isRemixOrVer(b.title));
 
-  for (const cb of pastIncomplete) {
-    logger.info(`\n🔍 Reconciling: "${cb.albumTitle || cb.title || 'Untitled'}" by ${cb.artistName} (${cb.releaseDate})`);
+  console.log('=== 🔍 RECONCILIATION SCRIPT ===\n');
 
-    const targetDateYmd = cb.releaseDate.replace(/-/g, "");
-    
-    // Try multiple queries
-    const queries = [
-      `${cb.artistName} ${cb.albumTitle || cb.title || ""}`,
-      `${cb.albumTitle || cb.title || ""}`,
-      cb.artistName
-    ].filter(q => q && q.trim().length > 0 && q !== "TBA");
+  let batch = writeBatch(db);
+  let toDelete = 0;
+  let toUpdate = 0;
+  let toInsert = 0;
 
-    let bugsAlbum = null;
-    for (const q of queries) {
-      logger.info(`  🔍 Searching Bugs with query: "${q}"...`);
-      bugsAlbum = await searchBugsAlbum(q, targetDateYmd);
-      if (bugsAlbum) break;
-    }
+  // 1. Check DB comebacks against Bugs Data
+  for (const [id, dbItem] of dbComebacks.entries()) {
+    // Find matching Bugs comeback
+    const bugsMatch = validBugsData.find((b: any) => isSameComeback(dbItem, b));
 
-    if (bugsAlbum) {
-      logger.info(`  👑 Found Bugs match: "${bugsAlbum.title}" (${bugsAlbum.album_id})`);
-      
-      const albumId = bugsAlbum.album_id.toString();
-      const cleanTitle = bugsAlbum.title;
-      
-      try {
-        // Scrape details
-        const { tracks, titleTracks } = await scrapeAlbumTracks(albumId, cb.id, cb.artistName, cleanTitle);
-        
-        // Write tracks to Firestore
-        const batch = writeBatch(db);
-        for (const track of tracks) {
-          const trackRef = doc(collection(db, "tracks"));
-          batch.set(trackRef, {
-            ...track,
-            createdAt: new Date().toISOString()
-          });
+    if (bugsMatch) {
+      // We found a match in Bugs! Let's enrich EVERYTHING we can.
+      let updateData: any = {};
+      let enriched = false;
+
+      // Check if tracks collection already has documents for this comeback
+      const tracksSnap = await getDocs(query(collection(db, 'tracks'), where('comebackId', '==', id)));
+      const hasTracksInCollection = !tracksSnap.empty;
+
+      if (dbItem.tracks) {
+        // Delete the corrupted inline array from the comeback document
+        updateData.tracks = deleteField();
+        enriched = true;
+      }
+
+      if (!hasTracksInCollection && bugsMatch.tracks && bugsMatch.tracks.length > 0) {
+        for (const t of bugsMatch.tracks) {
+           const newTrackRef = doc(collection(db, 'tracks'));
+           batch.set(newTrackRef, {
+             name: t.title || t.name,
+             trackNumber: t.trackNumber || 1,
+             isTitle: t.isTitle || false,
+             streamingLinks: t.streamingLinks || {},
+             comebackId: id,
+             createdAt: new Date().toISOString()
+           });
         }
-        await batch.commit();
-        logger.info(`  👉 Created ${tracks.length} track documents in Firestore.`);
+        updateData['streamingLinks.bugs'] = bugsMatch.tracks[0].streamingLinks?.bugs || "";
+        enriched = true;
+      }
+      
+      if (!dbItem.mediaLinks?.musicVideo && bugsMatch.musicVideoUrl) {
+        updateData['mediaLinks.musicVideo'] = bugsMatch.musicVideoUrl;
+        enriched = true;
+      }
 
-        // Determine album cover URL
-        let coverUrl = `https://image.bugsm.co.kr/album/images/500/${albumId.substring(0, 5)}/${albumId}.jpg`;
-        if (bugsAlbum.image?.path) {
-          coverUrl = `https://image.bugsm.co.kr/album/images/500${bugsAlbum.image.path}`;
-        }
+      if (!dbItem.albumCoverUrl && bugsMatch.imageUrl) {
+        updateData.albumCoverUrl = bugsMatch.imageUrl;
+        enriched = true;
+      }
 
-        // Map release type
-        let releaseType = "싱글";
-        const typeNm = bugsAlbum.album_tp_nm;
-        if (typeNm === "EP(미니)" || typeNm === "EP" || typeNm === "미니") releaseType = "EP(미니)";
-        else if (typeNm === "정규") releaseType = "정규";
+      if ((!dbItem.releaseType || dbItem.releaseType === 'ep') && bugsMatch.releaseType) {
+        updateData.releaseType = bugsMatch.releaseType;
+        enriched = true;
+      }
 
-        // Update comeback document
-        await updateDoc(doc(db, "comebacks", cb.id), {
-          albumTitle: cleanTitle,
-          albumCoverUrl: coverUrl,
-          releaseType,
-          tracks,
-          titleTracks,
-          "streamingLinks.bugs": `https://music.bugs.co.kr/album/${albumId}`,
-          isCompleted: true,
-          updatedAt: new Date().toISOString()
-        });
+      if ((!dbItem.agencyName || dbItem.agencyName === '미상') && bugsMatch.agency) {
+        updateData.agencyName = bugsMatch.agency;
+        enriched = true;
+      }
 
-        logger.info("  ✅ Successfully resolved and updated comeback data.");
-
-      } catch (err: any) {
-        logger.error(`  ❌ Failed to parse details for Bugs album ${albumId}:`, err.message);
+      if (enriched) {
+        console.log(`[UPDATE] Enriching comeback from Bugs for: ${dbItem.artistName} - ${dbItem.title}`);
+        batch.update(doc(db, 'comebacks', id), updateData);
+        toUpdate++;
       }
     } else {
-      // No album found on Bugs for this past date.
-      // Wait: only delete if it's older than yesterday to allow a 24-48h buffer
-      const releaseTime = new Date(cb.releaseDate).getTime();
-      const limitTime = new Date(todayStr).getTime() - (24 * 60 * 60 * 1000); // 1 day ago buffer
+      // Check if this is a known fake/mix comeback that needs to be deleted
+      const isAespaRemix = dbItem.artistName === 'aespa' && dbItem.releaseDate === '2026-07-14' && 
+                           (dbItem.title.toLowerCase().includes('mix') || dbItem.title.toLowerCase().includes('symphonic') || dbItem.title.includes('SYNK'));
 
-      if (releaseTime <= limitTime) {
-        logger.warn(`  ❌ No album found on Bugs after release buffer. Deleting false-alarm comeback from DB.`);
-        await deleteDoc(doc(db, "comebacks", cb.id));
-        logger.info("  🗑️ Deleted comeback document successfully.");
-      } else {
-        logger.info("  ⏳ Within release buffer period. Keeping for next reconciliation.");
+      if (isAespaRemix) {
+        console.log(`[DELETE] ${isAespaRemix ? 'Fake comeback (Mix Album)' : 'Fake comeback (No tracks, Not in Bugs)'}: ${dbItem.artistName} - ${dbItem.title} (${dbItem.releaseDate})`);
+        batch.delete(doc(db, 'comebacks', id));
+        toDelete++;
       }
     }
     
-    await sleep(800);
+    // Mark as checked so we know what's left in bugs
+    if (bugsMatch) {
+      bugsMatch._matched = true;
+    }
   }
 
-  logger.info("\n🎉 Past comebacks reconciliation complete.");
-  process.exit(0);
+  // 2. We don't automatically insert missed comebacks here because we need proper artistId mapping.
+  // The daily/weekly crawler should have caught them. If it didn't, it might be due to missing aliases.
+  // We will just log them for now so we can manually add aliases if needed.
+  for (const bugsItem of validBugsData) {
+    if (!bugsItem._matched && bugsItem.releaseDate >= startStr && bugsItem.releaseDate <= endStr) {
+      console.log(`[WARNING] Missed comeback found in Bugs (Requires DB check): ${bugsItem.artistName} - ${bugsItem.title} (${bugsItem.releaseDate})`);
+      toInsert++;
+    }
+  }
+
+  console.log('\n=== SUMMARY ===');
+  console.log(`To Delete (Fake): ${toDelete}`);
+  console.log(`To Update (Enrich): ${toUpdate}`);
+  console.log(`Missed by Crawler: ${toInsert}`);
+  
+  if (process.argv.includes('--execute')) {
+     await batch.commit();
+     console.log('✅ Changes committed to database.');
+  } else {
+     console.log('⚠️ DRY RUN. Run with --execute to apply changes.');
+  }
 }
 
-reconcile().catch(e => {
-  logger.error("Reconciliation Critical Failure:", e);
-  process.exit(1);
-});
+run().catch(console.error);

@@ -162,7 +162,7 @@ export default function CalendarGrid({ searchQuery }: { searchQuery: string }) {
             const q = searchQuery.toLowerCase();
             const searchMatch = !q || 
                                 (c.artistName && c.artistName.toLowerCase().includes(q)) || 
-                                (c.albumTitle && c.albumTitle.toLowerCase().includes(q)) ||
+                                ((c as any).title && (c as any).title.toLowerCase().includes(q)) ||
                                 ((q.includes('남돌') || q.includes('보이그룹') || q.includes('boy group')) && c.artistGender === 'male' && c.artistType === 'group') ||
                                 ((q.includes('여돌') || q.includes('걸그룹') || q.includes('girl group')) && c.artistGender === 'female' && c.artistType === 'group') ||
                                 ((q.includes('남성') || q.includes('male')) && c.artistGender === 'male') ||

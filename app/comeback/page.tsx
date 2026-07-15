@@ -148,7 +148,7 @@ function ComebackDetailContent() {
             <FaChevronRight size={10} />
             <span>Comeback</span>
             <FaChevronRight size={10} />
-            <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{comeback.albumTitle}</span>
+            <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{(comeback as any).title || comeback.albumTitle}</span>
           </nav>
         </div>
         <ThemeToggle />
@@ -162,7 +162,7 @@ function ComebackDetailContent() {
           {comeback.albumCoverUrl ? (
             <img 
               src={comeback.albumCoverUrl} 
-              alt={comeback.albumTitle} 
+              alt={(comeback as any).title} 
               style={{ 
                 width: '100%', 
                 aspectRatio: '1/1', 
@@ -185,7 +185,7 @@ function ComebackDetailContent() {
               </h2>
             </Link>
             <h1 style={{ fontSize: '2rem', fontWeight: 700, margin: '8px 0 16px 0', lineHeight: 1.15 }}>
-              {comeback.albumTitle}
+              {(comeback as any).title}
             </h1>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', borderTop: '1px solid var(--border-color)', paddingTop: '20px' }}>
@@ -255,6 +255,33 @@ function ComebackDetailContent() {
                   allowFullScreen
                 ></iframe>
               </div>
+            </div>
+          )}
+
+          {/* AI Summary & News */}
+          {(comeback.aiSummary || (comeback.recentNews && comeback.recentNews.length > 0)) && (
+            <div className="bento-card" style={{ padding: '20px' }}>
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '16px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                ✨ 컴백 프리뷰 & 관련 기사
+              </h3>
+              
+              {comeback.aiSummary && (
+                <div style={{ padding: '16px', backgroundColor: 'var(--surface-hover)', borderRadius: '8px', marginBottom: '16px', fontSize: '0.95rem', lineHeight: 1.6, color: 'var(--text-primary)', borderLeft: '3px solid var(--accent-color)' }}>
+                  {comeback.aiSummary}
+                </div>
+              )}
+
+              {comeback.recentNews && comeback.recentNews.length > 0 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: 600 }}>관련 기사 (최근 검색 기준)</span>
+                  {comeback.recentNews.map((news, idx) => (
+                    <a key={idx} href={news.link} target="_blank" rel="noreferrer" className="track-item hover:border-accent" style={{ display: 'flex', flexDirection: 'column', gap: '4px', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-hover)', transition: 'all 0.2s' }}>
+                      <span style={{ fontSize: '0.95rem', fontWeight: 500, color: 'var(--text-primary)' }}>{news.title}</span>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{new Date(news.pubDate).toLocaleDateString('ko-KR')}</span>
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 

@@ -1,0 +1,1070 @@
+◇ injected env (8) from .env // tip: ⌘ suppress logs { quiet: true }
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+[2026-07-12T12:53:35.951Z] 📘 [INFO] Starting Daily Precision Crawler with Naver News API...
+[2026-07-12T12:53:37.548Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 파우...
+[2026-07-12T12:53:37.635Z] 📘 [INFO] [📺 YT ENRICH] Naver didn't have full info, falling back to YouTube Community for 파우...
+[2026-07-12T12:53:39.992Z] 📘 [INFO] [YT] Found channel via search: POW Official (https://youtube.com/@POW_Official)
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[2026-07-12T12:53:40.746Z] 📘 [INFO] [YT] Extracted from 파우: title=FLAVOR, date=undefined, type=single
+[2026-07-12T12:53:42.248Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 브브걸...
+[2026-07-12T12:54:28.875Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 슈퍼주니어-83z...
+[2026-07-12T12:54:28.955Z] 📘 [INFO] [📺 YT ENRICH] Naver didn't have full info, falling back to YouTube Community for 슈퍼주니어-83z...
+[2026-07-12T12:54:30.876Z] 📘 [INFO] [YT] Found channel via search: SUPER JUNIOR (https://youtube.com/@SUPERJUNIOR)
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 6,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'SMTOWN and SUPER JUNIOR',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'SMTOWN and SUPER JUNIOR', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 23,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'SMTOWN and SUPER JUNIOR',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'SMTOWN and SUPER JUNIOR', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 6,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'SMTOWN and SUPER JUNIOR',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'SMTOWN and SUPER JUNIOR', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 23,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'SMTOWN and SUPER JUNIOR',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'SMTOWN and SUPER JUNIOR', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 6,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'SMTOWN and SUPER JUNIOR',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'SMTOWN and SUPER JUNIOR', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 23,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'SMTOWN and SUPER JUNIOR',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'SMTOWN and SUPER JUNIOR', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 6,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'SMTOWN and YESUNG',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'SMTOWN and YESUNG', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 17,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'SMTOWN and YESUNG',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'SMTOWN and YESUNG', startIndex: 0 } ]
+}
+[2026-07-12T12:54:31.819Z] 📘 [INFO] [YT] Extracted from 슈퍼주니어-83z: title=너를 위한 약속 (Promise), date=2026-07-13, type=mini
+[2026-07-12T12:54:33.326Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 유노윤호...
+[2026-07-12T12:54:44.621Z] 📘 [INFO] [📺 YT ENRICH] Naver didn't have full info, falling back to YouTube Community for 유노윤호...
+[2026-07-12T12:54:46.664Z] 📘 [INFO] [YT] No channels found for 유노윤호
+[2026-07-12T12:54:46.664Z] 📘 [INFO] [YT] Could not resolve channel for 유노윤호
+[2026-07-12T12:54:48.168Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 루네이트...
+[2026-07-12T12:54:48.236Z] 📘 [INFO] [📺 YT ENRICH] Naver didn't have full info, falling back to YouTube Community for 루네이트...
+[2026-07-12T12:54:49.913Z] 📘 [INFO] [YT] Found channel via search: LUN8 루네이트 (https://youtube.com/@LUN8_Official)
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 16,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'CHOI YOOJUNG 최유정 and LUN8 루네이트',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'CHOI YOOJUNG 최유정 and LUN8 루네이트', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 30,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'CHOI YOOJUNG 최유정 and LUN8 루네이트',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'CHOI YOOJUNG 최유정 and LUN8 루네이트', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 16,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'CHOI YOOJUNG 최유정 and LUN8 루네이트',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'CHOI YOOJUNG 최유정 and LUN8 루네이트', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 30,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'CHOI YOOJUNG 최유정 and LUN8 루네이트',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'CHOI YOOJUNG 최유정 and LUN8 루네이트', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 15,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: '윤산하 YOON SAN-HA and 2 more',
+    styleRuns: [ [Object], [Object] ],
+    attachmentRuns: [ [Object] ]
+  },
+  parsed_runs: [ { text: '윤산하 YOON SAN-HA and 2 more', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 10,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'ASTRO 아스트로 and LUN8 루네이트',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'ASTRO 아스트로 and LUN8 루네이트', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 24,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'ASTRO 아스트로 and LUN8 루네이트',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'ASTRO 아스트로 and LUN8 루네이트', startIndex: 0 } ]
+}
+[2026-07-12T12:54:50.714Z] 📘 [INFO] [YT] Extracted from 루네이트: title=Off_the_Grid, date=undefined, type=mini
+[2026-07-12T12:54:52.216Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 이민혁...
+[2026-07-12T12:55:39.595Z] 📘 [INFO] Daily Precision Crawl complete.
+◇ injected env (8) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+[2026-07-12T12:55:41.510Z] 📘 [INFO] Starting Weekly Discovery Crawler with Naver News API...
+[2026-07-12T12:55:41.623Z] 📘 [INFO] Found 100 relevant news items in the last 7 days.
+[2026-07-12T12:57:53.953Z] 📘 [INFO] ❌ Rejected 해피투게더: Not found on Bugs.
+[2026-07-12T12:57:55.383Z] 📘 [INFO] ❌ Rejected 소환: Not found on Bugs.
+[2026-07-12T12:57:56.627Z] 📘 [INFO] ❌ Rejected 어땠나: Not found on Bugs.
+[2026-07-12T12:58:05.151Z] 📘 [INFO] ❌ Rejected 방예담·클릭비·빅마마: Not found on Bugs.
+[2026-07-12T12:58:06.980Z] 📘 [INFO] ✅ Verified NEW artist 베일 on Bugs!
+[2026-07-12T12:58:09.102Z] 📘 [INFO] [YT] No channels found for 베일
+[2026-07-12T12:58:09.102Z] 📘 [INFO] [YT] Could not resolve channel for 베일
+[2026-07-12T12:59:53.290Z] 📘 [INFO] ❌ Rejected 2026 웨이보 문화교류의 밤: Not found on Bugs.
+[2026-07-12T13:01:13.967Z] 📘 [INFO] ❌ Rejected 글로벌 K팝 신성: Not found on Bugs.
+[2026-07-12T13:01:15.133Z] 📘 [INFO] ❌ Rejected 2026 K포럼: Not found on Bugs.
+[2026-07-12T13:01:16.789Z] 📘 [INFO] ✅ Verified NEW artist 알파드라이브원 on Bugs!
+[2026-07-12T13:02:57.307Z] 📘 [INFO] ✅ Verified NEW artist NCT on Bugs!
+[2026-07-12T13:03:53.100Z] 📘 [INFO] Found and sent 3 new pending reviews.
+[2026-07-12T13:03:53.101Z] 📘 [INFO] Weekly Discovery complete.
+/Users/gimtaehun/idol_tracker/scripts/run_crawlers.sh: line 10: npx: command not found
+/Users/gimtaehun/idol_tracker/scripts/run_crawlers.sh: line 13: npx: command not found
+npm warn exec The following package was not found and will be installed: tsx@4.23.1
+◇ injected env (8) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+[2026-07-13T09:56:06.351Z] 📘 [INFO] Starting Daily Precision Crawler with Naver News API...
+[2026-07-13T09:56:08.014Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 파우...
+[2026-07-13T09:56:08.090Z] 📘 [INFO] [📺 YT ENRICH] Naver didn't have full info, falling back to YouTube Community for 파우...
+[2026-07-13T09:56:10.453Z] 📘 [INFO] [YT] Found channel via search: POW Official (https://youtube.com/@POW_Official)
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 35,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'GRID Entertainment and POW Official',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'GRID Entertainment and POW Official', startIndex: 0 } ]
+}
+[2026-07-13T09:56:11.203Z] 📘 [INFO] [YT] Extracted from 파우: title=FLAVOR, date=undefined, type=single
+[2026-07-13T09:56:12.705Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 브브걸...
+❌ [Qwen] API Error: timeout of 30000ms exceeded
+[2026-07-13T09:56:43.137Z] ⚠️ [WARN] Qwen3 extraction failed or timed out for https://m.entertain.naver.com/article/108/0003342424. Falling back to basic regex is skipped for now.
+[2026-07-13T09:57:07.580Z] 📘 [INFO] [RELEASED] 슈퍼주니어-83z comeback date passed (2026-07-13). Scraping final bugs data...
+[2026-07-13T09:57:08.255Z] 📘 [INFO] ❌ Album not found for 슈퍼주니어-83z. Deleting fake/cancelled comeback.
+[2026-07-13T09:57:09.765Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 유노윤호...
+[2026-07-13T09:57:21.115Z] 📘 [INFO] [📺 YT ENRICH] Naver didn't have full info, falling back to YouTube Community for 유노윤호...
+[2026-07-13T09:57:23.301Z] 📘 [INFO] [YT] No channels found for 유노윤호
+[2026-07-13T09:57:23.301Z] 📘 [INFO] [YT] Could not resolve channel for 유노윤호
+[2026-07-13T09:57:24.806Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 루네이트...
+[2026-07-13T09:57:24.885Z] 📘 [INFO] [📺 YT ENRICH] Naver didn't have full info, falling back to YouTube Community for 루네이트...
+[2026-07-13T09:57:26.651Z] 📘 [INFO] [YT] Found channel via search: LUN8 루네이트 (https://youtube.com/@LUN8_Official)
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 16,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'CHOI YOOJUNG 최유정 and LUN8 루네이트',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'CHOI YOOJUNG 최유정 and LUN8 루네이트', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 30,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'CHOI YOOJUNG 최유정 and LUN8 루네이트',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'CHOI YOOJUNG 최유정 and LUN8 루네이트', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 16,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'CHOI YOOJUNG 최유정 and LUN8 루네이트',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'CHOI YOOJUNG 최유정 and LUN8 루네이트', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 30,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'CHOI YOOJUNG 최유정 and LUN8 루네이트',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'CHOI YOOJUNG 최유정 and LUN8 루네이트', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 15,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: '윤산하 YOON SAN-HA and 2 more',
+    styleRuns: [ [Object], [Object] ],
+    attachmentRuns: [ [Object] ]
+  },
+  parsed_runs: [ { text: '윤산하 YOON SAN-HA and 2 more', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 10,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'ASTRO 아스트로 and LUN8 루네이트',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'ASTRO 아스트로 and LUN8 루네이트', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 24,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'ASTRO 아스트로 and LUN8 루네이트',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'ASTRO 아스트로 and LUN8 루네이트', startIndex: 0 } ]
+}
+[2026-07-13T09:57:27.496Z] 📘 [INFO] [YT] Extracted from 루네이트: title=Off_the_Grid, date=undefined, type=mini
+[2026-07-13T09:57:28.999Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 이민혁...
+[2026-07-13T09:58:19.469Z] 📘 [INFO] Daily Precision Crawl complete.
+[Mon Jul 13 18:58:19 KST 2026] Skipping Weekly Discovery Crawler (runs only on Tuesday).
+◇ injected env (8) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+[2026-07-14T09:30:07.011Z] 📘 [INFO] Starting Daily Precision Crawler with Naver News API...
+[2026-07-14T09:30:08.522Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 브브걸...
+[2026-07-14T09:30:31.936Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 카드(KARD)...
+[2026-07-14T09:30:57.982Z] 📘 [INFO] [📺 YT ENRICH] Naver didn't have full info, falling back to YouTube Community for 카드(KARD)...
+[2026-07-14T09:31:00.048Z] 📘 [INFO] [YT] Found channel via search: KARD (https://youtube.com/@KARD)
+[2026-07-14T09:31:00.706Z] 📘 [INFO] [YT] Extracted from 카드(KARD): title=Where To Now? (Part.2) : NOWHERE, date=undefined, type=mini, image=true
+[2026-07-14T09:31:00.706Z] 📘 [INFO] [📺 YT ENRICH] Updated 카드(KARD): {"title":"Where To Now? (Part.2) : NOWHERE","albumCoverUrl":"https://yt3.ggpht.com/HQcN1Yn3tawhonRPWdDfGjRWTqdtavP8NjUM0ThTwe31TJE342b-lY8e7Y3M--xjFXi3wC2YvG36=s640-c-fcrop64=1,00001a67ffffc527-rw-nd-v1"}
+[2026-07-14T09:31:02.709Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 동방신기...
+[2026-07-14T09:31:09.114Z] 📘 [INFO] [✅ NAVER ENRICH] Updated 동방신기: {"releaseType":"single","aiSummary":"이젤이 신곡 '의리소녀'로 컴백하며, 신곡의 콘셉트와 무대를 기대하게 되었습니다.","recentNews":[{"title":"‘싱어게인’ TOP3 이젤(EJel), ‘의리소녀’ 발매","link":"https://m.entertain.naver.com/article/144/0001050313","pubDate":"Tue, 01 Jul 2025 06:01:00 +0900"},{"title":"‘싱어게인’ TOP3 이젤, 여름날 감성 행보…‘의리소녀’ 발매","link":"https://m.entertain.naver.com/article/410/0001076305","pubDate":"Mon, 30 Jun 2025 14:38:00 +0900"},{"title":"'싱어게인3' 이젤, 프로미스나인 출신 이서연과 우정송 '의리소녀' 발매","link":"https://m.entertain.naver.com/article/311/0001885199","pubDate":"Mon, 30 Jun 2025 10:20:00 +0900"}],"lastTeaserUpdate":"2026-07-14T09:31:09.113Z"}
+[2026-07-14T09:31:09.324Z] 📘 [INFO] [📺 YT ENRICH] Naver didn't have full info, falling back to YouTube Community for 동방신기...
+[2026-07-14T09:31:11.505Z] 📘 [INFO] [YT] No channels found for 동방신기
+[2026-07-14T09:31:11.505Z] 📘 [INFO] [YT] Could not resolve channel for 동방신기
+[2026-07-14T09:31:13.007Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 유노윤호...
+[2026-07-14T09:31:20.938Z] 📘 [INFO] [✅ NAVER ENRICH] Updated 유노윤호: {"aiSummary":"가인은 2월 1일 정규 앨범을 발표하며 여왕의 위엄을 다시 한번 선사할 예정이다. 이번 앨범은 그녀의 음악적 성장과 다양한 음악 스타일을 담고 있다.","recentNews":[{"title":"‘데뷔 20주년’ 동방신기 컴백, 정규 9집 ‘20&2’ 발매..타이틀곡 ‘R...","link":"http://www.breaknews.com/1006158","pubDate":"Tue, 26 Dec 2023 15:18:00 +0900"},{"title":"［종합］‘꼬리(TAIL)’ 컴백 선미, ‘예민美(미)’ 폭발하는 빌런 캣우...","link":"http://www.breaknews.com/787998","pubDate":"Tue, 23 Feb 2021 15:11:00 +0900"},{"title":"가인vs선미vs소시, 2월 가요계 '여왕'들이 온다","link":"https://m.entertain.naver.com/article/108/0002278664","pubDate":"Mon, 03 Feb 2014 09:22:00 +0900"}],"lastTeaserUpdate":"2026-07-14T09:31:20.938Z"}
+[2026-07-14T09:31:22.712Z] 📘 [INFO] ❌ [STALE] Comeback for UDTT (2026-07-02) is older than 1 week. Deleting to save API calls.
+[2026-07-14T09:31:23.108Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 효린(HYOLYN)...
+[2026-07-14T09:31:23.174Z] 📘 [INFO] [📺 YT ENRICH] Naver didn't have full info, falling back to YouTube Community for 효린(HYOLYN)...
+[2026-07-14T09:31:25.257Z] 📘 [INFO] [YT] Found channel via search: HYOLYN 효린 (https://youtube.com/@OfficialHyolyn)
+[2026-07-14T09:31:26.014Z] 📘 [INFO] [YT] Extracted from 효린(HYOLYN): title=OriginaLyn, date=2026-07-22, type=mini, image=true
+[2026-07-14T09:31:26.014Z] 📘 [INFO] [📺 YT ENRICH] Updated 효린(HYOLYN): {"title":"OriginaLyn","releaseType":"mini","albumCoverUrl":"https://yt3.ggpht.com/SRokDu91TZRpV_zbqxo5vyq_XKjTVRkm-lIAfig4AlcIUDrAqtJxrmLxhvZDyP-UwTehGPCN01n2=s640-c-fcrop64=1,000005c2ffffc5b2-rw-nd-v1"}
+[2026-07-14T09:31:27.782Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 앤팀...
+[2026-07-14T09:31:42.305Z] 📘 [INFO] [✅ NAVER ENRICH] Updated 앤팀: {"releaseType":"single","aiSummary":"K-POP 그룹 &TEAM이 2024년 9월 5일 신곡 'Samidare'와 'Scar to Scar'의 한국어 버전을 발표하며, 위콘페에서의 무대를 통해 콘셉트를 선보일 예정이다."}
+[2026-07-14T09:31:42.592Z] 📘 [INFO] [📺 YT ENRICH] Naver didn't have full info, falling back to YouTube Community for 앤팀...
+[2026-07-14T09:31:44.791Z] 📘 [INFO] [YT] Found channel via search: &TEAM (https://youtube.com/@andTEAM_official)
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 11,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'HYBE LABELS and 2 more',
+    styleRuns: [ [Object], [Object] ],
+    attachmentRuns: [ [Object] ]
+  },
+  parsed_runs: [ { text: 'HYBE LABELS and 2 more', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 11,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'HYBE LABELS and 2 more',
+    styleRuns: [ [Object], [Object] ],
+    attachmentRuns: [ [Object] ]
+  },
+  parsed_runs: [ { text: 'HYBE LABELS and 2 more', startIndex: 0 } ]
+}
+[2026-07-14T09:31:45.532Z] 📘 [INFO] [YT] Extracted from 앤팀: title=undefined, date=undefined, type=undefined, image=true
+[2026-07-14T09:31:45.532Z] 📘 [INFO] [📺 YT ENRICH] Updated 앤팀: {"albumCoverUrl":"https://yt3.ggpht.com/ukbD86Yz2A_AAkbdfkHAyETACZurq5Xog8S2_AZMEBj9SmchCtUYTRCbb1Vb9LaznCtVb1xyi1s_=s640-c-fcrop64=1,00000000ffffffff-nd-v1"}
+[2026-07-14T09:31:47.276Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 이민혁...
+[2026-07-14T09:31:56.411Z] 📘 [INFO] [✅ NAVER ENRICH] Updated 이민혁: {"aiSummary":"데이식스 멤버 영케이가 솔로로 컴백하며, DJ 금의환향 비결을 공개하는 콘셉트로 활동한다. 이번 활동은 그의 음악적 성장과 새로운 음악 스타일을 보여주는 기회로 기대된다.","recentNews":[{"title":"프니엘, 새 싱글 'IDKI'·'VHS' 언급한 야경 셀카","link":"https://www.topstarnews.net/news/articleView.html?idxno=16072281","pubDate":"Tue, 26 May 2026 23:34:00 +0900"},{"title":"다음에 또 보자더니…데이식스 영케이, DJ 금의환향 비결[스타와치]","link":"https://m.entertain.naver.com/article/609/0000737773","pubDate":"Sun, 18 Jun 2023 15:49:00 +0900"},{"title":"\"멜로디♥·멤버들 생각나\" 비투비 포유, '더쇼' 컴백 동시 1위→SM 에스...","link":"https://m.entertain.naver.com/article/109/0004316021","pubDate":"Tue, 24 Nov 2020 19:28:00 +0900"}],"lastTeaserUpdate":"2026-07-14T09:31:56.411Z"}
+[2026-07-14T09:31:58.150Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 데이식스...
+[2026-07-14T09:32:08.927Z] 📘 [INFO] [✅ NAVER ENRICH] Updated 데이식스: {"aiSummary":"데이식스가 10년 만에 스타디움 공연을 통해 '계절'이라는 주제로 컴백하며, 그들의 음악이 영원히 흐르는 감성을 전달하고자 한다."}
+[2026-07-14T09:32:09.171Z] 📘 [INFO] [📺 YT ENRICH] Naver didn't have full info, falling back to YouTube Community for 데이식스...
+[2026-07-14T09:32:11.382Z] 📘 [INFO] [YT] Found channel via search: DAY6 (https://youtube.com/@DAY6Official)
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 17,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'JYP Entertainment and DAY6',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'JYP Entertainment and DAY6', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 26,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'JYP Entertainment and DAY6',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'JYP Entertainment and DAY6', startIndex: 0 } ]
+}
+[2026-07-14T09:32:12.154Z] 📘 [INFO] [YT] Extracted from 데이식스: title=YoungK, date=2026-07-27, type=full, image=true
+[2026-07-14T09:32:12.155Z] 📘 [INFO] [📺 YT ENRICH] Updated 데이식스: {"title":"YoungK","releaseType":"full","albumCoverUrl":"https://yt3.ggpht.com/QTCLVCNO1fmrxbiPWKjf3FeElEkc1TTWTcITiQH-H_PIlbJd-YFMMil5pVTQ4KQTGOIsSEKAKLOQlP0=s640-c-fcrop64=1,00003333ffffffff-nd-v1"}
+[2026-07-14T09:32:13.889Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 프로미스나인...
+[2026-07-14T09:32:19.946Z] 📘 [INFO] [✅ NAVER ENRICH] Updated 프로미스나인: {"releaseType":"single","recentNews":[{"title":"‘싱어게인’ TOP3 이젤(EJel), ‘의리소녀’ 발매","link":"https://m.entertain.naver.com/article/144/0001050313","pubDate":"Tue, 01 Jul 2025 06:01:00 +0900"},{"title":"‘싱어게인’ TOP3 이젤, 여름날 감성 행보…‘의리소녀’ 발매","link":"https://m.entertain.naver.com/article/410/0001076305","pubDate":"Mon, 30 Jun 2025 14:38:00 +0900"},{"title":"'싱어게인3' 이젤, 프로미스나인 출신 이서연과 우정송 '의리소녀' 발매","link":"https://m.entertain.naver.com/article/311/0001885199","pubDate":"Mon, 30 Jun 2025 10:20:00 +0900"}],"lastTeaserUpdate":"2026-07-14T09:32:19.946Z"}
+[2026-07-14T09:32:21.935Z] 📘 [INFO] [ENRICH] Searching Naver News to enrich 원호...
+[2026-07-14T09:32:49.752Z] 📘 [INFO] Starting Bugs Safety Net to catch missed comebacks...
+[2026-07-14T09:32:51.917Z] 📘 [INFO] Found 65 latest domestic albums on Bugs.
+[2026-07-14T09:32:57.065Z] 📘 [INFO] 🚨 [SAFETY NET] Caught missed comeback! 김지웅 (ZEROBASEONE) - CLOSER (2026-07-14)
+[2026-07-14T09:32:57.068Z] 📘 [INFO] 🚨 [SAFETY NET] Artist not found in DB! Creating NEW artist document for 김지웅 (ZEROBASEONE)
+[2026-07-14T09:33:09.493Z] 📘 [INFO] 🚨 [SAFETY NET] Caught missed comeback! aespa - LEMONADE (Zedd Extended Mix) (2026-07-14)
+[2026-07-14T09:33:18.640Z] 📘 [INFO] 🚨 [SAFETY NET] Caught missed comeback! 손준형 - CRUSH (2026-07-13)
+[2026-07-14T09:33:18.642Z] 📘 [INFO] 🚨 [SAFETY NET] Artist not found in DB! Creating NEW artist document for 손준형
+[2026-07-14T09:33:29.776Z] 📘 [INFO] 🚨 [SAFETY NET] Caught missed comeback! cosmosy - Stay Alive (2026-07-10)
+[2026-07-14T09:33:35.724Z] 📘 [INFO] [SAFETY NET] Successfully recovered 4 missed comebacks.
+[2026-07-14T09:33:35.724Z] 📘 [INFO] Daily Precision Crawl complete.
+◇ injected env (8) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+[2026-07-14T09:33:37.897Z] 📘 [INFO] Starting Weekly Discovery Crawler with Naver News API...
+[2026-07-14T09:33:38.006Z] 📘 [INFO] Found 100 relevant news items in the last 7 days.
+[2026-07-14T09:33:43.784Z] 📘 [INFO] 🤖 Qwen missed artist, fallback to regex candidates: 2026 TMA, TMA, 올데프·코르티스→키키대세
+[2026-07-14T09:33:44.054Z] 📘 [INFO] ❌ Rejected 2026 TMA: Not found on Bugs.
+[2026-07-14T09:33:45.759Z] 📘 [INFO] ✅ Verified NEW artist TMA on Bugs!
+[2026-07-14T09:33:47.773Z] 📘 [INFO] [YT] Found channel via search:  THE FACT MUSIC AWARDS (https://youtube.com/@%EB%8D%94%ED%8C%A9%ED%8A%B8%EB%AE%A4%EC%A7%81%EC%96%B4%EC%9B%8C%EC%A6%88)
+[2026-07-14T09:33:48.326Z] 📘 [INFO] [YT] Extracted from TMA: title=더팩트뮤직어워즈, date=2026-09-19, type=undefined, image=true
+[2026-07-14T09:33:48.326Z] 📘 [INFO] 📺 YouTube enriched NEW TMA: date=2026-09-19
+[2026-07-14T09:33:54.891Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 효연
+[2026-07-14T09:33:54.892Z] 📘 [INFO] 🔄 Existing artist 효연 is having a comeback!
+[2026-07-14T09:33:56.024Z] 📘 [INFO] [YT] Resolved official URL for 효연: UCy09Uze1QeJPWycuOMPhjsw
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 6,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'SMTOWN and HYOYEON',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'SMTOWN and HYOYEON', startIndex: 0 } ]
+}
+[YOUTUBEJS][Text]: Unable to find matching run for attachment run. Skipping... {
+  attachment_run: {
+    startIndex: 18,
+    element: { type: [Object], properties: [Object] },
+    alignment: 'ALIGNMENT_VERTICAL_CENTER'
+  },
+  input_data: {
+    content: 'SMTOWN and HYOYEON',
+    styleRuns: [ [Object], [Object], [Object] ],
+    attachmentRuns: [ [Object], [Object] ]
+  },
+  parsed_runs: [ { text: 'SMTOWN and HYOYEON', startIndex: 0 } ]
+}
+[2026-07-14T09:33:56.480Z] 📘 [INFO] [YT] Extracted from 효연: title=s new single, date=undefined, type=single, image=true
+[2026-07-14T09:33:56.480Z] 📘 [INFO] 📺 YouTube enriched 효연: date=TBA, type=single, title=s new single
+[2026-07-14T09:34:07.674Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 효연
+[2026-07-14T09:34:07.675Z] 📘 [INFO] 📝 Enriching existing comeback for 효연: {"releaseDate":"2026-07-29","recentNews":[{"title":"효연, 효리수 개그캐 메인보컬 고충…\"언제까지 이렇게 살아야하나 답답...","link":"https://m.entertain.naver.com/article/477/0000618249","pubDate":"Tue, 14 Jul 2026 10:28:00 +0900"},{"title":"'데뷔 19년 차' 효연, 아이돌 삶에 답답함 토로…\"언제까지 이렇게 살아...","link":"https://m.entertain.naver.com/article/213/0001394260","pubDate":"Tue, 14 Jul 2026 14:30:00 +0900"}],"aiSummary":"효연이 개그 캐릭터 '효리수'의 메인보컬로 컴백하며, 캐릭터의 감정을 담은 음악을 발표한다. 콘셉트에 맞춘 무대와 음악으로 팬들의 기대를 높이고 있다."}
+[2026-07-14T09:34:16.591Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 소시 효연
+[2026-07-14T09:34:17.370Z] 📘 [INFO] ❌ Rejected 언제까지 이렇게 살아야 하나 답답했다: Not found on Bugs.
+[2026-07-14T09:34:19.596Z] 📘 [INFO] ❌ Rejected 소시: Not found on Bugs.
+[2026-07-14T09:34:28.324Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 효연
+[2026-07-14T09:34:28.324Z] 📘 [INFO] 📝 Enriching existing comeback for 효연: {"recentNews":[{"title":"소녀시대 효연 \"많이 내려놔…언제까지 이렇게 살아야 하나 답답했다\" ...","link":"https://m.entertain.naver.com/article/408/0000314855","pubDate":"Tue, 14 Jul 2026 09:15:00 +0900"},{"title":"효연, 효리수 개그캐 메인보컬 고충…\"언제까지 이렇게 살아야하나 답답...","link":"https://m.entertain.naver.com/article/477/0000618249","pubDate":"Tue, 14 Jul 2026 10:28:00 +0900"},{"title":"'데뷔 19년 차' 효연, 아이돌 삶에 답답함 토로…\"언제까지 이렇게 살아...","link":"https://m.entertain.naver.com/article/213/0001394260","pubDate":"Tue, 14 Jul 2026 14:30:00 +0900"}]}
+[2026-07-14T09:34:37.668Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 효연
+[2026-07-14T09:34:37.669Z] 📘 [INFO] 📝 Enriching existing comeback for 효연: {"recentNews":[{"title":"효연, 소녀시대 예쁜 척 하느라 어떻게 참았나..\"언제까지 이렇게 사나...","link":"https://m.entertain.naver.com/article/109/0005571087","pubDate":"Tue, 14 Jul 2026 08:51:00 +0900"},{"title":"소녀시대 효연 \"많이 내려놔…언제까지 이렇게 살아야 하나 답답했다\" ...","link":"https://m.entertain.naver.com/article/408/0000314855","pubDate":"Tue, 14 Jul 2026 09:15:00 +0900"},{"title":"효연, 효리수 개그캐 메인보컬 고충…\"언제까지 이렇게 살아야하나 답답...","link":"https://m.entertain.naver.com/article/477/0000618249","pubDate":"Tue, 14 Jul 2026 10:28:00 +0900"},{"title":"'데뷔 19년 차' 효연, 아이돌 삶에 답답함 토로…\"언제까지 이렇게 살아...","link":"https://m.entertain.naver.com/article/213/0001394260","pubDate":"Tue, 14 Jul 2026 14:30:00 +0900"}]}
+[2026-07-14T09:34:46.142Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 효연
+[2026-07-14T09:34:46.143Z] 📘 [INFO] 📝 Enriching existing comeback for 효연: {"recentNews":[{"title":"소시 효연 데뷔 19년만 메인보컬 “언제까지 이렇게 살아야하나 답답했...","link":"https://m.entertain.naver.com/article/609/0001145859","pubDate":"Tue, 14 Jul 2026 08:40:00 +0900"},{"title":"효연, 소녀시대 예쁜 척 하느라 어떻게 참았나..\"언제까지 이렇게 사나...","link":"https://m.entertain.naver.com/article/109/0005571087","pubDate":"Tue, 14 Jul 2026 08:51:00 +0900"},{"title":"소녀시대 효연 \"많이 내려놔…언제까지 이렇게 살아야 하나 답답했다\" ...","link":"https://m.entertain.naver.com/article/408/0000314855","pubDate":"Tue, 14 Jul 2026 09:15:00 +0900"},{"title":"효연, 효리수 개그캐 메인보컬 고충…\"언제까지 이렇게 살아야하나 답답...","link":"https://m.entertain.naver.com/article/477/0000618249","pubDate":"Tue, 14 Jul 2026 10:28:00 +0900"},{"title":"'데뷔 19년 차' 효연, 아이돌 삶에 답답함 토로…\"언제까지 이렇게 살아...","link":"https://m.entertain.naver.com/article/213/0001394260","pubDate":"Tue, 14 Jul 2026 14:30:00 +0900"}]}
+[2026-07-14T09:34:55.486Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 디렉션(D:D)
+[2026-07-14T09:34:56.513Z] 📘 [INFO] ❌ Rejected MONKEY MODE: Not found on Bugs.
+[2026-07-14T09:34:58.191Z] 📘 [INFO] ✅ Verified NEW artist 신예 on Bugs!
+[2026-07-14T09:35:07.295Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 8TURN
+[2026-07-14T09:35:08.045Z] 📘 [INFO] ❌ Rejected [8.X]: Not found on Bugs.
+[2026-07-14T09:35:10.409Z] 📘 [INFO] ✅ Verified NEW artist TURN on Bugs!
+[2026-07-14T09:35:20.749Z] 📘 [INFO] 🤖 Qwen extracted exact artist: itsnotover
+[2026-07-14T09:35:21.218Z] 📘 [INFO] ❌ Rejected 목표는 모든 음방 1위: Not found on Bugs.
+[2026-07-14T09:35:22.592Z] 📘 [INFO] ❌ Rejected itsnotover: Not found on Bugs.
+[2026-07-14T09:35:24.218Z] 📘 [INFO] ✅ Verified NEW artist 아이덴티티 on Bugs!
+[2026-07-14T09:35:35.191Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 아이덴티티
+[2026-07-14T09:35:35.192Z] 📘 [INFO] 📝 Enriching existing comeback for 아이덴티티: {"recentNews":[{"title":"\"목표는 음악방송 1위 올킬\"…20명 된 아이덴티티, 더 강력해진 '잇츠낫...","link":"https://m.entertain.naver.com/article/477/0000618122","pubDate":"Mon, 13 Jul 2026 17:59:00 +0900"},{"title":"“목표는 모든 음방 1위”...패기로 뭉친 20人 아이덴티티, ‘itsnotover’...","link":"https://m.entertain.naver.com/article/410/0001132347","pubDate":"Mon, 13 Jul 2026 18:07:00 +0900"}]}
+[2026-07-14T09:35:46.969Z] 📘 [INFO] Skipping non-idol article: “한복 인형, 자개 장식품도 인기”…고환율·K뷰티 타고 새 수출 통로...
+[2026-07-14T09:35:55.092Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 아홉
+[2026-07-14T09:35:55.950Z] 📘 [INFO] ✅ Verified NEW artist 아홉 on Bugs!
+[2026-07-14T09:36:05.719Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 아이덴티티
+[2026-07-14T09:36:05.720Z] 📘 [INFO] 📝 Enriching existing comeback for 아이덴티티: {"recentNews":[{"title":"‘스트리트 컬처 아이돌’ 아이덴티티(idntt) 더 특별해진 정체성으로 ...","link":"https://m.entertain.naver.com/article/144/0001125924","pubDate":"Mon, 13 Jul 2026 17:12:00 +0900"},{"title":"\"목표는 음악방송 1위 올킬\"…20명 된 아이덴티티, 더 강력해진 '잇츠낫...","link":"https://m.entertain.naver.com/article/477/0000618122","pubDate":"Mon, 13 Jul 2026 17:59:00 +0900"},{"title":"“목표는 모든 음방 1위”...패기로 뭉친 20人 아이덴티티, ‘itsnotover’...","link":"https://m.entertain.naver.com/article/410/0001132347","pubDate":"Mon, 13 Jul 2026 18:07:00 +0900"}]}
+[2026-07-14T09:36:15.222Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 하현곤
+[2026-07-14T09:36:15.477Z] 📘 [INFO] ❌ Rejected 품절남: Not found on Bugs.
+[2026-07-14T09:36:18.011Z] 📘 [INFO] ❌ Rejected 경사: Not found on Bugs.
+[2026-07-14T09:36:20.274Z] 📘 [INFO] ✅ Verified NEW artist 하현곤 on Bugs!
+[2026-07-14T09:36:25.238Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 하현곤
+[2026-07-14T09:36:26.194Z] 📘 [INFO] ✅ Verified NEW artist 클릭비 on Bugs!
+[2026-07-14T09:36:28.418Z] 📘 [INFO] [YT] No channels found for 클릭비
+[2026-07-14T09:36:28.418Z] 📘 [INFO] [YT] Could not resolve channel for 클릭비
+[2026-07-14T09:36:40.311Z] 📘 [INFO] 🤖 Qwen missed artist, fallback to regex candidates: BTS
+[2026-07-14T09:36:41.682Z] 📘 [INFO] ✅ Verified NEW artist BTS on Bugs!
+[2026-07-14T09:36:51.509Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 남규리
+[2026-07-14T09:36:51.882Z] 📘 [INFO] ❌ Rejected 무대 체질인가봐: Not found on Bugs.
+[2026-07-14T09:36:53.921Z] 📘 [INFO] ✅ Verified NEW artist 남규리 on Bugs!
+[2026-07-14T09:37:03.322Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 리센느
+[2026-07-14T09:37:03.323Z] 📘 [INFO] 🔄 Existing artist 리센느 is having a comeback!
+[2026-07-14T09:37:11.373Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 미나미
+[2026-07-14T09:37:11.640Z] 📘 [INFO] ❌ Rejected 언니 사렸네: Not found on Bugs.
+[2026-07-14T09:37:13.433Z] 📘 [INFO] ✅ Verified NEW artist 미나미 on Bugs!
+[2026-07-14T09:37:29.828Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 미나미
+[2026-07-14T09:37:29.829Z] 📘 [INFO] 📝 Enriching existing NEW comeback for 리센느: {"recentNews":[{"title":"리센느 미나미, 민낯에서 갸루로…전소미와 트윈 메이크업","link":"https://m.entertain.naver.com/article/396/0000749473","pubDate":"Mon, 13 Jul 2026 08:31:00 +0900"},{"title":"이엑스아이디? 브레이브걸스?…‘역주행 돌풍’ 리센느, 어떤 행보 따라...","link":"https://m.entertain.naver.com/article/119/0003110634","pubDate":"Mon, 13 Jul 2026 09:17:00 +0900"}]}
+[2026-07-14T09:37:38.951Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 아홉
+[2026-07-14T09:37:39.715Z] 📘 [INFO] ✅ Verified NEW artist MV on Bugs!
+[2026-07-14T09:38:04.744Z] 📘 [INFO] 🤖 Qwen missed artist, fallback to regex candidates: 팬덤, 대중
+[2026-07-14T09:38:06.312Z] 📘 [INFO] ❌ Rejected 팬덤: Not found on Bugs.
+[2026-07-14T09:38:07.920Z] 📘 [INFO] ✅ Verified NEW artist 대중 on Bugs!
+[2026-07-14T09:38:09.972Z] 📘 [INFO] [YT] Found channel via search: 대중식당 (https://youtube.com/@daejoongrestaurant)
+[2026-07-14T09:38:10.594Z] 📘 [INFO] [YT] No useful comeback info found in 대중's community posts
+[2026-07-14T09:38:21.709Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 남규리
+[2026-07-14T09:38:22.080Z] 📘 [INFO] ❌ Rejected 아이돌 정말 리스펙트: Not found on Bugs.
+[2026-07-14T09:38:31.987Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 김태형
+[2026-07-14T09:38:32.818Z] 📘 [INFO] ✅ Verified NEW artist 쉼표 on Bugs!
+[2026-07-14T09:38:40.949Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 뉴진스
+[2026-07-14T09:38:40.950Z] 📘 [INFO] 🔄 Existing artist 뉴진스 is having a comeback!
+[2026-07-14T09:38:49.866Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 벨벳
+[2026-07-14T09:38:51.249Z] 📘 [INFO] ✅ Verified NEW artist 벨벳 on Bugs!
+[2026-07-14T09:39:00.334Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 차웅기
+[2026-07-14T09:39:00.688Z] 📘 [INFO] ❌ Rejected 기적 같은 일: Not found on Bugs.
+[2026-07-14T09:39:02.397Z] 📘 [INFO] ✅ Verified NEW artist 기적 on Bugs!
+[2026-07-14T09:39:07.071Z] 📘 [INFO] Skipping non-idol article: 아이들, 전소연 예명 비화부터 '억 소리' 나는 민니 태국 대저택 까지…...
+[2026-07-14T09:39:28.790Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 시크릿
+[2026-07-14T09:39:28.794Z] 📘 [INFO] 🔄 Existing artist 시크릿 is having a comeback!
+[2026-07-14T09:39:37.980Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 에이티즈
+[2026-07-14T09:39:37.983Z] 📘 [INFO] 🔄 Existing artist 에이티즈 is having a comeback!
+[2026-07-14T09:39:42.943Z] 📘 [INFO] Skipping non-idol article: 아이들 우기, 한음저협서 연금 월 100만원 받는다‥자산 관리로 주 2회 ...
+[2026-07-14T09:39:52.836Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 기현
+[2026-07-14T09:39:52.837Z] 📘 [INFO] 🔄 Existing artist 기현 is having a comeback!
+[2026-07-14T09:40:05.962Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 리센느
+[2026-07-14T09:40:06.016Z] 📘 [INFO] 📝 Enriching existing comeback for 리센느: {"recentNews":[{"title":"[자막뉴스] '거제 야호'에서 음원 1위까지...리센느가 써 내려간 중소아...","link":"https://n.news.naver.com/mnews/article/052/0002378059?sid=103","pubDate":"Sat, 11 Jul 2026 14:36:00 +0900"},{"title":"리센느 미나미, 민낯에서 갸루로…전소미와 트윈 메이크업","link":"https://m.entertain.naver.com/article/396/0000749473","pubDate":"Mon, 13 Jul 2026 08:31:00 +0900"},{"title":"이엑스아이디? 브레이브걸스?…‘역주행 돌풍’ 리센느, 어떤 행보 따라...","link":"https://m.entertain.naver.com/article/119/0003110634","pubDate":"Mon, 13 Jul 2026 09:17:00 +0900"}]}
+[2026-07-14T09:40:14.126Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 키키
+[2026-07-14T09:40:23.447Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 영케이
+[2026-07-14T09:40:23.450Z] 📘 [INFO] 🔄 Existing artist 영케이 is having a comeback!
+[2026-07-14T09:40:27.939Z] 📘 [INFO] Skipping non-idol article: 돌아온 ‘해피투게더’ 어땠나, 클릭비 출격에 밀레니엄 ‘소환’ [종합...
+[2026-07-14T09:40:31.928Z] 📘 [INFO] Skipping non-idol article: 베일 벗은 '해피투게더'...오디션 참가자로 '방예담·클릭비·빅마마' 등...
+[2026-07-14T09:40:42.877Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 아홉
+[2026-07-14T09:40:43.546Z] 📘 [INFO] ✅ Verified NEW artist 뮤직뱅크 on Bugs!
+[2026-07-14T09:40:53.279Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 8TURN
+[2026-07-14T09:40:54.081Z] 📘 [INFO] ✅ Verified NEW artist 비주얼 on Bugs!
+[2026-07-14T09:41:17.832Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 민니
+[2026-07-14T09:41:18.303Z] 📘 [INFO] ❌ Rejected 꼭 같이 밥 먹고 싶다: Not found on Bugs.
+[2026-07-14T09:41:20.438Z] 📘 [INFO] ✅ Verified NEW artist 민니 on Bugs!
+[2026-07-14T09:41:30.664Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 루네이트
+[2026-07-14T09:41:30.666Z] 📘 [INFO] 📝 Enriching existing comeback for 루네이트: {"recentNews":[{"title":"루네이트, 팬클럽 무료 초청 '파격'… 데뷔 첫 팬콘 연다","link":"https://m.entertain.naver.com/article/018/0006327117","pubDate":"Fri, 10 Jul 2026 14:08:00 +0900"}],"aiSummary":"루네이트가 데뷔 첫 팬콘을 개최하며 팬클럽을 무료 초청하는 파격적인 방식으로 팬들과의 만남을 준비 중이다. 이 행사를 통해 그룹의 데뷔 후 첫 공연과 다양한 이벤트를 기대할 수 있다."}
+[2026-07-14T09:41:51.436Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 루네이트(LUN8)
+[2026-07-14T09:41:53.017Z] 📘 [INFO] ✅ Verified NEW artist LUN8 on Bugs!
+[2026-07-14T09:42:11.451Z] 📘 [INFO] Skipping non-idol article: ‘K-팝 황금기’가 다시 돌아온다…음반판매 ‘역대 최다’
+[2026-07-14T09:42:16.060Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 승민
+[2026-07-14T09:42:16.060Z] 📘 [INFO] 🔄 Existing artist 승민 is having a comeback!
+[2026-07-14T09:42:17.278Z] 📘 [INFO] [YT] Resolved official URL for 승민: UC6zj1shb6SwJThOfHSR-1wg
+[2026-07-14T09:42:17.780Z] ❌ [ERROR] [YT] Error fetching community for 승민: Tab "posts" not found
+[2026-07-14T09:42:29.458Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 니콜
+[2026-07-14T09:42:31.015Z] 📘 [INFO] ✅ Verified NEW artist 프리티걸 on Bugs!
+[2026-07-14T09:42:39.784Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 아일릿
+[2026-07-14T09:42:39.785Z] 📘 [INFO] 🔄 Existing artist 아일릿 is having a comeback!
+[2026-07-14T09:42:48.635Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 루네이트
+[2026-07-14T09:42:48.637Z] 📘 [INFO] 📝 Enriching existing comeback for 루네이트: {"recentNews":[{"title":"루네이트(LUN8), 10개월 만에 새 앨범 ‘Off the Grid’ 발매","link":"https://m.entertain.naver.com/article/144/0001125398","pubDate":"Fri, 10 Jul 2026 01:10:00 +0900"},{"title":"루네이트, 팬클럽 무료 초청 '파격'… 데뷔 첫 팬콘 연다","link":"https://m.entertain.naver.com/article/018/0006327117","pubDate":"Fri, 10 Jul 2026 14:08:00 +0900"}]}
+[2026-07-14T09:42:52.832Z] 📘 [INFO] Skipping non-idol article: 이펙스, 국제 시상식 ‘2026 웨이보 문화교류의 밤’ 참석하며 글로벌 ...
+[2026-07-14T09:43:01.222Z] 📘 [INFO] 🤖 Qwen extracted exact artist: 이민혁
+[2026-07-14T09:43:01.223Z] 📘 [INFO] 📝 Enriching existing comeback for 이민혁: {"recentNews":[{"title":"비투비(BTOB) 이민혁, 서늘하면서도 날카로운[화보]","link":"https://m.entertain.naver.com/article/144/0001125353","pubDate":"Thu, 09 Jul 2026 19:18:00 +0900"},{"link":"https://www.topstarnews.net/news/articleView.html?idxno=16072281","pubDate":"Tue, 26 May 2026 23:34:00 +0900","title":"프니엘, 새 싱글 'IDKI'·'VHS' 언급한 야경 셀카"},{"pubDate":"Sun, 18 Jun 2023 15:49:00 +0900","link":"https://m.entertain.naver.com/article/609/0000737773","title":"다음에 또 보자더니…데이식스 영케이, DJ 금의환향 비결[스타와치]"},{"title":"\"멜로디♥·멤버들 생각나\" 비투비 포유, '더쇼' 컴백 동시 1위→SM 에스...","link":"https://m.entertain.naver.com/article/109/0004316021","pubDate":"Tue, 24 Nov 2020 19:28:00 +0900"}]}
+[2026-07-14T09:43:01.458Z] 📘 [INFO] Found and added 29 new comebacks directly to DB.
+[2026-07-14T09:43:01.458Z] 📘 [INFO] Weekly Discovery complete.

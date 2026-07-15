@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.idoltracker.crawlers</string>
+    
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/gimtaehun/idol_tracker/scripts/run_crawlers.sh</string>
+    </array>
+
+    <!-- Set Working Directory -->
+    <key>WorkingDirectory</key>
+    <string>/Users/gimtaehun/idol_tracker</string>
+
+    <!-- Run every day at 18:30 -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>18</integer>
+        <key>Minute</key>
+        <integer>30</integer>
+    </dict>
+
+    <!-- Also run when loaded (e.g., when Mac boots and loads LaunchAgents) to catch up if missed -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/gimtaehun/idol_tracker/.crawler.stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/gimtaehun/idol_tracker/.crawler.stderr.log</string>
+</dict>
+</plist>

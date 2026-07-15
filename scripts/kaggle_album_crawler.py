@@ -10,8 +10,8 @@ class UltimateBugsAlbumCrawler:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
         }
         self.session = requests.Session()
-        self.start_date = "2026-01-01"
-        self.end_date = "2026-07-10"
+        self.start_date = "2026-07-10"
+        self.end_date = "2026-12-31"
 
     def fetch_album_details(self, album_url: str, release_date: str) -> dict:
         print(f"Scraping album details: {album_url}")
@@ -59,10 +59,12 @@ class UltimateBugsAlbumCrawler:
                         album_data["agency"] = td.text.strip()
 
             # 3. Track List
-            track_table = soup.select("table.list.trackList.byAlbum tbody tr[rowtype='track']")
+            track_table = soup.select("table.list.trackList.byAlbum tr")
             for tr in track_table:
-                track_id = tr.get("trackid", "")
-                mvid = tr.get("mvid", "")
+                track_id = tr.get("trackid") or tr.get("trackId")
+                mvid = tr.get("mvid") or tr.get("mvId")
+                if not track_id:
+                    continue
                 
                 index_em = tr.select_one("td p.trackIndex em")
                 track_number = int(index_em.text.strip()) if index_em else 0
@@ -156,8 +158,8 @@ class UltimateBugsAlbumCrawler:
 if __name__ == "__main__":
     crawler = UltimateBugsAlbumCrawler()
     
-    # 전체 스캔 실행
-    dataset = crawler.run_full_scan(max_pages=50)
+    # 최근 2페이지만 스캔 (빠른 보강을 위해)
+    dataset = crawler.run_full_scan(max_pages=10)
     
     output_file = "bugs_comeback_data.json"
     with open(output_file, "w", encoding="utf-8") as f:

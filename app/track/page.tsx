@@ -106,7 +106,7 @@ function TrackDetailContent() {
               <>
                 <Link href={`/artist?id=${comeback.artistId}`} style={{ color: 'var(--text-secondary)' }}>{track.artistName}</Link>
                 <FaChevronRight size={10} />
-                <Link href={`/comeback?id=${track.comebackId}`} style={{ color: 'var(--text-secondary)' }}>{track.albumTitle}</Link>
+                <Link href={`/comeback?id=${track.comebackId}`} style={{ color: 'var(--text-secondary)' }}>{(track as any).title || (track as any).albumTitle}</Link>
                 <FaChevronRight size={10} />
               </>
             ) : (
@@ -128,7 +128,7 @@ function TrackDetailContent() {
           {comeback?.albumCoverUrl ? (
             <img 
               src={comeback.albumCoverUrl} 
-              alt={track.albumTitle} 
+              alt={(track as any).title} 
               style={{ 
                 width: '100%', 
                 aspectRatio: '1/1', 
@@ -165,14 +165,14 @@ function TrackDetailContent() {
                 </Link>
                 <Link href={`/comeback?id=${track.comebackId}`} style={{ display: 'inline-block' }}>
                   <h3 style={{ fontSize: '1rem', color: 'var(--text-secondary)', textDecoration: 'underline' }}>
-                    {track.albumTitle}
+                    {(track as any).title}
                   </h3>
                 </Link>
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <h2 style={{ fontSize: '1.25rem', color: 'var(--accent-color)', fontWeight: 600 }}>{track.artistName}</h2>
-                <h3 style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>{track.albumTitle}</h3>
+                <h3 style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>{(track as any).title}</h3>
               </div>
             )}
 

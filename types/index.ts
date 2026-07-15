@@ -115,4 +115,6 @@ export interface Comeback {
   isTba?: boolean;
   isReleased?: boolean;
   sourceLink?: string;
+  recentNews?: { title: string; link: string; pubDate: string }[];
+  aiSummary?: string;
 }

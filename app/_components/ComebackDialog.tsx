@@ -5,6 +5,7 @@ import { Comeback, Track } from "../../types";
 import { collection, query, where, getDocs, limit } from "firebase/firestore";
 import { db } from "../firebase";
 import { FaYoutube } from "react-icons/fa";
+import { SiYoutubemusic, SiApplemusic, SiSpotify } from "react-icons/si";
 import Link from "next/link";
 import ComposerTracksDialog from "./ComposerTracksDialog";
 
@@ -174,7 +175,7 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
                 margin: 0, fontSize: "2.2rem", lineHeight: "1.1", 
                 color: "var(--text-primary)"
               }}>
-                {comeback.albumTitle}
+                {(comeback as any).title || comeback.albumTitle}
               </h2>
             </div>
           </div>
@@ -216,27 +217,47 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
           <span style={{ fontSize: "0.85rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", borderRadius: "6px", textTransform: "capitalize", fontWeight: 600, color: "var(--text-secondary)" }}>
             {comeback.releaseType}
           </span>
-          <span style={{ fontSize: "0.85rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", borderRadius: "6px", fontWeight: 600, color: "var(--text-secondary)" }}>
-            {comeback.agencyName}
-          </span>
+          {comeback.agencyName && (
+            <span style={{ fontSize: "0.85rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", borderRadius: "6px", fontWeight: 600, color: "var(--text-secondary)" }}>
+              {comeback.agencyName}
+            </span>
+          )}
         </div>
 
         {/* Source Article Link for Future Comebacks */}
-        {!comeback.isReleased && comeback.sourceLink && (
+        {!comeback.isReleased && (comeback.sourceLink || (comeback.recentNews && comeback.recentNews.length > 0)) && (
           <div style={{ marginBottom: "32px", padding: "16px", backgroundColor: "rgba(255, 107, 0, 0.05)", border: "1px solid rgba(255, 107, 0, 0.2)", borderRadius: "8px" }}>
             <h3 style={{ fontSize: "0.9rem", marginBottom: "8px", fontWeight: 700, color: "var(--accent-color)" }}>컴백 추정 근거</h3>
             <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", marginBottom: "12px", lineHeight: "1.4" }}>
               아직 앨범이 발매되지 않은 예정된 컴백입니다. 봇이 수집한 아래 뉴스 기사에서 컴백 일정을 유추했습니다.
             </p>
-            <a 
-              href={comeback.sourceLink} 
-              target="_blank" 
-              rel="noreferrer"
-              className="btn"
-              style={{ display: "inline-flex", alignItems: "center", fontSize: "0.8rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", color: "var(--text-primary)", borderRadius: "6px" }}
-            >
-              📰 뉴스 기사 원문 보기
-            </a>
+            {comeback.recentNews && comeback.recentNews.length > 0 ? (
+               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                 {comeback.recentNews.map((news, idx) => (
+                   <a 
+                     key={idx}
+                     href={news.link} 
+                     target="_blank" 
+                     rel="noreferrer"
+                     className="btn"
+                     style={{ display: "inline-flex", alignItems: "center", fontSize: "0.8rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", color: "var(--text-primary)", borderRadius: "6px" }}
+                     title={news.title}
+                   >
+                     📰 {news.title ? (news.title.length > 50 ? news.title.substring(0, 50) + "..." : news.title) : "뉴스 기사 원문 보기"}
+                   </a>
+                 ))}
+               </div>
+            ) : comeback.sourceLink && (
+               <a 
+                 href={comeback.sourceLink} 
+                 target="_blank" 
+                 rel="noreferrer"
+                 className="btn"
+                 style={{ display: "inline-flex", alignItems: "center", fontSize: "0.8rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", color: "var(--text-primary)", borderRadius: "6px" }}
+               >
+                 📰 뉴스 기사 원문 보기
+               </a>
+            )}
           </div>
         )}
 
@@ -369,16 +390,67 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
               {Object.entries(comeback.streamingLinks).map(([platform, link]) => {
                 if (!link) return null;
+                
+                let icon = null;
+                let bgColor = "var(--surface-color)";
+                let textColor = "var(--text-primary)";
+                let displayPlatform = platform;
+                
+                switch (platform) {
+                  case "youtubeMusic":
+                    icon = <SiYoutubemusic size={18} />;
+                    bgColor = "#FF0000";
+                    textColor = "#FFFFFF";
+                    displayPlatform = "YouTube Music";
+                    break;
+                  case "appleMusic":
+                    icon = <SiApplemusic size={18} />;
+                    bgColor = "#FA243C";
+                    textColor = "#FFFFFF";
+                    displayPlatform = "Apple Music";
+                    break;
+                  case "melon":
+                    bgColor = "#00CD3C";
+                    textColor = "#FFFFFF";
+                    displayPlatform = "Melon";
+                    break;
+                  case "spotify":
+                    icon = <SiSpotify size={18} />;
+                    bgColor = "#1DB954";
+                    textColor = "#FFFFFF";
+                    displayPlatform = "Spotify";
+                    break;
+                  case "bugs":
+                    bgColor = "#FF3C00";
+                    textColor = "#FFFFFF";
+                    displayPlatform = "Bugs";
+                    break;
+                }
+
                 return (
                   <a 
                     key={platform} 
                     href={link as string} 
                     target="_blank" 
                     rel="noreferrer"
-                    className="btn"
-                    style={{ textTransform: "capitalize", fontWeight: 600 }}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      padding: "8px 16px",
+                      backgroundColor: bgColor,
+                      color: textColor,
+                      borderRadius: "8px",
+                      fontWeight: 600,
+                      fontSize: "0.9rem",
+                      textDecoration: "none",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                      transition: "transform 0.2s ease",
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+                    onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
                   >
-                    {platform}
+                    {icon} {displayPlatform}
                   </a>
                 );
               })}

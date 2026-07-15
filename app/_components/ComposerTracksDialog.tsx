@@ -127,7 +127,7 @@ export default function ComposerTracksDialog({ composerName, onClose }: Composer
                     <span>{t.artistName || "아티스트 미상"}</span>
                     <span>•</span>
                     <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                      {t.albumTitle || "앨범 미상"}
+                      {(t as any).albumTitle || (t as any).title || "앨범 미상"}
                     </span>
                   </div>
                 </div>

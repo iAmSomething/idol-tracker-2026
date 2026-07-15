@@ -109,7 +109,7 @@ export default function UpcomingTimeline({ searchQuery }: { searchQuery: string 
 
   const filteredUpcoming = upcoming.filter(c => {
     const artistMatch = c.artistName && c.artistName.toLowerCase().includes(searchQuery.toLowerCase());
-    const albumMatch = (c.titleTracks?.[0]?.name || c.albumTitle || "")
+    const albumMatch = (c.titleTracks?.[0]?.name || (c as any).title || "")
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
     return !searchQuery || artistMatch || albumMatch;
@@ -144,7 +144,7 @@ export default function UpcomingTimeline({ searchQuery }: { searchQuery: string 
                <Link href={`/comeback?id=${c.id}`} style={{ display: 'block' }}>
                  <div className="timeline-title" style={{ cursor: "pointer" }}>
                    <span className={`tag-badge ${getTagClass(c.releaseType)}`}>{c.releaseType}</span>
-                   {c.titleTracks?.[0]?.name || c.albumTitle || "TBA"}
+                   {c.titleTracks?.[0]?.name || (c as any).title || "TBA"}
                  </div>
                </Link>
                

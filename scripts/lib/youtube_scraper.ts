@@ -18,6 +18,7 @@ export interface YouTubeExtractedInfo {
   title?: string;        // 앨범/싱글 타이틀
   releaseDate?: string;  // YYYY-MM-DD
   releaseType?: string;  // mini | full | single
+  albumCoverUrl?: string; // 컨셉 포토나 커버 이미지
 }
 
 /**
@@ -67,7 +68,7 @@ async function resolveChannelId(
 /**
  * 콘서트/이벤트/팬미팅 등 컴백과 무관한 포스트를 걸러내는 블랙리스트 키워드
  */
-const NON_COMEBACK_KEYWORDS = /\b(LIVE|CONCERT|TOUR|ANNIVERSARY|FAN\s*MEETING|FANMEETING|팬미팅|콘서트|투어|라이브|공연|EXHIBITION|전시|SUPER\s*SHOW|WORLD\s*TOUR|ENCORE|앙코르)\b/i;
+const NON_COMEBACK_KEYWORDS = /\b(LIVE|CONCERT|TOUR|ANNIVERSARY|FAN\s*MEETING|FANMEETING|팬미팅|콘서트|투어|라이브|공연|EXHIBITION|전시|SUPER\s*SHOW|WORLD\s*TOUR|ENCORE|앙코르|OST|사운드트랙|SOUNDTRACK)\b/i;
 
 /**
  * 커뮤니티 포스트 텍스트에서 앨범명, 발매일, 발매 타입을 정규식으로 추출한다.
@@ -244,11 +245,33 @@ export async function fetchYouTubeCommunityInfo(
       if (extracted.title && !aggregated.title) aggregated.title = extracted.title;
       if (extracted.releaseDate && !aggregated.releaseDate) aggregated.releaseDate = extracted.releaseDate;
       if (extracted.releaseType && !aggregated.releaseType) aggregated.releaseType = extracted.releaseType;
+
+      // 이미지(컨셉 포토/자켓) 추출
+      if (!aggregated.albumCoverUrl && (post as any).attachment) {
+        const attachment = (post as any).attachment;
+        let imageUrl = "";
+        
+        // BackstageImage, PostMultiImage 등 다양한 이미지 첨부 대응
+        if (attachment.type === "BackstageImage" && attachment.image?.length > 0) {
+          imageUrl = attachment.image[attachment.image.length - 1].url;
+        } else if (attachment.type === "PostMultiImage" && attachment.images?.length > 0) {
+          const firstImg = attachment.images[0].image;
+          if (firstImg?.length > 0) {
+            imageUrl = firstImg[firstImg.length - 1].url;
+          }
+        } else if (attachment.image?.length > 0) {
+          imageUrl = attachment.image[attachment.image.length - 1].url;
+        }
+        
+        if (imageUrl) {
+          aggregated.albumCoverUrl = imageUrl;
+        }
+      }
     }
 
     // 최소 하나라도 유효한 정보가 있으면 반환
-    if (aggregated.title || aggregated.releaseDate || aggregated.releaseType) {
-      logger.info(`[YT] Extracted from ${artistName}: title=${aggregated.title}, date=${aggregated.releaseDate}, type=${aggregated.releaseType}`);
+    if (aggregated.title || aggregated.releaseDate || aggregated.releaseType || aggregated.albumCoverUrl) {
+      logger.info(`[YT] Extracted from ${artistName}: title=${aggregated.title}, date=${aggregated.releaseDate}, type=${aggregated.releaseType}, image=${!!aggregated.albumCoverUrl}`);
       return aggregated;
     }
 

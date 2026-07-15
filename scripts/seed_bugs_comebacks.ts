@@ -35,15 +35,18 @@ async function seedComebacks() {
   
   artistsSnapshot.docs.forEach(doc => {
     const data = doc.data();
+    const koName = data.name.ko || data.name.en || "";
     const meta = {
       id: doc.id,
-      name: data.name.ko,
+      name: koName,
       type: data.type || "unknown",
       aliases: (data.name.aliases || []).map((a: string) => a.toLowerCase()),
       recentComebackDate: data.recentComeback || "0000-00-00",
       comebackIds: data.comebackIds || []
     };
-    artistsMap.set(data.name.ko.toLowerCase(), meta);
+    if (koName) {
+      artistsMap.set(koName.toLowerCase(), meta);
+    }
     if (data.name.en) {
       artistsMap.set(data.name.en.toLowerCase(), meta);
     }
@@ -55,12 +58,19 @@ async function seedComebacks() {
   // To keep track of artist updates
   const artistUpdates = new Map<string, { recentComebackDate: string, recentComebackId: string, comebackIds: Set<string> }>();
 
+  // DEDUPLICATION: Group by artist name and release date to filter out remixes
+  const REMIX_KEYWORDS = ["ver", "remix", "instrumental", "inst", "mix"];
+  const isRemix = (title: string | undefined) => {
+    if (!title) return false;
+    const lower = title.toLowerCase();
+    return REMIX_KEYWORDS.some(kw => lower.includes(kw));
+  };
+  
+  const deduplicatedAlbums = new Map<string, any>();
   for (const album of rawAlbums) {
     const searchName = album.artistName.toLowerCase();
     let artistId = null;
     let finalArtistName = album.artistName;
-    
-    // Find artist matching
     for (const [key, artistMeta] of artistsMap.entries()) {
       if (searchName.includes(key) || key.includes(searchName) || artistMeta.aliases.some(a => searchName.includes(a))) {
         artistId = artistMeta.id;
@@ -68,10 +78,29 @@ async function seedComebacks() {
         break;
       }
     }
+    if (!artistId) artistId = `UNKNOWN_${album.artistName.replace(/[\s\/]+/g, '_')}`;
     
-    if (!artistId) {
-      artistId = `UNKNOWN_${album.artistName.replace(/[\s\/]+/g, '_')}`;
+    const dedupKey = `${artistId}_${album.releaseDate}`;
+    if (!deduplicatedAlbums.has(dedupKey)) {
+      deduplicatedAlbums.set(dedupKey, { ...album, _artistId: artistId, _finalArtistName: finalArtistName });
+    } else {
+      const existing = deduplicatedAlbums.get(dedupKey);
+      const existingIsRemix = isRemix(existing.title);
+      const newIsRemix = isRemix(album.title);
+      // Prefer non-remix. If both are same, prefer one with more tracks
+      if (existingIsRemix && !newIsRemix) {
+        deduplicatedAlbums.set(dedupKey, { ...album, _artistId: artistId, _finalArtistName: finalArtistName });
+      } else if (existingIsRemix === newIsRemix) {
+        if ((album.tracks?.length || 0) > (existing.tracks?.length || 0)) {
+          deduplicatedAlbums.set(dedupKey, { ...album, _artistId: artistId, _finalArtistName: finalArtistName });
+        }
+      }
     }
+  }
+
+  for (const album of deduplicatedAlbums.values()) {
+    const artistId = album._artistId;
+    const finalArtistName = album._finalArtistName;
 
     const comebackRef = doc(collection(db, "comebacks"));
     const comebackId = comebackRef.id;

@@ -1,16 +1,19 @@
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../app/firebase";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs, query, where, orderBy } from "firebase/firestore";
+
+const app = initializeApp({ projectId: "idol-tracker-2026" });
+const db = getFirestore(app);
 
 async function checkDB() {
-  const comebacksSnap = await getDocs(collection(db, "comebacks"));
+  const q = query(collection(db, "comebacks"), orderBy("releaseDate", "desc"));
+  const snapshot = await getDocs(q);
+  console.log("Recent comebacks:");
   let count = 0;
-  for (const c of comebacksSnap.docs) {
-    const data = c.data();
-    if (data.isReleased === true && !data.albumCoverUrl) {
-      console.log(`Found buggy released comeback: ${data.artistName} (${data.releaseDate})`);
-      count++;
-    }
-  }
-  console.log(`Total buggy released comebacks: ${count}`);
+  snapshot.docs.forEach(doc => {
+    if (count > 20) return;
+    const d = doc.data();
+    console.log(`- ${d.releaseDate}: ${d.artistName} (${d.title})`);
+    count++;
+  });
 }
 checkDB();

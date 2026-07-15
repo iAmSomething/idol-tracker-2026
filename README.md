@@ -25,19 +25,15 @@
 
 ---
 
-## 🛠 기술 스택 (Tech Stack)
+## System Architecture
 
-* **Frontend**: Next.js 16 (App Router), React 18, CSS Modules, TypeScript
-* **Database**: Cloud Firestore (NoSQL)
-* **Hosting**: Firebase Hosting
-* **Data Scraper**: Node.js, `youtubei.js` (YouTube Inner API), `cheerio`, Wikidata API, Naver News API
-* **CI/CD & Automation**: GitHub Actions
-
----
-
-## ⚙️ 데이터 수집 및 보강 파이프라인 (Data Pipeline)
-
-비용 발생과 속도 저하의 주원인인 LLM(AI) 추론을 일절 사용하지 않고, 100% 코드 기반의 확정적 정규식 매칭을 통해 안정적으로 데이터를 축적합니다.
+The project consists of three main components:
+1.  **Frontend**: A Next.js application designed with a Warm-Tech and Bento-grid UI.
+2.  **Database**: Firebase Firestore.
+3.  **Data Automation Pipeline**:
+    *   **Local Crawler Schedule (`launchd` / `cron`)**: Runs Python/TypeScript scripts daily.
+    *   **Local LLM Parsing (Ollama + Qwen3)**: Replaces complex regex for accurately extracting `date`, `releaseType`, and `artistType` from Naver news articles without API costs.
+    *   **Cross-Validation**: Uses YouTube Community scraping and Bugs API to verify missing or TBA data. Pipeline)
 
 ```mermaid
 graph TD

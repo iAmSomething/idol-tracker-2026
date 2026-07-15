@@ -519,7 +519,7 @@ function ArtistDetailContent() {
                         {c.albumCoverUrl ? (
                           <img 
                             src={c.albumCoverUrl} 
-                            alt={c.albumTitle} 
+                            alt={(c as any).title} 
                             style={{ 
                               width: '50px', 
                               height: '50px', 
@@ -539,7 +539,7 @@ function ArtistDetailContent() {
                             {releaseDateObj.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })}
                           </span>
                           <h4 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '2px' }}>
-                            {c.albumTitle}
+                            {(c as any).title}
                           </h4>
                         </div>
 
