@@ -1,19 +1,24 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, query, where, orderBy } from "firebase/firestore";
-
-const app = initializeApp({ projectId: "idol-tracker-2026" });
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs, limit, query, where } from 'firebase/firestore';
+import dotenv from 'dotenv';
+dotenv.config();
+const app = initializeApp({
+  projectId: "idol-tracker-2026",
+  appId: "1:47996752520:web:bc7ebc5147da03ef769e59",
+  storageBucket: "idol-tracker-2026.firebasestorage.app",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "",
+  authDomain: "idol-tracker-2026.firebaseapp.com"
+});
 const db = getFirestore(app);
-
-async function checkDB() {
-  const q = query(collection(db, "comebacks"), orderBy("releaseDate", "desc"));
-  const snapshot = await getDocs(q);
-  console.log("Recent comebacks:");
-  let count = 0;
-  snapshot.docs.forEach(doc => {
-    if (count > 20) return;
-    const d = doc.data();
-    console.log(`- ${d.releaseDate}: ${d.artistName} (${d.title})`);
-    count++;
-  });
+async function run() {
+  const rootTracks = await getDocs(query(collection(db, 'tracks'), limit(1)));
+  console.log(`Root tracks size: ${rootTracks.size}`);
+  const q = query(collection(db, "comebacks"), where("releaseDate", "==", "2026-07-13"));
+  const snap = await getDocs(q);
+  for (const d of snap.docs) {
+    const subTracks = await getDocs(collection(db, `comebacks/${d.id}/tracks`));
+    console.log(`Sub tracks for ${d.id}: ${subTracks.size}`);
+  }
+  process.exit(0);
 }
-checkDB();
+run();

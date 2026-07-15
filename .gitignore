@@ -50,3 +50,7 @@ next-env.d.ts
 !firestore.indexes.json
 !.firebaserc
 
+
+# One-off debug/test/scratch files
+scratch/
+scripts/debug/
