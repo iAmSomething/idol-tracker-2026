@@ -21,13 +21,10 @@ async function runBackfill() {
   for (const cDoc of snap.docs) {
     const data = cDoc.data();
     
-    // Test rule: Target data before July 7, 2026
-    if (data.releaseDate >= "2026-07-07") {
-      continue;
-    }
+    // Process all comebacks, but skip those that already have all major streaming links
+
 
     const existingLinks = data.streamingLinks || {};
-    // If it already has at least 2 links, skip it to save time
     if (Object.keys(existingLinks).length >= 2 && existingLinks.melon && existingLinks.youtubeMusic && existingLinks.appleMusic) {
       continue;
     }
