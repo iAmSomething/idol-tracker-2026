@@ -101,7 +101,11 @@ async function run() {
           for (const cbData of activeComebacks) {
             // Cross-validation: video title MUST contain the album title or one of the track names
             const tracksSnap = await getDocs(query(collection(db, 'tracks'), where('comebackId', '==', cbData.docId)));
-            const trackNames = tracksSnap.docs.map(d => (d.data().name || '').toLowerCase());
+            const trackNames = tracksSnap.docs.map(d => {
+              let name = d.data().name || '';
+              name = name.replace(/\s*\(.*?\)\s*/g, '').trim(); // Remove parenthetical suffixes like (feat. XX)
+              return name.toLowerCase();
+            });
             const albumTitleLower = (cbData.albumTitle || cbData.title || '').toLowerCase();
             const videoTitleLower = title.toLowerCase();
             

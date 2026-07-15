@@ -92,7 +92,11 @@ async function run() {
                 if (isMV(title)) {
                   // Cross validation
                   const albumTitle = data.albumTitle?.toLowerCase() || '';
-                  const trackNames = currentTitleTracks.map((t: any) => t.name.toLowerCase());
+                  const trackNames = currentTitleTracks.map((t: any) => {
+                    let name = t.name || '';
+                    name = name.replace(/\s*\(.*?\)\s*/g, '').trim();
+                    return name.toLowerCase();
+                  });
                   const tLower = title.toLowerCase();
                   
                   const hasAlbumMatch = albumTitle && tLower.includes(albumTitle);
