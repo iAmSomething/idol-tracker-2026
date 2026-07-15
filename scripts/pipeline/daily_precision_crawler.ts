@@ -69,8 +69,11 @@ async function runDailyCrawler() {
     // 1. Check if released (Date has passed or is today)
     if (data.releaseDate !== "TBA" && data.releaseDate <= todayStr && !data.isReleased) {
       if (data.releaseDate < pastWeekStr) {
-        logger.info(`❌ [STALE] Comeback for ${data.artistName} (${data.releaseDate}) is older than 1 week. Deleting to save API calls.`);
-        await deleteDoc(doc(db, "comebacks", cDoc.id));
+        logger.info(`⚠️ [STALE] Comeback for ${data.artistName} (${data.releaseDate}) is older than 1 week. Marking isReleased: true to preserve data and avoid API calls.`);
+        await updateDoc(doc(db, "comebacks", cDoc.id), {
+          isReleased: true,
+          isStaleUnreleased: true
+        });
         continue;
       }
 
@@ -110,8 +113,11 @@ async function runDailyCrawler() {
           }
         }
       } else {
-        logger.info(`❌ Album not found for ${data.artistName}. Deleting fake/cancelled comeback.`);
-        await deleteDoc(doc(db, "comebacks", cDoc.id));
+        logger.info(`⚠️ Album not found for ${data.artistName} on Bugs search. Marking isReleased: true to preserve the comeback and prevent future API overhead.`);
+        await updateDoc(doc(db, "comebacks", cDoc.id), {
+          isReleased: true,
+          bugsSearchFailed: true
+        });
       }
       
       await new Promise(r => setTimeout(r, 1000));
