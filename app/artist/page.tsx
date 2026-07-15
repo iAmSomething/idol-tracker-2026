@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Artist, Comeback } from "../../types";
 import { doc, getDoc, collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { db } from "../firebase";
+import { getYouTubeId } from "../_lib/youtube";
 import Link from "next/link";
 import { FaYoutube, FaInstagram, FaTiktok, FaGlobe, FaArrowLeft, FaChevronRight, FaBuilding, FaUsers, FaUser, FaMusic } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -127,12 +128,7 @@ function ArtistDetailContent() {
     c.teasers?.[0]
   );
 
-  const getYouTubeId = (url: string | undefined): string | null => {
-    if (!url) return null;
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
-    return match && match[2].length === 11 ? match[2] : null;
-  };
+
 
   const latestMvCandidates = [
     latestComebackWithMedia?.mediaLinks?.musicVideo,

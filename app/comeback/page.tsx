@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Comeback, Track } from "../../types";
 import { doc, getDoc, collection, query, where, getDocs, limit } from "firebase/firestore";
 import { db } from "../firebase";
+import { getYouTubeId } from "../_lib/youtube";
 import Link from "next/link";
 import { FaYoutube, FaArrowLeft, FaChevronRight, FaMusic } from "react-icons/fa";
 import ThemeToggle from "../_components/ThemeToggle";
@@ -108,12 +109,7 @@ function ComebackDetailContent() {
   }
 
   // Parse Youtube Video ID
-  const getYouTubeId = (url: string | undefined): string | null => {
-    if (!url) return null;
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
-    return match && match[2].length === 11 ? match[2] : null;
-  };
+
 
   const mvCandidates = [
     comeback.mediaLinks?.musicVideo,
