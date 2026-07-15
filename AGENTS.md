@@ -433,7 +433,55 @@ Bugs 링크를 기준으로 타 플랫폼 음원 링크를 보강할 때 각 플
   `const title = (video.title?.text || video.metadata?.title?.toString() || video.renderer_context?.accessibility_context?.label || '').replace(/\n/g, ' ').trim();`
 - **Bugs 트랙명 괄호 파싱 (교차 검증 시):** 벅스 음원 데이터의 트랙명에는 피처링이나 멤버 이름이 괄호에 감싸여 있는 경우가 많습니다 (예: `망했으면해니가. (도은, 정선혜, 지아나)`). 이를 유튜브 영상 제목과 `includes`로 교차 검증할 때 매칭 실패(False Negative)가 발생하지 않도록, **교차 검증 전 반드시 정규식 `.replace(/\s*\(.*?\)\s*/g, '')`을 사용해 트랙명에서 괄호와 그 안의 내용을 완전히 제거**한 순수 제목만 사용해야 합니다.
 
+## 6. 프로젝트 디렉토리 구조 및 공통 유틸 아키텍처 규칙 (Project Directory Structure & Shared Utility Architecture)
+프로젝트가 복잡해지며 발생하는 스파게티 코드화와 사이드이펙트 전이를 방지하기 위해 다음 디렉토리 분류 및 공통 라이브러리 준수 지침을 반드시 엄수해야 합니다. 어떠한 Agent도 임의로 규격 외 폴더를 신설하거나 중복 로직을 하드코딩해서는 안 됩니다.
+
+### 6-1. 백엔드 스크립트 디렉토리 구조 및 역할 분담 규칙
+모든 백엔드 스크립트는 역할에 따라 아래의 6개 하위 디렉토리에 분류되어 있어야 합니다:
+- `scripts/pipeline/` : 크론이나 로컬 스케줄러를 통해 정기적/주기적으로 자동 실행되는 핵심 크롤링 및 감사 파이프라인 전용 공간입니다.
+  - 예: `daily_precision_crawler.ts`, `weekly_discovery_crawler.ts`, `db_auditor.ts`, `run_crawlers.sh`
+- `scripts/enrichment/` : 기 수집된 데이터에 대해 유튜브 영상 검색, 스트리밍 링크 연동, 크레딧 벅스 정보 수집 등 데이터를 동적으로 채워 넣고 매핑해 주는 보강용 백엔드 파이프라인 공간입니다.
+  - 예: `fetch_official_mvs.ts`, `fetch_streaming_links.ts`, `augment_comebacks.ts`, `reconcile_past_comebacks.ts` 등
+- `scripts/migration/` : 데이터베이스 스키마 변경, 필드명 변경, 혹은 ID 마이그레이션 등 데이터 이관 및 보정을 위해 '1회성' 혹은 '필요 시 수동'으로 구동하는 마이그레이션 도구들의 배치 공간입니다.
+- `scripts/seed/` : 초기 아티스트 마스터 데이터, 백필용 기본 컴백 데이터 등 초기 상태 데이터를 데이터베이스에 처음 업로드 및 적재하기 위한 시딩(Seeding) 스크립트 모음입니다.
+- `scripts/maintenance/` : 데이터베이스 중복 데이터 제거, 미사용 참조 청소, 더미 데이터 정리 등 데이터의 정합성을 직접 유지 보수하기 위한 관리자용 유지보수 배치 공간입니다.
+- `scripts/debug/` : 개발 도중 특정 API(Bugs, Naver, YouTube)의 응답 형태나 단일 쿼리 작동을 확인하기 위해 작성한 일회성 확인용 check, test, inspect 스크립트 전용 격리 공간입니다.
+  - **[중요 - 형상 관리 제외 규칙]** : `scripts/debug/` 디렉토리와 프로젝트 루트의 `scratch/` 디렉토리는 `.gitignore`에 명시되어 있어 git 추적에서 제외됩니다. 개발 진행 시 생성되는 모든 일회성 임시 스크립트는 반드시 이 두 곳 중 한 곳에 생성하여 루트 및 scripts 폴더가 더러워지지 않게 방지하십시오.
+
+### 6-2. 공통 유틸리티 라이브러리 준수 규칙 (`scripts/lib/`)
+개별 스크립트 내에서 자체적으로 날짜 연산, URL 검증, 아티스트 이름 매칭 로직을 개별 구현하는 것을 금지합니다. 로직 분산은 버그 수정 누락 및 사이드이펙트의 원인이 되므로 아래 3가지 공유 유틸 모듈을 반드시 import하여 사용해야 합니다:
+1. **URL 도메인 검증 및 YouTube ID 추출 (`scripts/lib/url-guards.ts`)**
+   - **사용 목적** : `mediaLinks.musicVideo` 또는 `titleTracks[].musicVideoUrl` 필드에 임베드할 수 없는 벅스 뮤직비디오 링크(예: `music.bugs.co.kr/mv/`로 시작하는 URL)나 일반 웹 페이지 URL이 유입되는 버그를 원천 차단하기 위해 사용합니다.
+   - **핵심 함수** :
+     - `isEmbeddableYouTubeUrl(url)` : 해당 URL이 YouTube 도메인을 가지고 있고 비디오 ID 추출이 가능하여 iframe에 임베드 가능한지 여부를 검증합니다.
+     - `extractYouTubeId(url)` : YouTube URL 및 단축 주소에서 11글자의 고유 비디오 ID를 안전하게 파싱하여 반환합니다. YouTube 형식이 아니면 항상 `null`을 반환합니다.
+     - `toYouTubeEmbedUrl(url)` : YouTube URL을 iframe 전용 임베드 주소로 변환하여 반환합니다.
+   - **적용 지침** : 모든 백엔드 스크립트는 Firestore `comebacks` 또는 `tracks` 문서에 뮤직비디오 링크를 기록할 때, 반드시 `isEmbeddableYouTubeUrl`로 사전 필터링을 거쳐야만 합니다. YouTube가 아닌 URL은 저장하지 않고 제외하거나 다른 적절한 메타데이터 필드로 유도해야 합니다.
+2. **7일 롤링 윈도우 날짜 연산 (`scripts/lib/date-helpers.ts`)**
+   - **사용 목적** : 어제 발매된 컴백 데이터가 단순 "오늘 날짜보다 이전"이라는 비교 방식에 의해 스킵되고 수집에서 누락되는 끔찍한 데이터 유실 사태를 예방하기 위해 사용합니다.
+   - **핵심 함수** :
+     - `getSevenDaysAgoStr()` : 실행 시점 기준 정확히 7일 전의 YYYY-MM-DD 날짜 문자열을 동적으로 생성하여 반환합니다. (절대 특정 연월일을 정적으로 하드코딩하지 마십시오.)
+     - `shouldSkipByDate(releaseDate)` : releaseDate가 7일 롤링 윈도우 밖(7일 이상 초과한 과거)인지 판별합니다. TBA는 스킵하지 않고 과거 7일 이내 데이터 역시 포함시킵니다.
+   - **적용 지침** : 모든 컴백 크롤러(`daily_precision_crawler.ts`, `weekly_discovery_crawler.ts`)의 수집 범위 체크 및 스킵 필터링 로직은 반드시 `shouldSkipByDate` 공통 함수를 사용해야 합니다.
+3. **아티스트 Alias 해시/체크를 통한 중복 생성 차단 (`scripts/lib/alias-resolver.ts`)**
+   - **사용 목적** : 표기 방식의 다변화(영문, 한글, 괄호 병기 등)로 인해 동일한 아티스트 그룹에 대하여 복수의 문서가 분산 생성되어 Bugs API 연동이 실패하고 데이터가 파편화되는 문제를 차단하기 위해 사용합니다.
+   - **핵심 함수** :
+     - `resolveAlias(rawName, candidates)` : 크롤러에서 방금 긁어온 이름(`rawName`)을 DB 내 전체 아티스트 후보군(`candidates`)과 대조합니다. 모든 비교 대상은 소문자 변환, 공백 제거, 괄호 안 텍스트 제거 정규식을 거친 후 비교되며, name.ko, name.en, aliases 배열 중 단 하나라도 일치하면 기존 문서의 ID와 대표 이름을 반환합니다.
+     - `isBlocklisted(name)` : 기획사명(SM, JYP, HYBE 등)이나 '보이그룹', '걸그룹', '컴백', '데뷔' 등 아티스트 이름이 될 수 없는 단어들을 차단하는 Blacklist 세트입니다.
+   - **적용 지침** : 크롤러가 신규 아티스트를 `artists` 컬렉션에 쓰거나 `comebacks` 문서에 소속 아티스트 정보를 지정할 때, 먼저 `resolveAlias`를 돌려 기존에 존재하는 동일 아티스트가 있는지 크로스체크해야 합니다. 매칭 결과가 존재하면 절대 아티스트를 새로 만들지 말고, 기존 아티스트의 `artistId`를 상속 및 재사용하여 병합(Merge) 처리해야 합니다.
+
+### 6-3. `db_auditor.ts` 안전성 및 작동 지침
+- **DRY RUN 기본 모드 강제** : `db_auditor.ts`를 CLI에서 인수 없이 단독 실행(`npx tsx scripts/pipeline/db_auditor.ts`)하는 경우, 절대로 데이터베이스에 수정이나 삭제(`deleteDoc`, `updateDoc`) 연산을 직접 수행해서는 안 됩니다. 발견된 불일치나 이상 징후(Suspicious Names, Invalid URLs)를 출력 창에 알리고 anomalies 카운트만 계산하는 DRY RUN 형태를 기본값으로 유지해야 합니다.
+- **수정 플래그 (`--fix`) 명시** : 오직 명령행 인수로 `--fix` 옵션이 명시되었을 때만 실제 데이터베이스 쓰기 및 딜리트 작업이 활성화되도록 분기해야 합니다.
+- **그룹 vs 멤버 충돌 정합성 판단 로직** : 동일 날짜에 동일 그룹과 해당 그룹 멤버의 컴백이 동시에 잡혀 충돌할 경우, 기사 제목에서 솔로/유닛 컴백임에도 그룹명이 병기되어 잘못 크롤링된 가짜 그룹컴백 데이터일 가능성이 극도로 높습니다. 따라서 `--fix` 상태일 때 멤버컴백은 보존하고, 그룹컴백의 `comebacks` 문서를 즉시 자동 삭제(`deleteDoc`)하는 로직을 유지해야 합니다.
+- **URL 무효성 검증 정밀 진단** : 점검 시 `mediaLinks.musicVideo` 및 `titleTracks`의 개별 곡 `musicVideoUrl` 필드를 스캔하여 YouTube 형식이 아닌 잘못된 URL이 저장되어 있는지 검사하고, `--fix` 시 이를 빈 문자열(`""`)로 자동 초기화하여 UI 깨짐을 실시간 자동 정화하도록 설계해야 합니다.
+- **스케줄러 설정** : 무인 가동되는 `run_crawlers.sh` 배치 파일 내부의 db_auditor 명령에는 `--fix`를 추가하여 매일 자동으로 탐지된 정합성 오류를 자가 정화하도록 처리해야 합니다.
+
+### 6-4. 프론트엔드 YouTube 비디오 ID 추출 로직의 단일화 규칙 (`app/_lib/youtube.ts`)
+- **배경** : 동영상 렌더링에 사용되는 YouTube ID 추출 로직이 여러 컴포넌트(`ComebackDialog`, `artist/page`, `comeback/page`, `track/page`)에 무분별하게 복사-붙여넣기 형태로 존재하여 정규식 규칙이 변경되거나 Bugs MV와 같은 오염 주소 유입 시 대처하기 곤란한 상태였습니다.
+- **중앙화 의무** : 프론트엔드 UI 단에서 비디오 ID를 추출하거나 embed 주소로 가공해야 하는 모든 컴포넌트는 개별적으로 헬퍼 함수를 구현하지 말고, 반드시 `@/app/_lib/youtube` 모듈에 작성된 공통 함수(`getYouTubeId`, `toYouTubeEmbedUrl`)를 직접 import하여 사용해야 합니다.
+
 > **관제 규칙:** 매번 Agent.md를 읽을 때마다 문서 맨 뒤에 있는 숫자를 1씩 증가시킬 것.
 
 ### Agent Read Count
-15
+16
