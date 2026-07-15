@@ -20,6 +20,6 @@ else
 fi
 
 echo "[$(date)] Running Daily DB Integrity Auditor..."
-npx tsx scripts/pipeline/db_auditor.ts >> .crawler.log 2>&1
+npx tsx scripts/pipeline/db_auditor.ts --fix >> .crawler.log 2>&1
 
 echo "[$(date)] Crawling and Auditing completed."
