@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import { db } from './lib/firebase-helpers';
-import { logger } from './lib/logger';
+import { db } from '../lib/firebase-helpers';
+import { logger } from '../lib/logger';
 import { collection, getDocs, doc, updateDoc, setDoc, deleteField } from 'firebase/firestore';
 import { Innertube } from 'youtubei.js';
 

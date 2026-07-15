@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, doc, writeBatch } from 'firebase/firestore';
-import { logger } from './lib/logger';
+import { logger } from '../lib/logger';
 
 const firebaseConfig = {
   projectId: "idol-tracker-2026",

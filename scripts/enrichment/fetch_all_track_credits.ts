@@ -3,7 +3,7 @@ dotenv.config();
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, doc, updateDoc, query, where, limit } from 'firebase/firestore';
 import * as cheerio from 'cheerio';
-import { logger } from './lib/logger';
+import { logger } from '../lib/logger';
 
 const firebaseConfig = {
   projectId: "idol-tracker-2026",

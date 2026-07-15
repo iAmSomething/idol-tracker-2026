@@ -1,9 +1,9 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import { db } from './lib/firebase-helpers';
-import { logger } from './lib/logger';
+import { db } from '../lib/firebase-helpers';
+import { logger } from '../lib/logger';
 import { collection, getDocs, doc, writeBatch, query, where } from 'firebase/firestore';
-import { getRecentComebacks } from './lib/firebase-helpers';
+import { getRecentComebacks } from '../lib/firebase-helpers';
 import ytSearch from 'yt-search';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));

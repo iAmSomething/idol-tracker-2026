@@ -1,5 +1,5 @@
-import { db } from './lib/firebase-helpers';
-import { logger } from './lib/logger';
+import { db } from '../lib/firebase-helpers';
+import { logger } from '../lib/logger';
 import { collection, getDocs, query, where, addDoc } from 'firebase/firestore';
 import * as cheerio from 'cheerio';
 import dotenv from 'dotenv';

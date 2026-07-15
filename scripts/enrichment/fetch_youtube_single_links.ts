@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, updateDoc, doc } from "firebase/firestore";
-import { fetchAllStreamingLinks } from "./lib/streaming_links_scraper";
+import { fetchAllStreamingLinks } from "../lib/streaming_links_scraper";
 
 const firebaseConfig = { projectId: "idol-tracker-2026", appId: "1:47996752520:web:bc7ebc5147da03ef769e59" };
 const db = getFirestore(initializeApp(firebaseConfig));

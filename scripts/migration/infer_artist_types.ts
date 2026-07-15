@@ -3,7 +3,7 @@ dotenv.config();
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, doc, writeBatch, setDoc } from 'firebase/firestore';
 import { GoogleGenAI } from '@google/genai';
-import { logger } from './lib/logger';
+import { logger } from '../lib/logger';
 
 const firebaseConfig = {
   projectId: "idol-tracker-2026",

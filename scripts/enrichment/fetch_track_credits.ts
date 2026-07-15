@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import { db, getRecentComebacks } from './lib/firebase-helpers';
-import { logger } from './lib/logger';
+import { db, getRecentComebacks } from '../lib/firebase-helpers';
+import { logger } from '../lib/logger';
 import { collection, getDocs, doc, updateDoc, writeBatch, query, where } from 'firebase/firestore';
 import * as cheerio from 'cheerio';
 

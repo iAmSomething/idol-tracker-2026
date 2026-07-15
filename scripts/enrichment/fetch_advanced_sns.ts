@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import { db, getActiveArtists } from './lib/firebase-helpers';
-import { logger } from './lib/logger';
+import { db, getActiveArtists } from '../lib/firebase-helpers';
+import { logger } from '../lib/logger';
 import { doc, updateDoc } from 'firebase/firestore';
 import { chromium } from 'playwright';
 
