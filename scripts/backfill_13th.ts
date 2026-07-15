@@ -56,36 +56,43 @@ async function run() {
       }
     }
 
-    // 2. Check MV
-    const hasMV = data.titleTracks?.some((t: any) => t.musicVideoUrl);
-    if (!hasMV && data.titleTracks && data.titleTracks.length > 0) {
+    // 2. Fetch tracks and populate titleTracks if undefined
+    let currentTitleTracks = data.titleTracks;
+    if (!currentTitleTracks || currentTitleTracks.length === 0) {
+      logger.info(`Fetching tracks from collection for ${data.artistName}...`);
+      const tracksSnap = await getDocs(query(collection(db, "tracks"), where("comebackId", "==", cDoc.id)));
+      const titles = tracksSnap.docs.map(d => d.data()).filter(t => t.isTitle);
+      if (titles.length > 0) {
+        currentTitleTracks = titles.map(t => ({ name: t.name, musicVideoUrl: "" }));
+        updateData.titleTracks = currentTitleTracks;
+        needsUpdate = true;
+      }
+    }
+
+    // 3. Check MV
+    const hasMV = currentTitleTracks?.some((t: any) => t.musicVideoUrl);
+    if (!hasMV && currentTitleTracks && currentTitleTracks.length > 0) {
       const artist = artistsMap.get(data.artistId);
       const ytUrl = artist?.socialLinks?.youtube;
       
       if (ytUrl) {
         logger.info(`Fetching YouTube channel: ${ytUrl}`);
         try {
-          const match = ytUrl.match(/(?:youtube\.com\/(?:@|c\/|channel\/|user\/))([^/?]+)/);
-          if (match) {
-            const channelId = match[1];
-            let channel;
-            try {
-              channel = await yt.getChannel(channelId);
-            } catch (e) {
-              channel = await yt.resolveURL(ytUrl);
-            }
-            
+          const urlInfo = await yt.resolveURL(ytUrl);
+          const channelId = urlInfo.payload.browseId;
+          if (channelId) {
+            const channel = await yt.getChannel(channelId);
             if (channel) {
               const videos = await channel.getVideos();
-              const recentVideos = videos.videos.slice(0, 5);
+              const recentVideos = videos.videos.slice(0, 10);
               let foundMvUrl = "";
               
               for (const v of recentVideos) {
-                const title = v.title.toString();
+                const title = v.title?.text || '';
                 if (isMV(title)) {
                   // Cross validation
                   const albumTitle = data.albumTitle?.toLowerCase() || '';
-                  const trackNames = data.titleTracks.map((t: any) => t.name.toLowerCase());
+                  const trackNames = currentTitleTracks.map((t: any) => t.name.toLowerCase());
                   const tLower = title.toLowerCase();
                   
                   const hasAlbumMatch = albumTitle && tLower.includes(albumTitle);
@@ -100,7 +107,7 @@ async function run() {
               }
               
               if (foundMvUrl) {
-                const updatedTracks = [...data.titleTracks];
+                const updatedTracks = [...currentTitleTracks];
                 updatedTracks[0].musicVideoUrl = foundMvUrl;
                 updateData.titleTracks = updatedTracks;
                 needsUpdate = true;
