@@ -427,7 +427,13 @@ Bugs 링크를 기준으로 타 플랫폼 음원 링크를 보강할 때 각 플
   - 예: `BREAKING CHANGE: artists 컬렉션의 name 필드가 string에서 {ko, en} 객체로 변경됨. 프론트엔드 전체의 렌더링 에러를 막기 위해 마이그레이션 스크립트를 먼저 실행해야 함.`
 
 
+### 10) youtubei.js 응답 포맷(LockupView) 호환성 및 트랙명 괄호 파싱 규칙
+유튜브 뮤직비디오 매칭 실패를 막기 위해 다음 2가지 규칙을 반드시 적용해야 합니다.
+- **youtubei.js LockupView 대응:** `youtubei.js`가 채널 동영상 목록을 가져올 때 최근 `LockupView`라는 형태로 응답 구조를 변경했습니다. 이로 인해 `video.title?.text`가 `undefined`로 반환될 수 있으므로, 반드시 다음과 같이 안전한 폴백(Fallback)을 사용해 제목을 추출해야 합니다.
+  `const title = (video.title?.text || video.metadata?.title?.toString() || video.renderer_context?.accessibility_context?.label || '').replace(/\n/g, ' ').trim();`
+- **Bugs 트랙명 괄호 파싱 (교차 검증 시):** 벅스 음원 데이터의 트랙명에는 피처링이나 멤버 이름이 괄호에 감싸여 있는 경우가 많습니다 (예: `망했으면해니가. (도은, 정선혜, 지아나)`). 이를 유튜브 영상 제목과 `includes`로 교차 검증할 때 매칭 실패(False Negative)가 발생하지 않도록, **교차 검증 전 반드시 정규식 `.replace(/\s*\(.*?\)\s*/g, '')`을 사용해 트랙명에서 괄호와 그 안의 내용을 완전히 제거**한 순수 제목만 사용해야 합니다.
+
 > **관제 규칙:** 매번 Agent.md를 읽을 때마다 문서 맨 뒤에 있는 숫자를 1씩 증가시킬 것.
 
 ### Agent Read Count
-11
+12
