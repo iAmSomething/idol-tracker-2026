@@ -110,7 +110,10 @@ async function run() {
         enriched = true;
       }
       
-      if (!dbItem.mediaLinks?.musicVideo && bugsMatch.musicVideoUrl) {
+      // GUARD: Only write YouTube URLs to mediaLinks.musicVideo (used for iframe embedding).
+      // Bugs MV URLs (music.bugs.co.kr/mv/) are NOT embeddable and must never go here.
+      if (!dbItem.mediaLinks?.musicVideo && bugsMatch.musicVideoUrl &&
+          (bugsMatch.musicVideoUrl.includes('youtube.com') || bugsMatch.musicVideoUrl.includes('youtu.be'))) {
         updateData['mediaLinks.musicVideo'] = bugsMatch.musicVideoUrl;
         enriched = true;
       }

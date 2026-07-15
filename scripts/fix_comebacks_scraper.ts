@@ -105,11 +105,9 @@ async function run() {
             }
         }
         
-        // Fallback to Bugs mvid ONLY if we completely failed to get a YouTube MV and it exists
-        if (!t.musicVideoUrl && t._mvid && t._mvid !== '0') {
-            console.log(`  ⚠️ Falling back to Bugs MV for: ${t.name}`);
-            t.musicVideoUrl = `https://music.bugs.co.kr/mv/${t._mvid}`;
-        }
+        // REMOVED: Bugs MV URL fallback (music.bugs.co.kr/mv/) - these are NOT YouTube-embeddable
+        // and cause YouTube iframe rendering to silently fail in the UI.
+        // if (!t.musicVideoUrl && t._mvid && t._mvid !== '0') { ... }
         
         delete t._mvid; // Clean up the temp variable
       }
