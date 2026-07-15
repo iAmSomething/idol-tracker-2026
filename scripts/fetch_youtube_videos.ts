@@ -114,13 +114,24 @@ async function run() {
               continue;
             }
 
-            // Assuming the first track is the title track
-            const titleTracks = cbData.titleTracks || [{ name: cbData.title || 'Title' }];
-            if (!titleTracks[0].musicVideoUrl || titleTracks[0].musicVideoUrl !== videoUrl) {
+            // Dynamically populate titleTracks if missing in DB
+            let currentTitleTracks = cbData.titleTracks;
+            if (!currentTitleTracks || currentTitleTracks.length === 0) {
+              const titleDocs = tracksSnap.docs.filter(d => d.data().isTitle);
+              if (titleDocs.length > 0) {
+                currentTitleTracks = titleDocs.map(d => ({ name: d.data().name }));
+              } else if (tracksSnap.docs.length > 0) {
+                currentTitleTracks = [{ name: tracksSnap.docs[0].data().name }];
+              } else {
+                currentTitleTracks = [{ name: cbData.title || 'Title' }];
+              }
+            }
+
+            if (!currentTitleTracks[0].musicVideoUrl || currentTitleTracks[0].musicVideoUrl !== videoUrl) {
               console.log(`  🎵 Found Valid MV: ${title}`);
-              titleTracks[0].musicVideoUrl = videoUrl;
+              currentTitleTracks[0].musicVideoUrl = videoUrl;
               await updateDoc(doc(db, 'comebacks', cbData.docId), {
-                titleTracks: titleTracks,
+                titleTracks: currentTitleTracks,
                 status: 'RELEASED'
               });
               console.log(`     -> Updated status to RELEASED and added MV URL`);
