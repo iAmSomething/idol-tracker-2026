@@ -8,18 +8,18 @@ cd /Users/gimtaehun/idol_tracker
 source .env
 
 echo "[$(date)] Starting Daily Precision Crawler..."
-npx tsx scripts/daily_precision_crawler.ts >> .crawler.log 2>&1
+npx tsx scripts/pipeline/daily_precision_crawler.ts >> .crawler.log 2>&1
 
 # 2 (Tuesday) in `date +%u` means Tuesday
 DAY_OF_WEEK=$(date +%u)
 if [ "$DAY_OF_WEEK" -eq 2 ]; then
   echo "[$(date)] Starting Weekly Discovery Crawler..."
-  npx tsx scripts/weekly_discovery_crawler.ts >> .crawler.log 2>&1
+  npx tsx scripts/pipeline/weekly_discovery_crawler.ts >> .crawler.log 2>&1
 else
   echo "[$(date)] Skipping Weekly Discovery Crawler (runs only on Tuesday)." >> .crawler.log 2>&1
 fi
 
 echo "[$(date)] Running Daily DB Integrity Auditor..."
-npx tsx scripts/db_auditor.ts >> .crawler.log 2>&1
+npx tsx scripts/pipeline/db_auditor.ts >> .crawler.log 2>&1
 
 echo "[$(date)] Crawling and Auditing completed."
