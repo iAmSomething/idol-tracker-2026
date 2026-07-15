@@ -99,10 +99,25 @@ async function run() {
           }
         } else if (isMV(title)) {
           for (const cbData of activeComebacks) {
+            // Cross-validation: video title MUST contain the album title or one of the track names
+            const tracksSnap = await getDocs(query(collection(db, 'tracks'), where('comebackId', '==', cbData.docId)));
+            const trackNames = tracksSnap.docs.map(d => (d.data().name || '').toLowerCase());
+            const albumTitleLower = (cbData.albumTitle || cbData.title || '').toLowerCase();
+            const videoTitleLower = title.toLowerCase();
+            
+            let isValid = false;
+            if (albumTitleLower && videoTitleLower.includes(albumTitleLower)) isValid = true;
+            if (trackNames.some(name => name && videoTitleLower.includes(name))) isValid = true;
+            
+            if (!isValid) {
+              console.log(`  🎵 Found MV pattern, but cross-validation failed (no match for album/tracks): ${title}`);
+              continue;
+            }
+
             // Assuming the first track is the title track
             const titleTracks = cbData.titleTracks || [{ name: cbData.title || 'Title' }];
             if (!titleTracks[0].musicVideoUrl || titleTracks[0].musicVideoUrl !== videoUrl) {
-              console.log(`  🎵 Found MV: ${title}`);
+              console.log(`  🎵 Found Valid MV: ${title}`);
               titleTracks[0].musicVideoUrl = videoUrl;
               await updateDoc(doc(db, 'comebacks', cbData.docId), {
                 titleTracks: titleTracks,
