@@ -134,10 +134,17 @@ function ArtistDetailContent() {
     return match && match[2].length === 11 ? match[2] : null;
   };
 
-  const latestMvUrl = latestComebackWithMedia?.mediaLinks?.musicVideo || 
-                      latestComebackWithMedia?.titleTracks?.[0]?.musicVideoUrl ||
-                      latestComebackWithMedia?.teasers?.[0];
-  const youtubeId = getYouTubeId(latestMvUrl);
+  const latestMvCandidates = [
+    latestComebackWithMedia?.mediaLinks?.musicVideo,
+    latestComebackWithMedia?.titleTracks?.[0]?.musicVideoUrl,
+    latestComebackWithMedia?.teasers?.[0]
+  ];
+
+  let youtubeId = null;
+  for (const url of latestMvCandidates) {
+    youtubeId = getYouTubeId(url);
+    if (youtubeId) break;
+  }
   const formattedLatestMvUrl = youtubeId ? `https://www.youtube.com/embed/${youtubeId}` : null;
 
   return (

@@ -115,12 +115,19 @@ function ComebackDetailContent() {
     return match && match[2].length === 11 ? match[2] : null;
   };
 
-  const mvUrl = comeback.mediaLinks?.musicVideo || 
-                tracks.find(t => t.isTitle && t.musicVideoUrl)?.musicVideoUrl || 
-                tracks.find(t => t.musicVideoUrl)?.musicVideoUrl || 
-                comeback.mediaLinks?.teasers?.[0] ||
-                comeback.titleTracks?.[0]?.musicVideoUrl;
-  const youtubeId = getYouTubeId(mvUrl);
+  const mvCandidates = [
+    comeback.mediaLinks?.musicVideo,
+    tracks.find(t => t.isTitle && t.musicVideoUrl)?.musicVideoUrl,
+    tracks.find(t => t.musicVideoUrl)?.musicVideoUrl,
+    comeback.mediaLinks?.teasers?.[0],
+    comeback.titleTracks?.[0]?.musicVideoUrl
+  ];
+
+  let youtubeId = null;
+  for (const url of mvCandidates) {
+    youtubeId = getYouTubeId(url);
+    if (youtubeId) break;
+  }
   const formattedMvUrl = youtubeId ? `https://www.youtube.com/embed/${youtubeId}` : null;
 
   const dateObj = new Date(comeback.releaseDate);
