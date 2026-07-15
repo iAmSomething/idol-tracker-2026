@@ -1,11 +1,12 @@
 import * as path from "path";
 import * as dotenv from "dotenv";
-import { db } from "./lib/firebase-helpers";
-import { logger } from "./lib/logger";
-import { fetchYouTubeCommunityInfo } from "./lib/youtube_scraper";
-import { searchNaverNews, scrapeNaverNewsContent } from "./lib/naver_news_scraper";
+import { db } from "../lib/firebase-helpers";
+import { logger } from "../lib/logger";
+import { fetchYouTubeCommunityInfo } from "../lib/youtube_scraper";
+import { searchNaverNews, scrapeNaverNewsContent } from "../lib/naver_news_scraper";
 import { collection, addDoc, getDocs, updateDoc, doc, query, where } from "firebase/firestore";
-import { fetchBugsArtistValidation } from "./lib/bugs_scraper";
+import { fetchBugsArtistValidation } from "../lib/bugs_scraper";
+import { shouldSkipByDate } from "../lib/date-helpers";
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
@@ -164,8 +165,7 @@ async function runWeeklyCrawler() {
     const artistTypeFromArticle = scrapedData.artistType; // unit, solo, group, band
 
     // PAST COMEBACK FILTER: 7일 이상 지난 과거 컴백만 스킵 (어제/오늘 발매된 누락건은 포함시키기 위함)
-    const sevenDaysAgoStr = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-    if (releaseDate !== "TBA" && !releaseDate.includes("TBA") && releaseDate < sevenDaysAgoStr) {
+    if (shouldSkipByDate(releaseDate)) {
       continue;
     }
     // "발매했다" 등의 과거형 제목이어도, 7일 이내 발매건이라면 스킵하지 않음

@@ -3,6 +3,7 @@ dotenv.config({ path: '.env.local' });
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, query, where, writeBatch, doc, deleteField } from 'firebase/firestore';
 import * as fs from 'fs';
+import { isEmbeddableYouTubeUrl } from '../lib/url-guards';
 
 const firebaseConfig = {
   projectId: "idol-tracker-2026",
@@ -112,8 +113,7 @@ async function run() {
       
       // GUARD: Only write YouTube URLs to mediaLinks.musicVideo (used for iframe embedding).
       // Bugs MV URLs (music.bugs.co.kr/mv/) are NOT embeddable and must never go here.
-      if (!dbItem.mediaLinks?.musicVideo && bugsMatch.musicVideoUrl &&
-          (bugsMatch.musicVideoUrl.includes('youtube.com') || bugsMatch.musicVideoUrl.includes('youtu.be'))) {
+      if (!dbItem.mediaLinks?.musicVideo && bugsMatch.musicVideoUrl && isEmbeddableYouTubeUrl(bugsMatch.musicVideoUrl)) {
         updateData['mediaLinks.musicVideo'] = bugsMatch.musicVideoUrl;
         enriched = true;
       }

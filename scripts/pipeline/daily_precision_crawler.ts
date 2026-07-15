@@ -1,12 +1,13 @@
 import * as path from "path";
 import * as dotenv from "dotenv";
-import { db } from "./lib/firebase-helpers";
-import { logger } from "./lib/logger";
-import { fetchYouTubeCommunityInfo } from "./lib/youtube_scraper";
-import { searchNaverNews, scrapeNaverNewsContent } from "./lib/naver_news_scraper";
+import { db } from "../lib/firebase-helpers";
+import { logger } from "../lib/logger";
+import { fetchYouTubeCommunityInfo } from "../lib/youtube_scraper";
+import { searchNaverNews, scrapeNaverNewsContent } from "../lib/naver_news_scraper";
 import { collection, getDocs, updateDoc, doc, deleteDoc, addDoc, query, where } from "firebase/firestore";
-import { scrapeBugsLatestAlbums, fetchBugsArtistValidation, scrapeBugsSearch, BugsAlbumData } from "./lib/bugs_scraper";
-import { fetchAllStreamingLinks } from "./lib/streaming_links_scraper";
+import { scrapeBugsLatestAlbums, fetchBugsArtistValidation, scrapeBugsSearch, BugsAlbumData } from "../lib/bugs_scraper";
+import { fetchAllStreamingLinks } from "../lib/streaming_links_scraper";
+import { getSevenDaysAgoStr } from "../lib/date-helpers";
 import axios from "axios";
 import * as cheerio from "cheerio";
 
@@ -47,12 +48,9 @@ async function runDailyCrawler() {
   const nextWeek = new Date();
   nextWeek.setDate(today.getDate() + 7);
   
-  const pastWeek = new Date();
-  pastWeek.setDate(today.getDate() - 7);
-  
   const todayStr = today.toISOString().split('T')[0];
   const nextWeekStr = nextWeek.toISOString().split('T')[0];
-  const pastWeekStr = pastWeek.toISOString().split('T')[0];
+  const pastWeekStr = getSevenDaysAgoStr();
 
   const comebacksSnap = await getDocs(collection(db, 'comebacks'));
 
@@ -100,7 +98,7 @@ async function runDailyCrawler() {
           const existingBugs = tData.streamingLinks?.bugs;
           
           // Using fetchAllStreamingLinksForTrack dynamically (imported from streaming_links_scraper)
-          const scraper = require("./lib/streaming_links_scraper");
+          const scraper = require("../lib/streaming_links_scraper");
           if (scraper.fetchAllStreamingLinksForTrack) {
             const newLinks = await scraper.fetchAllStreamingLinksForTrack(data.artistName, tData.name, existingBugs);
             if (Object.keys(newLinks).length > 0) {
@@ -241,7 +239,7 @@ async function runDailyCrawler() {
     const bugsInfo = await fetchBugsArtistValidation(album.artistName);
     if (bugsInfo) {
        // Double check with Qwen to filter out non-idols that sneak into Bugs idol genre
-       const qwenInfo = await require("./lib/qwen_extractor").parseArticleWithQwen(
+       const qwenInfo = await require("../lib/qwen_extractor").parseArticleWithQwen(
          `벅스 아이돌 장르 앨범 발매 정보. 아티스트: ${album.artistName}, 앨범명: ${album.title}`, 
          `${album.artistName} 앨범 발매`
        );
