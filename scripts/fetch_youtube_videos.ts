@@ -80,8 +80,8 @@ async function run() {
       
       // Look at the latest 10 videos
       for (const video of videos.videos.slice(0, 10) as any[]) {
-        const title = video.title?.text || '';
-        const videoId = video.id;
+        const title = (video.title?.text || (video as any).metadata?.title?.toString() || (video as any).renderer_context?.accessibility_context?.label || '').replace(/\\n/g, ' ').trim();
+        const videoId = (video as any).content_id || video.id;
         const videoUrl = `https://youtube.com/watch?v=${videoId}`;
         
         if (isTeaser(title)) {

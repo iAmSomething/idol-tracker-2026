@@ -88,7 +88,8 @@ async function run() {
               let foundMvUrl = "";
               
               for (const v of recentVideos) {
-                const title = v.title?.text || '';
+                const title = (v.title?.text || (v as any).metadata?.title?.toString() || (v as any).renderer_context?.accessibility_context?.label || '').replace(/\\n/g, ' ').trim();
+                const videoId = (v as any).content_id || v.id;
                 if (isMV(title)) {
                   // Cross validation
                   const albumTitle = data.albumTitle?.toLowerCase() || '';
@@ -103,7 +104,7 @@ async function run() {
                   const hasTrackMatch = trackNames.some((tn: string) => tLower.includes(tn));
                   
                   if (hasAlbumMatch || hasTrackMatch) {
-                    foundMvUrl = `https://youtube.com/watch?v=${v.id}`;
+                    foundMvUrl = `https://youtube.com/watch?v=${videoId}`;
                     logger.info(`Found MV: ${foundMvUrl} (${title})`);
                     break;
                   }
