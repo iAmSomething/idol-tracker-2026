@@ -133,6 +133,16 @@ LLM은 텍스트 파싱 능력은 뛰어나나, 숫자와 날짜 연산에 있�
      `이 기사가 아티스트 본인의 신곡/새 앨범을 공식적으로 발표하는 '음악적 컴백/데뷔' 기사인지 여부를 (true/false)로만 판단하세요. 아이돌이더라도 단순 예능 프로그램 출연, 팬미팅 개최, 해외 출국, 단독 콘서트, 연기 활동, 결혼 및 열애 소식, 투표 결과 1위, 과거 곡의 스페셜 무대 기사라면 반드시 false로 설정하세요.`
   2. OST/사운드트랙 전면 배제 지시사항:
      `만약 기사가 드라마(Drama), 영화(Movie), 게임(Game), 웹툰(Webtoon) 등의 OST(Original Soundtrack) 또는 프로젝트성 콜라보 음원 발매에 관한 것이라면, 이 아티스트의 정규 컴백이 아니므로 모든 필드를 null로 반환하세요. OST는 컴백 스케줄로 취급하지 않습니다.`
+  3. **코드 레벨 리믹스 앨범 강제 필터링 (REMIX_KEYWORDS)**:
+     LLM이 놓치는 가짜 컴백을 방지하기 위해 크롤러 코드(`daily_precision_crawler.ts`, `seed_bugs_comebacks.ts` 등)에 아래 정규식/키워드를 하드코딩하고, 앨범 타이틀에 포함될 경우 반드시 DB 수집을 스킵(return/continue)해야 합니다. `ver` 문자열이 `over` 등 일반 단어에 매칭되지 않도록 단어 경계(Word boundary)를 사용해야 합니다.
+     ```typescript
+     const isRemix = /(remix|instrumental|inst|mix|ost|soundtrack)/i.test(title) || /(?:^|\s|\(|\[)ver(?:\.|\s|\)|\]|$)/i.test(title);
+     if (isRemix) { return; }
+     ```
+  4. **MV 수집 자동화 의무화**:
+     `fetch_official_mvs.ts` 등 MV 정보를 가져오는 Enrichment 스크립트는 수동 실행에 의존하지 않고, 반드시 `run_crawlers.sh` 파이프라인 내부에 포함되어 매일 자동으로 실행되어야 합니다. 그렇지 않으면 DB에 MV 정보가 누락된 채로 방치됩니다.
+  5. **시드(Seed) 스크립트 기사 링크(SourceLink) 우회 금지**:
+     과거 데이터를 대량 삽입하는 `seed_bugs_comebacks.ts`와 같은 스크립트를 작성할 때도, **미래 시점의 컴백 데이터**를 삽입할 경우 기사 정보(`sourceLink`)가 존재하지 않는다면 무조건 삽입을 스킵해야 합니다. 벅스 등 음원 사이트에 임시로 등록된 발매일 미정/OST/기타 가짜 컴백 데이터가 캘린더를 오염시키는 것을 막기 위한 필수 안전장치입니다.
 
 ### 4) 데이터 파편화 방지 및 Alias 매핑 로직 (동일 아티스트 분할 생성 금지)
 - **발생한 문제:** "idntt"와 "아이덴티티", "디렉션(D:D)"과 "DAILY:DIRECTION", "8TURN(에잇턴)"과 "8TURN", "레드벨벳"과 "RedVelvet", "뉴진스"와 "NewJeans" 등 동일 그룹이 기사마다 영문/한글 혼용 표기나 괄호 표기(`8TURN(에잇턴)`)로 인해 서로 다른 아티스트 ID로 중복 생성되는 파편화 문제가 끝없이 발생했습니다. 특히 이로 인해 Bugs API에서 Alias를 인식하지 못하고 검색에 실패하여 "Not Found"를 뱉어버리는 버그가 속출했습니다.
@@ -149,7 +159,11 @@ LLM은 텍스트 파싱 능력은 뛰어나나, 숫자와 날짜 연산에 있�
   - 데이터를 지우기 전에는 반드시 해당 데이터가 **진짜로 버려져야 하는 데이터가 맞는지 수동으로 하나하나 확인(console.log, 파일로 덤프 등)** 하는 Dry-run 스크립트를 먼저 실행하십시오.
   - Dry-run 결과를 사용자에게 보여주고, **명시적인 삭제 승인(Explicit Consent)** 을 받은 후에만 실제 `deleteDoc`을 호출해야 합니다.
 - **데이터 보강(Enrichment) 원칙:** 새로운 관련 기사가 수집될 때 무작정 새 컴백 문서를 Create하거나 기존 컴백 문서를 완전히 덮어쓰지(Overwrite) 마십시오. 
-  - 반드시 기존 `comebacks` 컬렉션에서 `artistId`와 가까운 `releaseDate`를 가진 문서가 있는지 `findMatchingComeback` 함수로 탐색한 후,
+  - 반드시 기존 `comebacks` 컬렉션에서 `artistId`와 가까운 `releaseDate`를 가진 문서가 있는지 `findMatchingComeback`
+- **데이터 파편화 방지 및 무결성(Integrity) 원칙 (빈 껍데기 문서 금지)**:
+  - 크롤러나 스크립트가 `comebacks` 문서를 처음 생성(addDoc)하거나, 발매 시점이 도래하여 앨범 정보를 업데이트(updateDoc)할 때는 **절대 앨범 타이틀(`albumTitle`)과 수록곡 정보(`titleTracks`)를 비워두어선 안 됩니다.**
+  - Bugs 등 음원 사이트 API/페이지에서 앨범 메타데이터를 가져올 경우, 반드시 상세 페이지를 크롤링(`scrapeBugsAlbumTracks` 등)하여 `tracks` 컬렉션에 트랙들을 `addDoc`으로 채워 넣어야 합니다.
+  - 이 과정을 생략하여 `albumTitle`만 없고 뉴스 크롤링 날짜만 남은 '빈 껍데기(Empty Shell)' 문서가 생성되는 것을 엄격히 금지합니다. 함수로 탐색한 후,
   - 기존 문서를 찾았다면, 새 기사 링크 데이터 객체를 `recentNews` 배열의 맨 앞(unshift)에 누적(Push)시키고, 
   - 발매일이나 앨범 커버 등 기존 데이터에 비어있는(null/TBA) 메타데이터가 있을 때만 해당 필드를 Update 하는 `Incremental Enrichment` 방식을 최우선으로 적용해야 합니다.
 
@@ -236,10 +250,12 @@ LLM은 숫자와 날짜 추론에 있어 매우 멍청한 환각 현상을 일�
 - **발생한 문제:** "idntt"와 "아이덴티티", "디렉션(D:D)"과 "DAILY:DIRECTION", "8TURN(에잇턴)"과 "8TURN", "레드벨벳"과 "RedVelvet" 등 동일 그룹이 영문/한글 표기나 기사 내 괄호 표기로 인해 서로 다른 아티스트로 중복 생성되는 파편화 문제가 끝없이 발생했습니다. 특히 Bugs API에서 Alias를 인식하지 못해 "Not Found"를 뱉어버립니다.
 - **해결책 (Alias 검증 강제):** 새로운 아티스트를 `artists` 컬렉션에 추가하기 전, 크롤러에서 추출된 이름이 기존 `artists` 컬렉션의 `name.en`, `name.ko`, 또는 `aliases` 배열에 포함되어 있는지 **철저히 루프를 돌며 소문자 변환/공백 제거 후 크로스체크**해야 합니다. 매칭되는 Alias가 있다면 새로운 아티스트로 등록하지 말고, **반드시 기존 `artistId`와 `artistName`을 그대로 상속받아 병합(Merge)** 해야 합니다.
 
-### 5) 섣부른 Delete 스크립트 작성 금지 및 데이터 보강(Enrichment) 우선주의
+### 5) 섣부른 Delete 스크립트 작성 금지 및 데이터 상호보완적 병합(Merge) 최우선주의
 - **발생한 문제:** "오늘 생성된 잘못된 데이터를 지워달라"는 요청을 받았을 때, Agent가 `createdAt`이 오늘인 데이터를 맹목적으로 전부 `deleteDoc` 해버리는 스크립트(`cleanup_today.ts` 등)를 작성 및 실행했습니다. 그 결과, 7월 13일에 발매된 진짜 컴백 데이터들(아이덴티티, 디렉션(D:D), WOOAH, 손준형, 영파씨)까지 모조리 DB에서 날아가버려 사용자에게 엄청난 혼란과 분노를 야기했습니다.
 - **절대 원칙:** 어떤 상황에서도, AI가 생성한 쓰레기 데이터만 골라서 지우기 위해 `createdAt`이나 단순 조건만으로 대량 삭제 스크립트를 돌리지 마십시오. 지우기 전에 반드시 해당 데이터가 **진짜로 버려져야 하는 데이터가 맞는지 수동으로 하나하나 확인(console.log)** 하는 스크립트를 먼저 실행하고, 사용자의 명시적 동의를 받아야 합니다.
 - **데이터 보강 원칙:** 새로운 기사가 수집될 때 무작정 새 문서를 Create하거나 기존 문서를 덮어쓰지 말고, `findMatchingComeback` 함수로 기존 `comebacks` 데이터를 찾은 후 새 기사 링크를 `recentNews` 배열 맨 앞(unshift)에 누적하고 비어있는 메타데이터만 Update 하는 방식을 최우선으로 합니다.
+- **중복 데이터 상호보완적 병합(Merge) 강제 원칙:** 동일 날짜/동일 아티스트의 중복 컴백 데이터를 발견하여 정리할 때, 무작정 '가장 데이터가 충실한 1개만 남기고 나머지는 삭제(Delete)'하는 방식을 엄격히 금지합니다. 기사 A에서는 '미니 앨범'을, 기사 B에서는 '타이틀곡 제목'이나 '티저 링크'를 잡아냈을 수 있으므로, 삭제될 중복 데이터들에서 누락된 메타데이터(타이틀 길이, 앨범 형태, 발매 상태, 미디어 링크, 추가 수록곡 등)를 모두 추출해 메인(Master) 데이터에 꼼꼼히 채워넣어(Merge) 상호보완하는 로직을 반드시 구현해야 합니다.
+- **미래 컴백 생성 엄격 통제:** 어떤 크롤러나 백엔드 스크립트든, 발매일이 미래 시점(오늘 이후)인 컴백 문서를 `addDoc`으로 신규 생성할 때는 반드시 유효한 `sourceLink`(네이버 뉴스 기사 원문 등)를 포함해야 합니다. 기사 없이 생성하려 할 경우 해당 데이터를 폐기(Skip)하여 루머 및 좀비 더미 데이터의 유입을 철저히 차단합니다.
 
 ### 6) YouTube Community 교차 검증의 한계와 보완 (`scripts/lib/youtube_scraper.ts`)
 기사만으로 날짜/앨범명이 `TBA`인 경우 유튜브를 스크래핑합니다.
@@ -483,5 +499,340 @@ Bugs 링크를 기준으로 타 플랫폼 음원 링크를 보강할 때 각 플
 
 > **관제 규칙:** 매번 Agent.md를 읽을 때마다 문서 맨 뒤에 있는 숫자를 1씩 증가시킬 것.
 
+---
+
+## 7. Bugs 음원사이트 HTML 구조 레퍼런스 (Bugs HTML Selector Reference)
+
+> 🚨 **[절대 규칙] 추측 기반 셀렉터 작성 금지**
+> Bugs 페이지를 스크래핑하는 코드를 작성할 때, **실제 HTML 구조를 확인하지 않고 추측으로 CSS 셀렉터를 짜는 것을 절대 금지**합니다.
+> 과거에 존재하지 않는 `em.icon_title` 셀렉터를 추측으로 사용하여 모든 트랙의 타이틀곡 플래그가 `false`로 저장되는 치명적 버그가 발생했습니다.
+> 아래에 기록된 셀렉터만 사용하고, HTML 구조가 변경된 것이 의심될 경우 반드시 실제 페이지를 `cheerio.load()`로 파싱하여 구조를 재검증한 뒤 코드를 작성하십시오.
+
+### 7-1. 최신 앨범 목록 페이지 (`https://music.bugs.co.kr/newest/album/total`)
+
+앨범 목록은 `<ul class="list tileView albumList">` 안에 `<li>` 단위로 나열됩니다.
+
+```html
+<!-- 각 앨범 항목 구조 -->
+<li>
+  <figure class="albumInfo" albumid="4151477" trackid="" artistid="20241793">
+    <div class="thumbnail">
+      <img src="https://image.bugsm.co.kr/album/images/170/{albumId앞5자리}/{albumId}.jpg" alt="앨범명 사진">
+    </div>
+    <figcaption class="info">
+      <div class="albumTitle">
+        <a href="https://music.bugs.co.kr/album/{albumId}">앨범 타이틀</a>
+      </div>
+      <div class="subInfo">
+        <p class="artist">
+          <a href="https://music.bugs.co.kr/artist/{artistId}" class="artistTitle">아티스트명</a>
+        </p>
+        <p>
+          <time datetime="">2026.07.13</time>
+          <span class="albumType">EP(미니)</span>  <!-- 정규, EP(미니), 싱글, OST 등 -->
+        </p>
+      </div>
+    </figcaption>
+  </figure>
+</li>
+```
+
+**셀렉터 요약:**
+| 데이터 | 셀렉터 | 비고 |
+|---|---|---|
+| albumId | `figure.albumInfo[albumid]` | attribute |
+| artistId | `figure.albumInfo[artistid]` | attribute |
+| 앨범명 | `div.albumTitle a` | `.text().trim()` |
+| 아티스트명 | `p.artist a.artistTitle` | `.text().trim()` |
+| 발매일 | `div.subInfo time` | `.text().trim()` → `YYYY.MM.DD` 형식 |
+| 앨범 유형 | `span.albumType` | `.text().trim()` → 정규/EP(미니)/싱글 등 |
+| 커버 이미지 | `div.thumbnail img[src]` | 170px 썸네일, `/170/`을 `/500/` 또는 `/1000/`으로 치환하면 고해상도 |
+
+### 7-2. 앨범 상세 페이지 (`https://music.bugs.co.kr/album/{albumId}`)
+
+#### A. 앨범 메타정보 테이블 (`table.info`)
+```html
+<table class="info">
+  <tbody>
+    <tr><th>아티스트</th><td><a href="/artist/{artistId}">idntt (아이덴티티)</a></td></tr>
+    <tr><th>유형</th><td>EP(미니)</td></tr>
+    <tr><th>장르</th><td><a href="...">댄스/팝</a></td></tr>
+    <tr><th>스타일</th><td><a href="...">댄스 팝</a></td></tr>
+    <tr><th>발매일</th><td><time datetime="2026.07.13">2026.07.13</time></td></tr>
+    <tr><th>유통사</th><td>카카오엔터테인먼트</td></tr>
+    <tr><th>기획사</th><td>모드하우스</td></tr>
+    <tr><th>재생 시간</th><td><time datetime="18:33">18:33</time></td></tr>
+    <tr><th>고음질</th><td>FLAC 16bit, 24bit ...</td></tr>
+  </tbody>
+</table>
+```
+
+**셀렉터 요약:**
+| 데이터 | 셀렉터 | 비고 |
+|---|---|---|
+| 아티스트명 | `table.info tr` → `th`가 '아티스트'인 행의 `td a` | `.text().trim()` |
+| 아티스트 ID | 위 `td a`의 `href`에서 `/artist/(\d+)` 추출 | 정규식 |
+| 유형 | `th`가 '유형'인 행의 `td` | EP(미니), 정규, 싱글 등 |
+| 장르 | `th`가 '장르'인 행의 `td a` | |
+| 발매일 | `th`가 '발매일'인 행의 `td time[datetime]` | `YYYY.MM.DD` |
+| 유통사 | `th`가 '유통사'인 행의 `td` | |
+| **기획사** | `th`가 '기획사'인 행의 `td` | **소속사 정보! 반드시 수집** |
+| 재생 시간 | `th`가 '재생 시간'인 행의 `td time[datetime]` | `MM:SS` |
+
+#### B. 앨범 커버 이미지
+```html
+<div class="innerContainer">
+  <img src="https://image.bugsm.co.kr/album/images/200/{albumId앞5자리}/{albumId}.jpg?version=..." alt="앨범명 사진">
+</div>
+```
+- **200px**: `/images/200/...` (기본)
+- **500px**: `/images/500/...` (중간 해상도)
+- **1000px**: `/images/1000/...` (고해상도, 프론트엔드 표시용 권장)
+- **원본**: `/images/original/...`
+
+#### C. 앨범 타이틀
+```html
+<header class="pgTitle">
+  <h1>앨범 타이틀명</h1>
+</header>
+```
+
+#### D. 수록곡 목록 (`table.list.trackList`)
+
+> ⚠️ **가장 중요한 구조. 타이틀곡 판별이 여기서 이루어짐.**
+
+```html
+<table class="list trackList">
+  <tbody>
+    <tr>
+      <!-- 체크박스 (bugsTrackId 포함) -->
+      <td class="check">
+        <input type="checkbox" value="6490080" name="check" title="Kids Return">
+      </td>
+
+      <!-- 트랙 번호 + 타이틀곡 배지 -->
+      <td>
+        <p class="trackIndex">
+          <em>2</em>
+          <span class="albumTitle">[타이틀곡]</span>  <!-- ⭐ 이것이 타이틀곡 표시! -->
+        </p>
+      </td>
+
+      <!-- 곡 정보 링크 -->
+      <td>
+        <a href="https://music.bugs.co.kr/track/6490080" class="trackInfo">곡정보</a>
+      </td>
+
+      <!-- 곡 제목 -->
+      <th scope="row">
+        <p class="title">
+          <a href="javascript:;" title="Kids Return">Kids Return</a>
+        </p>
+      </th>
+
+      <!-- 아티스트 -->
+      <td class="left">
+        <p class="artist">
+          <a href="https://music.bugs.co.kr/artist/20241793">idntt (아이덴티티)</a>
+        </p>
+      </td>
+
+      <!-- MV 버튼 (MV가 있는 곡만 존재) -->
+      <td>
+        <a href="javascript:;" onclick="bugs.layermenu.mv(this,6490080, 640312, ...)" class="viewMV">영상 재생</a>
+        <!-- trackId: 6490080, mvId: 640312 → MV URL: https://music.bugs.co.kr/mv/640312 -->
+      </td>
+    </tr>
+  </tbody>
+</table>
+```
+
+**셀렉터 요약 (⭐ = 과거 버그 발생 지점):**
+| 데이터 | 올바른 셀렉터 | ❌ 잘못된 셀렉터 (사용 금지) |
+|---|---|---|
+| 곡 제목 | `p.title a` → `.text().trim()` | |
+| 트랙 번호 | `p.trackIndex em` → `.text().trim()` | `td.num` (존재하지 않음) |
+| ⭐ **타이틀곡 여부** | `span.albumTitle` → `.text().includes("타이틀")` | ~~`em.icon_title`~~ (존재하지 않는 가상 셀렉터) |
+| bugsTrackId | `input[name=check]` → `.val()` | `tr[trackid]` (불안정) |
+| 아티스트명 | `p.artist a` → `.text().trim()` | |
+| 아티스트 ID | `p.artist a[href]`에서 `/artist/(\d+)` 추출 | |
+| MV 유무 | `a.viewMV` → `.length > 0` | |
+| MV ID | `a.viewMV`의 `onclick`에서 `bugs.layermenu.mv(this,\d+,\s*(\d+)` 추출 | |
+| 곡정보 URL | `a.trackInfo[href]` | |
+
+### 7-3. 곡 상세 정보 페이지 (`https://music.bugs.co.kr/track/{trackId}`)
+
+```html
+<header class="pgTitle"><h1>곡 제목</h1></header>
+
+<table class="info">
+  <tbody>
+    <tr><th>아티스트</th><td><a>아티스트명</a></td></tr>
+    <tr><th>앨범</th><td><a href="/album/{albumId}">앨범명</a></td></tr>
+    <tr><th>재생 시간</th><td><time datetime="03:06">03:06</time></td></tr>
+    <tr><th>보컬</th><td><a>아티스트명</a></td></tr>
+    <tr><th>작곡</th><td><a>작곡가1</a>, <a>작곡가2</a>, ...</td></tr>
+    <tr><th>작사</th><td><a>작사가1</a>, <a>작사가2</a>, ...</td></tr>
+    <tr><th>편곡</th><td><a>편곡가1</a>, <a>편곡가2</a>, ...</td></tr>
+  </tbody>
+</table>
+```
+
+**셀렉터 요약:**
+| 데이터 | 셀렉터 | 비고 |
+|---|---|---|
+| 곡 제목 | `header.pgTitle h1` | |
+| 보컬 | `th`가 '보컬'인 행의 `td a` | 각 `<a>` 태그별로 `.text().trim()`, 쉼표로 join |
+| **작곡** | `th`가 '작곡'인 행의 `td a` | 복수 인원 쉼표 구분 |
+| **작사** | `th`가 '작사'인 행의 `td a` | 복수 인원 쉼표 구분 |
+| **편곡** | `th`가 '편곡'인 행의 `td a` | 복수 인원 쉼표 구분 |
+| 앨범 링크 | `th`가 '앨범'인 행의 `td a[href]` | albumId 역추출 가능 |
+| 재생 시간 | `th`가 '재생 시간'인 행의 `td time[datetime]` | `MM:SS` |
+
+### 7-4. 아티스트 페이지 (`https://music.bugs.co.kr/artist/{artistId}`)
+
+```html
+<header class="pgTitle"><h1>아티스트명 (한글명)</h1></header>
+
+<!-- 아티스트 프로필 이미지 -->
+<div class="innerContainer">
+  <img src="https://image.bugsm.co.kr/artist/images/200/{artistId앞6자리}/{artistId}.jpg">
+</div>
+
+<table class="info">
+  <tbody>
+    <tr><th>유형</th><td>그룹 (남성)</td></tr>       <!-- 그룹 (남성), 그룹 (여성), 솔로 (남성), 솔로 (여성) -->
+    <tr><th>국적</th><td>대한민국</td></tr>
+    <tr><th>장르</th><td>댄스/팝</td></tr>
+    <tr><th>멤버</th><td>멤버1, 멤버2, ...</td></tr>  <!-- 그룹인 경우만 존재 -->
+  </tbody>
+</table>
+```
+
+**셀렉터 요약:**
+| 데이터 | 셀렉터 | 비고 |
+|---|---|---|
+| 아티스트명 | `header.pgTitle h1` | 영문(한글) 형태로 표시 |
+| 유형 | `th`가 '유형'인 행의 `td` | `그룹 (남성)`, `솔로 (여성)` 등 → `type`과 `gender` 동시 추출 가능 |
+| 국적 | `th`가 '국적'인 행의 `td` | |
+| 장르 | `th`가 '장르'인 행의 `td` | |
+| 멤버 목록 | `th`가 '멤버'인 행의 `td` | 쉼표로 split → 각 멤버명 |
+| 프로필 이미지 | `div.innerContainer img[src]` | `/200/`을 `/500/` 등으로 치환 가능 |
+
+### 7-5. 커버 이미지 URL 해상도 치환 규칙
+
+Bugs의 이미지 URL은 경로의 숫자 부분을 치환하면 해상도를 자유롭게 변경할 수 있습니다:
+```
+기본 (170px): /images/170/{prefix}/{id}.jpg   ← 목록 페이지 썸네일
+소형 (200px): /images/200/{prefix}/{id}.jpg   ← 앨범 상세 페이지 기본
+중형 (500px): /images/500/{prefix}/{id}.jpg   ← 프론트엔드 카드 표시 권장
+대형 (1000px):/images/1000/{prefix}/{id}.jpg  ← 상세 뷰/히어로 이미지
+원본:         /images/original/{prefix}/{id}.jpg
+```
+
+---
+
+### 7-6. Firestore 데이터 필드 ↔ Bugs 확보 가능 여부 매핑 (Field-to-Source Mapping)
+
+> 이 섹션은 서버사이드 Firestore의 3대 컬렉션(`artists`, `comebacks`, `tracks`)의 **모든 필드**를 나열하고, 각 필드가 Bugs 스크래핑으로 확보 가능한지, 가능하다면 어떤 페이지의 어떤 셀렉터에서 추출하는지를 명시합니다.
+> ⚠️ **뮤직비디오(`musicVideoUrl`, `mediaLinks.musicVideo`)는 YouTube URL만 허용**하므로, Bugs MV URL(`music.bugs.co.kr/mv/...`)은 절대 이 필드에 저장하지 않습니다.
+
+#### A. `artists` 컬렉션 필드 매핑
+
+| 필드명 | 타입 | Bugs 확보 | Bugs 소스 페이지 | 셀렉터 / 추출 방법 |
+|---|---|:---:|---|---|
+| `name.ko` | string | ✅ | 아티스트 페이지 `/artist/{bugsArtistId}` | `header.pgTitle h1` → 괄호 안 한글명 추출 |
+| `name.en` | string | ✅ | 아티스트 페이지 `/artist/{bugsArtistId}` | `header.pgTitle h1` → 괄호 밖 영문명 추출 |
+| `name.aliases` | string[] | ❌ | — | 수동 관리 또는 크롤러 축적 |
+| `type` | "group"/"solo"/"unit" | ✅ | 아티스트 페이지 `/artist/{bugsArtistId}` | `th`='유형' 행의 `td` → `"그룹"` 포함 시 `group`, `"솔로"` 포함 시 `solo` |
+| `gender` | "male"/"female"/"mixed" | ✅ | 아티스트 페이지 `/artist/{bugsArtistId}` | `th`='유형' 행의 `td` → `"남성"` 포함 시 `male`, `"여성"` 포함 시 `female` |
+| `generation` | number | ❌ | — | Bugs에 세대 정보 없음, 수동 설정 |
+| `members` | {name}[] | ✅ | 아티스트 페이지 `/artist/{bugsArtistId}` | `th`='멤버' 행의 `td` → 쉼표 split (그룹인 경우만 존재) |
+| `agency.name` | string | ✅ | 앨범 상세 `/album/{bugsAlbumId}` | `th`='기획사' 행의 `td` → `.text().trim()` |
+| `agencyId` | string | ❌ | — | Firestore 내부 참조 ID |
+| `parentGroup` | string\|null | ❌ | — | 수동 설정 (솔로/유닛의 모그룹) |
+| `parentGroupId` | string | ❌ | — | Firestore 내부 참조 ID |
+| `socialLinks.youtube` | string | ❌ | — | YouTube Data API 또는 수동. Bugs에 없음 |
+| `socialLinks.x` | string | ❌ | — | 수동 |
+| `socialLinks.instagram` | string | ❌ | — | 수동 |
+| `socialLinks.tiktok` | string | ❌ | — | 수동 |
+| `socialLinks.weverse` | string | ❌ | — | 수동 |
+| `profileImageUrl` | string | ✅ | 아티스트 페이지 `/artist/{bugsArtistId}` | `div.innerContainer img[src]` → `/200/`을 `/500/`으로 치환 |
+| `isActive` | boolean | ❌ | — | 수동 관리 |
+| `comebackIds` | string[] | ❌ | — | Firestore 관계 필드 |
+| `recentComeback` | string | ❌ | — | 앨범 목록에서 간접 유추 가능하나, Firestore 자체 관리 |
+
+#### B. `comebacks` 컬렉션 필드 매핑
+
+| 필드명 | 타입 | Bugs 확보 | Bugs 소스 페이지 | 셀렉터 / 추출 방법 |
+|---|---|:---:|---|---|
+| `artistId` | string | ❌ | — | Firestore 내부 ID. Bugs `artistid` attr로 매칭 검증은 가능 |
+| `artistName` | string | ✅ | 앨범 상세 `/album/{bugsAlbumId}` | `th`='아티스트' 행의 `td a` → `.text().trim()` |
+| `artistGender` | string | ✅ | 아티스트 페이지 `/artist/{bugsArtistId}` | 위 Artist `gender` 추출과 동일 |
+| `artistType` | string | ✅ | 아티스트 페이지 `/artist/{bugsArtistId}` | 위 Artist `type` 추출과 동일 |
+| `parentGroupName` | string | ❌ | — | 수동 설정 |
+| `parentGroupId` | string | ❌ | — | Firestore 내부 참조 ID |
+| `agencyName` | string | ✅ | 앨범 상세 `/album/{bugsAlbumId}` | `th`='기획사' 행의 `td` → `.text().trim()` |
+| `albumTitle` | string | ✅ | 앨범 상세 `/album/{bugsAlbumId}` | `header.pgTitle h1` → `.text().trim()` |
+| `releaseDate` | string (YYYY-MM-DD) | ✅ | 앨범 상세 `/album/{bugsAlbumId}` | `th`='발매일' 행의 `td time` → `.text()` → `YYYY.MM.DD`를 `YYYY-MM-DD`로 변환 |
+| `releaseType` | string | ✅ | 앨범 상세 `/album/{bugsAlbumId}` 또는 목록 | `th`='유형' 행의 `td` 또는 `span.albumType` |
+| `albumCoverUrl` | string | ✅ | 앨범 상세 `/album/{bugsAlbumId}` | `div.innerContainer img[src]` → `/200/`을 `/500/`으로 치환 |
+| `bugsAlbumId` | string | ✅ | 앨범 목록 | `figure.albumInfo[albumid]` |
+| `streamingLinks.bugs` | string | ✅ | 자동 생성 | `https://music.bugs.co.kr/album/{bugsAlbumId}` |
+| `streamingLinks.melon` | string | ❌ | — | Melon API/검색으로 별도 확보 |
+| `streamingLinks.youtubeMusic` | string | ❌ | — | YouTube Music 검색으로 별도 확보 |
+| `streamingLinks.appleMusic` | string | ❌ | — | Apple Music API로 별도 확보 |
+| `streamingLinks.spotify` | string | ❌ | — | Spotify API로 별도 확보 |
+| `titleTracks` | {name, musicVideoUrl}[] | ⚠️ 부분 | 앨범 상세 수록곡 목록 | `name`: `span.albumTitle`에 `[타이틀곡]`이 있는 행의 `p.title a`. `musicVideoUrl`: ❌ Bugs MV 금지, **YouTube 검색으로만 확보** |
+| `mediaLinks.musicVideo` | string | ❌ | — | **YouTube URL만 허용.** Bugs MV URL 절대 금지 |
+| `mediaLinks.teasers` | string[] | ❌ | — | YouTube 검색으로 확보 |
+| `mediaLinks.highlightMedley` | string | ❌ | — | YouTube 검색으로 확보 |
+| `isCompleted` | boolean | ❌ | — | 시스템 자동 관리 (발매일 경과 여부) |
+| `isReleased` | boolean | ❌ | — | 시스템 자동 관리 |
+| `status` | string | ❌ | — | 시스템 자동 관리 |
+| `sourceLink` | string | ❌ | — | 뉴스 크롤러에서 확보 |
+| `recentNews` | object[] | ❌ | — | 뉴스 크롤러에서 확보 |
+| `aiSummary` | string | ❌ | — | 로컬 LLM 생성 |
+
+#### C. `tracks` 컬렉션 필드 매핑
+
+| 필드명 | 타입 | Bugs 확보 | Bugs 소스 페이지 | 셀렉터 / 추출 방법 |
+|---|---|:---:|---|---|
+| `comebackId` | string | ❌ | — | Firestore 내부 참조 ID |
+| `artistId` | string | ❌ | — | Firestore 내부 참조 ID (부모 Comeback에서 상속) |
+| `artistName` | string | ✅ | 앨범 상세 수록곡 행 | `p.artist a` → `.text().trim()` |
+| `albumTitle` | string | ✅ | 앨범 상세 | `header.pgTitle h1` (앨범 전체에서 상속) |
+| `name` | string | ✅ | 앨범 상세 수록곡 행 | `p.title a` → `.text().trim()` |
+| `trackNumber` | number | ✅ | 앨범 상세 수록곡 행 | `p.trackIndex em` → `.text().trim()` → `parseInt()` |
+| `isTitle` | boolean | ✅ | 앨범 상세 수록곡 행 | `span.albumTitle` → `.text().includes("타이틀")` |
+| `bugsTrackId` | string | ✅ | 앨범 상세 수록곡 행 | `input[name=check]` → `.val()` |
+| `duration` | string | ✅ | 곡 정보 `/track/{trackId}` | `th`='재생 시간' 행의 `td time[datetime]` |
+| `composers` | string[] | ✅ | 곡 정보 `/track/{trackId}` | `th`='작곡' 행의 `td a` → 각 `.text().trim()` → 배열 |
+| `lyricists` | string[] | ✅ | 곡 정보 `/track/{trackId}` | `th`='작사' 행의 `td a` → 각 `.text().trim()` → 배열 |
+| `arrangers` (미구현) | string[] | ✅ | 곡 정보 `/track/{trackId}` | `th`='편곡' 행의 `td a` → 각 `.text().trim()` → 배열 |
+| `streamingLinks.bugs` | string | ✅ | 자동 생성 | `https://music.bugs.co.kr/track/{bugsTrackId}` |
+| `streamingLinks.melon` | string | ❌ | — | Melon 검색으로 별도 확보 |
+| `streamingLinks.youtubeMusic` | string | ❌ | — | YouTube Music 검색으로 별도 확보 |
+| `streamingLinks.appleMusic` | string | ❌ | — | Apple Music API로 별도 확보 |
+| `musicVideoUrl` | string | ❌ | — | **YouTube URL만 허용.** Bugs MV URL(`a.viewMV`) 절대 금지 |
+
+> ⚠️ **MV 필드 관련 재강조**: `titleTracks[].musicVideoUrl`, `mediaLinks.musicVideo`, `tracks[].musicVideoUrl` — 이 세 필드는 모두 **YouTube 동영상 URL만 허용**합니다. Bugs의 `a.viewMV` onclick에서 추출 가능한 `https://music.bugs.co.kr/mv/{mvId}` URL은 iframe 임베딩이 불가능하므로 절대로 이 필드에 저장하지 마십시오.
+
+> 💡 **곡 상세정보(작곡/작사/편곡) 확보 전략**: 앨범 상세 페이지(`/album/{id}`)에서는 수록곡의 이름, 트랙번호, 타이틀 여부만 얻을 수 있습니다. 작곡가/작사가/편곡가와 개별 곡 재생시간은 **반드시 각 곡의 상세 정보 페이지(`/track/{trackId}`)를 별도로 요청**해야 확보할 수 있습니다. `bugsTrackId`는 앨범 스크래핑 시 `input[name=check]`에서 얻으므로, 앨범 스크래핑 → 트랙 상세 스크래핑 순서로 2단계 파이프라인을 구성해야 합니다.
+
+---
+
+### 🚨 [CRITICAL] AGENTS.md Mandatory Reading & Proof Protocol
+Before starting any coding, debugging, or planning task in this repository, you MUST perform the following steps without exception:
+
+1. **Read AGENTS.md Completely**: Use the `view_file` tool to open `/Users/gimtaehun/idol_tracker/AGENTS.md`. 
+2. **Handle Truncation**: If the file is too large and the output is truncated, you MUST immediately call `view_file` again using `ContentOffset` (or line ranges) to read the remaining contents. You must reach the 100% end of the file.
+3. **Provide Proof of Reading**: At the very bottom of `AGENTS.md`, there is a property called `Agent Read Count`. You must increment this number by 1 using an editing tool (e.g., `replace_file_content`). This serves as cryptographic proof that you have scrolled to the end of the document.
+4. **Self-Verification**: You must explicitly pause in your `<thought>` block and verify that your planned actions do not violate any exception handling policies or destructive action (Delete/Overwrite) constraints listed in the document.
+
+You may not execute any other tool calls (e.g., modifying scripts, running commands) until this proof of reading is completed.
+
+---
+
 ### Agent Read Count
-16
+26

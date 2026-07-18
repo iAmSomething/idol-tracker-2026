@@ -10,6 +10,10 @@ source .env
 echo "[$(date)] Starting Daily Precision Crawler..."
 npx tsx scripts/pipeline/daily_precision_crawler.ts >> .crawler.log 2>&1
 
+echo "[$(date)] Fetching Official MVs..."
+npx tsx scripts/enrichment/fetch_official_mvs.ts >> .crawler.log 2>&1
+
+
 # 2 (Tuesday) in `date +%u` means Tuesday
 DAY_OF_WEEK=$(date +%u)
 if [ "$DAY_OF_WEEK" -eq 2 ]; then
