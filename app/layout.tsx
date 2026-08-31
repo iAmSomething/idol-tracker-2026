@@ -2,15 +2,16 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./ThemeProvider";
 
-const outfit = Outfit({ 
-  subsets: ["latin"], 
+const outfit = Outfit({
+  subsets: ["latin"],
   variable: "--font-outfit",
   display: "swap",
 });
 
 export const metadata = {
   title: "Idol Tracker - K-Pop Comeback Calendar",
-  description: "Track the latest K-Pop idol comebacks, album releases, and music videos.",
+  description:
+    "Track the latest K-Pop idol comebacks, album releases, and music videos.",
 };
 
 export default function RootLayout({
@@ -21,9 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={outfit.variable} suppressHydrationWarning>
       <body>
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

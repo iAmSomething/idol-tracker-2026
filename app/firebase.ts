@@ -1,5 +1,10 @@
-import { initializeApp, getApps } from 'firebase/app';
-import { initializeFirestore, getFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore';
+import { getApps, initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   projectId: "idol-tracker-2026",
@@ -7,19 +12,20 @@ const firebaseConfig = {
   storageBucket: "idol-tracker-2026.firebasestorage.app",
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "",
   authDomain: "idol-tracker-2026.firebaseapp.com",
-  messagingSenderId: "47996752520"
+  messagingSenderId: "47996752520",
 };
 
 // Initialize Firebase
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const app =
+  getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-const db = typeof window !== 'undefined'
-  ? initializeFirestore(app, {
-      localCache: persistentLocalCache({
-        tabManager: persistentMultipleTabManager()
+const db =
+  typeof window !== "undefined"
+    ? initializeFirestore(app, {
+        localCache: persistentLocalCache({
+          tabManager: persistentMultipleTabManager(),
+        }),
       })
-    })
-  : getFirestore(app);
+    : getFirestore(app);
 
 export { db };
-

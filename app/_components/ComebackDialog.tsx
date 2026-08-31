@@ -1,27 +1,36 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Comeback, Track } from "../../types";
-import { collection, query, where, getDocs, limit } from "firebase/firestore";
-import { db } from "../firebase";
-import { getYouTubeId } from "../_lib/youtube";
-import { FaYoutube } from "react-icons/fa";
-import { SiYoutubemusic, SiApplemusic, SiSpotify } from "react-icons/si";
+import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { FaYoutube } from "react-icons/fa";
+import { SiApplemusic, SiSpotify, SiYoutubemusic } from "react-icons/si";
+import type { Comeback, Track } from "../../types";
+import { getYouTubeId } from "../_lib/youtube";
+import { db } from "../firebase";
+import styles from "./ComebackDialog.module.css";
 import ComposerTracksDialog from "./ComposerTracksDialog";
+import { getConfidenceIcon, isComebackReleased } from "./release-utils";
 
 interface ComebackDialogProps {
   comeback: (Comeback & { dateObj: Date }) | null;
   onClose: () => void;
 }
 
-export default function ComebackDialog({ comeback, onClose }: ComebackDialogProps) {
+export default function ComebackDialog({
+  comeback,
+  onClose,
+}: ComebackDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [tracks, setTracks] = useState<Track[]>([]);
   const [loadingTracks, setLoadingTracks] = useState(false);
   const [selectedComposer, setSelectedComposer] = useState<string | null>(null);
-  const [clickableComposers, setClickableComposers] = useState<Record<string, boolean>>({});
-  const [expandedTracks, setExpandedTracks] = useState<Record<string, boolean>>({});
+  const [clickableComposers, setClickableComposers] = useState<
+    Record<string, boolean>
+  >({});
+  const [expandedTracks, setExpandedTracks] = useState<Record<string, boolean>>(
+    {},
+  );
 
   useEffect(() => {
     if (tracks.length === 0) return;
@@ -37,11 +46,15 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
       if (clickableComposers[comp] !== undefined) continue;
       (async () => {
         try {
-          const q = query(collection(db, "tracks"), where("composers", "array-contains", comp), limit(2));
+          const q = query(
+            collection(db, "tracks"),
+            where("composers", "array-contains", comp),
+            limit(2),
+          );
           const snap = await getDocs(q);
-          setClickableComposers(prev => ({
+          setClickableComposers((prev) => ({
             ...prev,
-            [comp]: snap.size >= 2
+            [comp]: snap.size >= 2,
           }));
         } catch (e) {
           console.error(e);
@@ -61,25 +74,37 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
       dialog.close();
       document.body.style.overflow = "auto";
     }
-    
+
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [comeback]);
 
+  const [errorTracks, setErrorTracks] = useState<string | null>(null);
+
   useEffect(() => {
     if (comeback) {
       setLoadingTracks(true);
-      const q = query(collection(db, "tracks"), where("comebackId", "==", comeback.id));
-      getDocs(q).then(snap => {
-        const t = snap.docs.map(d => ({ ...d.data(), id: d.id } as Track));
-        // Sort tracks by id or just keep order if possible, though id might be comebackId-track-0
-        t.sort((a, b) => a.id.localeCompare(b.id));
-        setTracks(t);
-      }).catch(err => console.error(err))
-      .finally(() => setLoadingTracks(false));
+      setErrorTracks(null);
+      const q = query(
+        collection(db, "tracks"),
+        where("comebackId", "==", comeback.id),
+      );
+      getDocs(q)
+        .then((snap) => {
+          const t = snap.docs.map((d) => ({ ...d.data(), id: d.id }) as Track);
+          // Sort tracks by trackNumber
+          t.sort((a, b) => a.trackNumber - b.trackNumber);
+          setTracks(t);
+        })
+        .catch((err) => {
+          console.error(err);
+          setErrorTracks(err.message || "Failed to load tracks");
+        })
+        .finally(() => setLoadingTracks(false));
     } else {
       setTracks([]);
+      setErrorTracks(null);
     }
   }, [comeback]);
 
@@ -91,14 +116,12 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
 
   if (!comeback) return null;
 
-
-
   const mvCandidates = [
     comeback.mediaLinks?.musicVideo,
-    tracks.find(t => t.isTitle && t.musicVideoUrl)?.musicVideoUrl,
-    tracks.find(t => t.musicVideoUrl)?.musicVideoUrl,
+    tracks.find((t) => t.isTitle && t.musicVideoUrl)?.musicVideoUrl,
+    tracks.find((t) => t.musicVideoUrl)?.musicVideoUrl,
     comeback.mediaLinks?.teasers?.[0],
-    comeback.titleTracks?.[0]?.musicVideoUrl
+    comeback.titleTracks?.[0]?.musicVideoUrl,
   ];
 
   let youtubeId = null;
@@ -106,363 +129,569 @@ export default function ComebackDialog({ comeback, onClose }: ComebackDialogProp
     youtubeId = getYouTubeId(url);
     if (youtubeId) break;
   }
-  const formattedMvUrl = youtubeId ? `https://www.youtube.com/embed/${youtubeId}` : null;
+  const formattedMvUrl = youtubeId
+    ? `https://www.youtube.com/embed/${youtubeId}`
+    : null;
 
   return (
     <>
-    <dialog
-      ref={dialogRef}
-      onClose={onClose}
-      onClick={handleBackdropClick}
-    >
-      <div style={{ position: "relative", width: "100%", display: "flex", flexDirection: "column" }}>
-        
-        {/* Header - Clean White */}
-        <div style={{ 
-          padding: "32px 32px 24px 32px", 
-          borderBottom: "1px solid var(--border-color)",
-          display: "flex", 
-          justifyContent: "space-between", 
-          alignItems: "flex-start", 
-          gap: "16px" 
-        }}>
-          <div style={{ flex: 1, minWidth: 0, display: "flex", gap: "24px", alignItems: "center" }}>
-            {comeback.albumCoverUrl && (
-              <img 
-                src={comeback.albumCoverUrl} 
-                alt="Cover" 
-                style={{ 
-                  width: "120px", height: "120px", 
-                  objectFit: "cover", 
-                  borderRadius: "8px",
-                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
-                }} 
-              />
-            )}
-            <div>
-              {comeback.parentGroupId && comeback.parentGroupName && (
-                <Link 
-                  href={`/artist?id=${comeback.parentGroupId}`}
-                  onClick={onClose}
-                  style={{
-                    display: "block",
-                    margin: "0 0 2px 0",
-                    fontSize: "0.8rem",
-                    fontWeight: 600,
-                    color: "var(--text-secondary)",
-                    textDecoration: "none"
-                  }}
-                  className="hover:text-accent"
-                >
-                  {comeback.parentGroupName}
-                </Link>
+      <dialog
+        ref={dialogRef}
+        onClose={onClose}
+        onClick={handleBackdropClick}
+        className={styles.dialog}
+      >
+        <div className={styles.dialogContainer}>
+          {/* Header - Clean White */}
+          <div className={styles.header}>
+            <div className={styles.headerLeft}>
+              {(comeback.albumCoverUrl ||
+                comeback.artistProfileImageUrl ||
+                (comeback as any).officialImageUrl) && (
+                <img
+                  src={
+                    comeback.albumCoverUrl ||
+                    comeback.artistProfileImageUrl ||
+                    (comeback as any).officialImageUrl
+                  }
+                  alt="Cover"
+                  className={styles.albumCover}
+                  referrerPolicy="no-referrer"
+                />
               )}
-              <Link 
-                href={`/artist?id=${comeback.artistId}`}
+              <div>
+                {comeback.parentGroupName && (
+                  comeback.parentGroupId ? (
+                    <Link
+                      href={`/artist?id=${comeback.parentGroupId}`}
+                      onClick={onClose}
+                      className={styles.groupLink}
+                    >
+                      {comeback.parentGroupName}
+                    </Link>
+                  ) : (
+                    <span className={styles.groupLink} style={{ cursor: 'default' }}>
+                      {comeback.parentGroupName}
+                    </span>
+                  )
+                )}
+                <Link
+                  href={`/artist?id=${comeback.artistId}`}
+                  onClick={onClose}
+                  className={styles.artistLink}
+                >
+                  {comeback.artistName}
+                </Link>
+                <h2 className={styles.title}>
+                  {comeback.albumTitle}
+                </h2>
+              </div>
+            </div>
+
+            <div className={styles.headerRight}>
+              <Link
+                href={`/comeback?id=${comeback.id}`}
                 onClick={onClose}
-                className="text-secondary"
-                style={{ 
-                  display: "inline-block",
-                  margin: "0 0 8px 0", 
-                  fontSize: "0.95rem", 
-                  fontWeight: 600, 
-                  textTransform: "uppercase", 
-                  letterSpacing: "0.5px",
-                  cursor: "pointer",
-                  textDecoration: "underline"
-                }}
+                className={styles.detailBtn}
               >
-                {comeback.artistName}
+                자세히 보기
               </Link>
-              <h2 style={{ 
-                margin: 0, fontSize: "2.2rem", lineHeight: "1.1", 
-                color: "var(--text-primary)"
-              }}>
-                {(comeback as any).title || comeback.albumTitle}
-              </h2>
+              <button onClick={onClose} className={styles.closeBtn}>
+                Close
+              </button>
             </div>
           </div>
-          
-          <div style={{ display: "flex", gap: "8px", flexShrink: 0 }}>
-            <Link 
-              href={`/comeback?id=${comeback.id}`}
-              onClick={onClose}
-              className="btn"
-              style={{ 
-                display: "inline-flex", 
-                alignItems: "center",
-                backgroundColor: "rgba(255, 107, 0, 0.1)", 
-                color: "var(--accent-color)", 
-                borderColor: "var(--accent-color)" 
+        </div>
+
+        <div className={styles.contentBody}>
+          {/* Metadata Badges */}
+          <div className={styles.badgesWrapper}>
+            <span className={styles.badge}>
+              {comeback.isTba
+                ? `${comeback.dateObj.getFullYear()}년 ${comeback.dateObj.getMonth() + 1}월 중 (TBA)`
+                : comeback.dateObj.toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+            </span>
+            <span className={styles.badgeSecondary}>
+              {comeback.releaseType}
+            </span>
+            {comeback.agencyName && comeback.agencyName !== "Unknown" && (
+              <span className={styles.badgeSecondary}>
+                {comeback.agencyName}
+              </span>
+            )}
+          </div>
+
+          {/* Confidence Info / Source Article Link for Future Comebacks */}
+          {!isComebackReleased(comeback) &&
+            ((comeback.confidenceTier &&
+              comeback.confidenceTier !== "RELEASED") ||
+              comeback.sourceLink ||
+              (comeback.recentNews && comeback.recentNews.length > 0)) && (
+              <div className={styles.sourceWarning}>
+                {comeback.confidenceTier &&
+                !isComebackReleased(comeback) ? (
+                  <>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      <h3
+                        className={styles.sourceWarningTitle}
+                        style={{ marginBottom: 0 }}
+                      >
+                        <span style={{ marginRight: "6px" }}>
+                          {getConfidenceIcon(comeback.confidenceTier, comeback)}
+                        </span>
+                        신뢰도: {comeback.confidenceTier} (
+                        {comeback.confidenceScore}점)
+                      </h3>
+                    </div>
+                    <p className={styles.sourceWarningText}>
+                      {comeback.dateObj.getTime() <
+                      new Date().setHours(0, 0, 0, 0)
+                        ? "예정일이 지났으나 발매가 확인되지 않은 일정입니다."
+                        : "봇이 수집한 근거를 바탕으로 산출된 컴백 신뢰도입니다."}
+                    </p>
+
+                    {comeback.confidenceReasons &&
+                    comeback.confidenceReasons.length > 0 ? (
+                      <ul className={styles.reasonList}>
+                        {comeback.confidenceReasons.map(
+                          (r: any, idx: number) => {
+                            const reasonText =
+                              typeof r === "string" ? r : r.reason;
+                            const sourceUrl =
+                              typeof r === "string" ? undefined : r.sourceUrl;
+                            return (
+                              <li key={idx} className={styles.reasonItem}>
+                                <span className={styles.reasonText}>
+                                  {reasonText}
+                                </span>
+                                {sourceUrl && (
+                                  <a
+                                    href={sourceUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className={styles.reasonLink}
+                                    title={sourceUrl}
+                                  >
+                                    [근거 자료 ↗]
+                                  </a>
+                                )}
+                              </li>
+                            );
+                          },
+                        )}
+                      </ul>
+                    ) : /* Fallback to recentNews */
+                    comeback.recentNews && comeback.recentNews.length > 0 ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "8px",
+                        }}
+                      >
+                        {comeback.recentNews.map((news, idx) => (
+                          <a
+                            key={idx}
+                            href={news.link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={styles.sourceLink}
+                            title={news.title}
+                          >
+                            📰{" "}
+                            {news.title
+                              ? news.title.length > 50
+                                ? news.title.substring(0, 50) + "..."
+                                : news.title
+                              : "뉴스 기사 원문 보기"}
+                          </a>
+                        ))}
+                      </div>
+                    ) : (
+                      comeback.sourceLink && (
+                        <a
+                          href={comeback.sourceLink}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={styles.sourceLink}
+                        >
+                          📰 뉴스 기사 원문 보기
+                        </a>
+                      )
+                    )}
+                  </>
+                ) : (
+                  /* Legacy fallback */
+                  <>
+                    <h3 className={styles.sourceWarningTitle}>
+                      컴백 추정 근거
+                    </h3>
+                    <p className={styles.sourceWarningText}>
+                      {comeback.dateObj.getTime() <
+                      new Date().setHours(0, 0, 0, 0)
+                        ? "컴백 예정일이 지났으나 아직 공식 음원이 확인되지 않은 일정(또는 오탐지)입니다. 봇이 수집한 아래 뉴스 기사를 참고하세요."
+                        : "아직 앨범이 발매되지 않은 예정된 컴백입니다. 봇이 수집한 아래 뉴스 기사에서 컴백 일정을 유추했습니다."}
+                    </p>
+                    {comeback.recentNews && comeback.recentNews.length > 0 ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "8px",
+                        }}
+                      >
+                        {comeback.recentNews.map((news, idx) => (
+                          <a
+                            key={idx}
+                            href={news.link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={styles.sourceLink}
+                            title={news.title}
+                          >
+                            📰{" "}
+                            {news.title
+                              ? news.title.length > 50
+                                ? news.title.substring(0, 50) + "..."
+                                : news.title
+                              : "뉴스 기사 원문 보기"}
+                          </a>
+                        ))}
+                      </div>
+                    ) : (
+                      comeback.sourceLink && (
+                        <a
+                          href={comeback.sourceLink}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={styles.sourceLink}
+                        >
+                          📰 뉴스 기사 원문 보기
+                        </a>
+                      )
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+
+          {/* Music Video / Media */}
+          {formattedMvUrl && (
+            <div style={{ marginBottom: "32px" }}>
+              <h3 className={styles.sectionTitle}>Music Video</h3>
+              <div className={styles.mvContainer}>
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={formattedMvUrl}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+          )}
+
+          {/* Tracklist */}
+          {loadingTracks ? (
+            <div
+              style={{
+                padding: "20px",
+                textAlign: "center",
+                color: "var(--text-secondary)",
               }}
             >
-              자세히 보기
-            </Link>
-            <button 
-              onClick={onClose} 
-              className="btn"
+              Loading tracks...
+            </div>
+          ) : errorTracks ? (
+            <div
+              style={{
+                padding: "20px",
+                textAlign: "center",
+                color: "var(--color-accent)",
+              }}
             >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div style={{ padding: "32px", maxHeight: "65vh", overflowY: "auto", backgroundColor: "var(--surface-color)" }}>
-        
-        {/* Metadata Badges */}
-        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "32px" }}>
-          <span style={{ fontSize: "0.85rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", borderRadius: "6px", fontWeight: 600, color: "var(--text-primary)" }}>
-            {comeback.isTba 
-              ? `${comeback.dateObj.getFullYear()}년 ${comeback.dateObj.getMonth() + 1}월 중 (TBA)` 
-              : comeback.dateObj.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
-          </span>
-          <span style={{ fontSize: "0.85rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", borderRadius: "6px", textTransform: "capitalize", fontWeight: 600, color: "var(--text-secondary)" }}>
-            {comeback.releaseType}
-          </span>
-          {comeback.agencyName && (
-            <span style={{ fontSize: "0.85rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", borderRadius: "6px", fontWeight: 600, color: "var(--text-secondary)" }}>
-              {comeback.agencyName}
-            </span>
-          )}
-        </div>
-
-        {/* Source Article Link for Future Comebacks */}
-        {!comeback.isReleased && (comeback.sourceLink || (comeback.recentNews && comeback.recentNews.length > 0)) && (
-          <div style={{ marginBottom: "32px", padding: "16px", backgroundColor: "rgba(255, 107, 0, 0.05)", border: "1px solid rgba(255, 107, 0, 0.2)", borderRadius: "8px" }}>
-            <h3 style={{ fontSize: "0.9rem", marginBottom: "8px", fontWeight: 700, color: "var(--accent-color)" }}>컴백 추정 근거</h3>
-            <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", marginBottom: "12px", lineHeight: "1.4" }}>
-              아직 앨범이 발매되지 않은 예정된 컴백입니다. 봇이 수집한 아래 뉴스 기사에서 컴백 일정을 유추했습니다.
-            </p>
-            {comeback.recentNews && comeback.recentNews.length > 0 ? (
-               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                 {comeback.recentNews.map((news, idx) => (
-                   <a 
-                     key={idx}
-                     href={news.link} 
-                     target="_blank" 
-                     rel="noreferrer"
-                     className="btn"
-                     style={{ display: "inline-flex", alignItems: "center", fontSize: "0.8rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", color: "var(--text-primary)", borderRadius: "6px" }}
-                     title={news.title}
-                   >
-                     📰 {news.title ? (news.title.length > 50 ? news.title.substring(0, 50) + "..." : news.title) : "뉴스 기사 원문 보기"}
-                   </a>
-                 ))}
-               </div>
-            ) : comeback.sourceLink && (
-               <a 
-                 href={comeback.sourceLink} 
-                 target="_blank" 
-                 rel="noreferrer"
-                 className="btn"
-                 style={{ display: "inline-flex", alignItems: "center", fontSize: "0.8rem", padding: "6px 12px", backgroundColor: "#fff", border: "1px solid var(--border-color)", color: "var(--text-primary)", borderRadius: "6px" }}
-               >
-                 📰 뉴스 기사 원문 보기
-               </a>
-            )}
-          </div>
-        )}
-
-        {/* Music Video / Media */}
-        {formattedMvUrl && (
-          <div style={{ marginBottom: "32px" }}>
-            <h3 style={{ fontSize: "1.1rem", marginBottom: "16px", fontWeight: 600, color: "var(--text-primary)" }}>Music Video</h3>
-            <div style={{ aspectRatio: "16/9", backgroundColor: "#e5e7eb", borderRadius: "8px", overflow: "hidden", border: "1px solid var(--border-color)" }}>
-              <iframe
-                width="100%"
-                height="100%"
-                src={formattedMvUrl}
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+              Error: {errorTracks}
             </div>
-          </div>
-        )}
-
-        {/* Tracklist */}
-        {loadingTracks ? (
-          <div style={{ padding: "20px", textAlign: "center" }}>Loading tracks...</div>
-        ) : tracks.length > 0 && (
-          <div style={{ marginBottom: "32px" }}>
-            <h3 style={{ fontSize: "1.1rem", marginBottom: "16px", fontWeight: 600, color: "var(--text-primary)" }}>Tracklist</h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              {tracks.map((track, idx) => (
-                <div key={idx} style={{ 
-                  display: "flex", 
-                  justifyContent: "space-between", 
-                  alignItems: "center",
-                  padding: "16px 20px",
-                  backgroundColor: "#fff",
-                  border: track.isTitle ? "1px solid var(--accent-color)" : "1px solid var(--border-color)",
-                  borderRadius: "8px",
-                }}>
-                  <div style={{ display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                      <span className="text-secondary" style={{ width: "24px", fontWeight: 600 }}>{idx + 1}</span>
-                      <Link href={`/track?id=${track.id}`} style={{ fontWeight: track.isTitle ? 600 : 500, color: "var(--text-primary)", textDecoration: "underline", textUnderlineOffset: "4px" }} className="hover:text-accent">
-                        {track.name}
-                      </Link>
-                      {track.isTitle && (
-                        <span style={{ fontSize: "0.7rem", padding: "4px 8px", backgroundColor: "#eff6ff", color: "var(--accent-color)", border: "1px solid #bfdbfe", borderRadius: "4px", fontWeight: 700, letterSpacing: "0.5px" }}>
-                          TITLE
-                        </span>
-                      )}
-                      {track.musicVideoUrl && (
-                        <a href={track.musicVideoUrl} target="_blank" rel="noreferrer" title="Music Video" style={{ display: "flex", alignItems: "center", color: "var(--accent-color)" }}>
-                          <FaYoutube size={16} />
-                        </a>
-                      )}
-                    </div>
-                    
-                    {/* Composers */}
-                    {track.composers && track.composers.length > 0 && (() => {
-                      const isExpanded = expandedTracks[track.id];
-                      const visibleComposers = isExpanded ? track.composers : track.composers.slice(0, 2);
-                      const hasMore = track.composers.length > 2;
-                      
-                      return (
-                        <div style={{ display: "flex", flexDirection: "column", gap: "2px", paddingLeft: "40px", marginTop: "4px" }}>
-                          <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "4px" }}>
-                            <span style={{ fontWeight: 600 }}>작곡:</span>
-                            {visibleComposers.map((comp, cIdx) => {
-                              const isClickable = clickableComposers[comp];
-                              return (
-                                <span key={cIdx} style={{ display: "inline-flex", alignItems: "center" }}>
-                                  {cIdx > 0 && <span style={{ marginRight: "4px" }}>,</span>}
-                                  <span
-                                    onClick={() => isClickable && setSelectedComposer(comp)}
-                                    style={{
-                                      textDecoration: isClickable ? "underline" : "none",
-                                      cursor: isClickable ? "pointer" : "default",
-                                      color: isClickable ? "var(--accent-color)" : "inherit",
-                                      fontWeight: isClickable ? 600 : 400
-                                    }}
-                                    title={isClickable ? "다른 작곡 곡 보기" : ""}
-                                  >
-                                    {comp}
-                                  </span>
-                                </span>
-                              );
-                            })}
-                            {hasMore && (
-                              <button
-                                onClick={() => setExpandedTracks(prev => ({ ...prev, [track.id]: !isExpanded }))}
-                                style={{
-                                  background: "none",
-                                  border: "none",
-                                  padding: "0 4px",
-                                  fontSize: "0.75rem",
-                                  color: "var(--text-secondary)",
-                                  textDecoration: "underline",
-                                  cursor: "pointer",
-                                  marginLeft: "2px"
-                                }}
-                              >
-                                {isExpanded ? "접기" : "더보기"}
-                              </button>
-                            )}
-                          </div>
+          ) : (
+            tracks.length > 0 && (
+              <div style={{ marginBottom: "32px" }}>
+                <h3 className={styles.sectionTitle}>Tracklist</h3>
+                <div className={styles.trackList}>
+                  {tracks.map((track, idx) => (
+                    <div
+                      key={idx}
+                      className={`${styles.trackItem} ${track.isTitle ? styles.trackItemTitle : ""}`}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          flex: 1,
+                          minWidth: 0,
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "16px",
+                          }}
+                        >
+                          <span className={styles.trackIndex}>{idx + 1}</span>
+                          <Link
+                            href={`/track?id=${track.id}`}
+                            className={
+                              track.isTitle
+                                ? styles.trackNameTitle
+                                : styles.trackName
+                            }
+                          >
+                            {track.name}
+                          </Link>
+                          {track.isTitle && (
+                            <span className={styles.titleBadge}>TITLE</span>
+                          )}
+                          {track.musicVideoUrl && (
+                            <a
+                              href={track.musicVideoUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              title="Music Video"
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                color: "var(--accent-color)",
+                              }}
+                            >
+                              <FaYoutube size={16} />
+                            </a>
+                          )}
                         </div>
-                      );
-                    })()}
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    {track.streamingLinks && Object.entries(track.streamingLinks).map(([platform, link]) => {
+
+                        {/* Composers */}
+                        {track.composers &&
+                          track.composers.length > 0 &&
+                          (() => {
+                            const isExpanded = expandedTracks[track.id];
+                            const visibleComposers = isExpanded
+                              ? track.composers
+                              : track.composers.slice(0, 2);
+                            const hasMore = track.composers.length > 2;
+
+                            return (
+                              <div className={styles.composerSection}>
+                                <div
+                                  style={{
+                                    fontSize: "0.8rem",
+                                    color: "var(--text-secondary)",
+                                    display: "flex",
+                                    flexWrap: "wrap",
+                                    alignItems: "center",
+                                    gap: "4px",
+                                  }}
+                                >
+                                  <span style={{ fontWeight: 600 }}>작곡:</span>
+                                  {visibleComposers.map((comp, cIdx) => {
+                                    const isClickable =
+                                      clickableComposers[comp];
+                                    return (
+                                      <span
+                                        key={cIdx}
+                                        style={{
+                                          display: "inline-flex",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        {cIdx > 0 && (
+                                          <span style={{ marginRight: "4px" }}>
+                                            ,
+                                          </span>
+                                        )}
+                                        <span
+                                          onClick={() =>
+                                            isClickable &&
+                                            setSelectedComposer(comp)
+                                          }
+                                          style={{
+                                            textDecoration: isClickable
+                                              ? "underline"
+                                              : "none",
+                                            cursor: isClickable
+                                              ? "pointer"
+                                              : "default",
+                                            color: isClickable
+                                              ? "var(--accent-color)"
+                                              : "inherit",
+                                            fontWeight: isClickable ? 600 : 400,
+                                          }}
+                                          title={
+                                            isClickable
+                                              ? "다른 작곡 곡 보기"
+                                              : ""
+                                          }
+                                        >
+                                          {comp}
+                                        </span>
+                                      </span>
+                                    );
+                                  })}
+                                  {hasMore && (
+                                    <button
+                                      onClick={() =>
+                                        setExpandedTracks((prev) => ({
+                                          ...prev,
+                                          [track.id]: !isExpanded,
+                                        }))
+                                      }
+                                      style={{
+                                        background: "none",
+                                        border: "none",
+                                        padding: "0 4px",
+                                        fontSize: "0.75rem",
+                                        color: "var(--text-secondary)",
+                                        textDecoration: "underline",
+                                        cursor: "pointer",
+                                        marginLeft: "2px",
+                                      }}
+                                    >
+                                      {isExpanded ? "접기" : "더보기"}
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })()}
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "12px",
+                        }}
+                      >
+                        {track.streamingLinks &&
+                          Object.entries(track.streamingLinks).map(
+                            ([platform, link]) => {
+                              if (!link) return null;
+                              return (
+                                <a
+                                  key={platform}
+                                  href={link as string}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  style={{
+                                    fontSize: "0.75rem",
+                                    textTransform: "capitalize",
+                                    color: "var(--text-secondary)",
+                                    textDecoration: "underline",
+                                  }}
+                                >
+                                  {platform}
+                                </a>
+                              );
+                            },
+                          )}
+                        {track.duration && (
+                          <span
+                            style={{
+                              fontSize: "0.9rem",
+                              fontWeight: 500,
+                              color: "var(--text-secondary)",
+                            }}
+                          >
+                            {track.duration}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          )}
+
+          {/* Streaming Links */}
+          {comeback.streamingLinks &&
+            Object.values(comeback.streamingLinks).some((link) => link) && (
+              <div>
+                <h3 className={styles.sectionTitle}>Listen On</h3>
+                <div className={styles.streamingPlatforms}>
+                  {Object.entries(comeback.streamingLinks).map(
+                    ([platform, link]) => {
                       if (!link) return null;
+
+                      let icon = null;
+                      let bgColor = "var(--surface-color)";
+                      let textColor = "var(--text-primary)";
+                      let displayPlatform = platform;
+
+                      switch (platform) {
+                        case "youtubeMusic":
+                          icon = <SiYoutubemusic size={18} />;
+                          bgColor = "#FF0000";
+                          textColor = "#FFFFFF";
+                          displayPlatform = "YouTube Music";
+                          break;
+                        case "appleMusic":
+                          icon = <SiApplemusic size={18} />;
+                          bgColor = "#FA243C";
+                          textColor = "#FFFFFF";
+                          displayPlatform = "Apple Music";
+                          break;
+                        case "melon":
+                          bgColor = "#00CD3C";
+                          textColor = "#FFFFFF";
+                          displayPlatform = "Melon";
+                          break;
+                        case "spotify":
+                          icon = <SiSpotify size={18} />;
+                          bgColor = "#1DB954";
+                          textColor = "#FFFFFF";
+                          displayPlatform = "Spotify";
+                          break;
+                        case "bugs":
+                          bgColor = "#FF3C00";
+                          textColor = "#FFFFFF";
+                          displayPlatform = "Bugs";
+                          break;
+                      }
+
                       return (
-                        <a key={platform} href={link as string} target="_blank" rel="noreferrer" style={{ fontSize: "0.75rem", textTransform: "capitalize", color: "var(--text-secondary)", textDecoration: "underline" }}>
-                          {platform}
+                        <a
+                          key={platform}
+                          href={link as string}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={styles.streamingBtn}
+                          style={{ backgroundColor: bgColor, color: textColor }}
+                        >
+                          {icon} {displayPlatform}
                         </a>
                       );
-                    })}
-                    {track.duration && <span className="text-secondary" style={{ fontSize: "0.9rem", fontWeight: 500 }}>{track.duration}</span>}
-                  </div>
+                    },
+                  )}
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Streaming Links */}
-        {comeback.streamingLinks && Object.values(comeback.streamingLinks).some(link => link) && (
-          <div>
-            <h3 style={{ fontSize: "1.1rem", marginBottom: "16px", fontWeight: 600, color: "var(--text-primary)" }}>Listen On</h3>
-            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-              {Object.entries(comeback.streamingLinks).map(([platform, link]) => {
-                if (!link) return null;
-                
-                let icon = null;
-                let bgColor = "var(--surface-color)";
-                let textColor = "var(--text-primary)";
-                let displayPlatform = platform;
-                
-                switch (platform) {
-                  case "youtubeMusic":
-                    icon = <SiYoutubemusic size={18} />;
-                    bgColor = "#FF0000";
-                    textColor = "#FFFFFF";
-                    displayPlatform = "YouTube Music";
-                    break;
-                  case "appleMusic":
-                    icon = <SiApplemusic size={18} />;
-                    bgColor = "#FA243C";
-                    textColor = "#FFFFFF";
-                    displayPlatform = "Apple Music";
-                    break;
-                  case "melon":
-                    bgColor = "#00CD3C";
-                    textColor = "#FFFFFF";
-                    displayPlatform = "Melon";
-                    break;
-                  case "spotify":
-                    icon = <SiSpotify size={18} />;
-                    bgColor = "#1DB954";
-                    textColor = "#FFFFFF";
-                    displayPlatform = "Spotify";
-                    break;
-                  case "bugs":
-                    bgColor = "#FF3C00";
-                    textColor = "#FFFFFF";
-                    displayPlatform = "Bugs";
-                    break;
-                }
-
-                return (
-                  <a 
-                    key={platform} 
-                    href={link as string} 
-                    target="_blank" 
-                    rel="noreferrer"
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      padding: "8px 16px",
-                      backgroundColor: bgColor,
-                      color: textColor,
-                      borderRadius: "8px",
-                      fontWeight: 600,
-                      fontSize: "0.9rem",
-                      textDecoration: "none",
-                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                      transition: "transform 0.2s ease",
-                    }}
-                    onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-                    onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
-                  >
-                    {icon} {displayPlatform}
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </div>
-    </dialog>
-    <ComposerTracksDialog composerName={selectedComposer} onClose={() => setSelectedComposer(null)} />
+              </div>
+            )}
+        </div>
+      </dialog>
+      <ComposerTracksDialog
+        composerName={selectedComposer}
+        onClose={() => setSelectedComposer(null)}
+      />
     </>
   );
 }

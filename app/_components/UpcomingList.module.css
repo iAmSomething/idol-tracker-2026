@@ -1,0 +1,154 @@
+.timelineWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 16px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  border-radius: var(--radius-soft, 12px);
+  align-items: center;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--card-inner-shadow, none);
+}
+
+.timelineItem:hover {
+  transform: translateY(-2px);
+  border-color: var(--text-secondary);
+  background: var(--surface-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.timelineItem:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.timelineThumbnail {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-soft, 12px);
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--border-color);
+  background: var(--border-color);
+}
+
+.timelineContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  gap: 4px;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.timelineDate {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  letter-spacing: 0.02em;
+}
+
+.timelineArtist {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.timelineArtist:hover {
+  color: var(--text-secondary);
+}
+
+.timelineTitle {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.timelineTitle:hover {
+  color: var(--text-primary);
+}
+
+.snsLinks {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  align-items: center;
+}
+
+.snsLinks a {
+  color: var(--text-secondary);
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.snsLinks a:hover {
+  color: var(--text-primary);
+  transform: scale(1.1);
+}
+
+.agencyBadge {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100px;
+  overflow: hidden;
+  background: var(--surface-hover);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  margin-left: auto;
+  max-width: 100px;
+}
+
+.agencyBadge span {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70px;
+}
+
+.tagBadge {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.tagFull {
+  background-color: var(--accent-color);
+}
+.tagMini {
+  background-color: #8b5cf6;
+}
+.tagSingle {
+  background-color: #10b981;
+}
